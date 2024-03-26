@@ -11,7 +11,6 @@ import { useRef } from "react";
 function App() {
   return (
     <>
-      <Particle />
       <NavBar />
       <MainComponent />
       <Skills />

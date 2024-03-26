@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import MapView from "./MapView";
 import Modal from "./Modal";
+import { Form } from "react-router-dom";
 
 export default function Contact() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function Contact() {
     <footer class="contactSection section">
       {isOpen && <Modal onClose={onCloseHandler} ref={closeRef} />}
       <MapView />
-      <form onSubmit={handleSumbit} method="post" class="contact-me">
+      <Form onSubmit={handleSumbit} method="post" className="contact-me">
         <h1>Contact Me</h1>
         <p>If you have anything in your mind, i will code it out for you</p>
         <span>Name</span>
@@ -34,7 +35,7 @@ export default function Contact() {
         <span>Message</span>
         <textarea name="message" id="" cols="30" rows="10"></textarea>
         <button class="show-modal">Submit!!</button>
-      </form>
+      </Form>
     </footer>
   );
 }

@@ -1,28 +1,46 @@
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useRef, Suspense } from "react";
+import { OrbitControls, useGLTF } from "@react-three/drei";
+import { Html, useProgress, Preload } from "@react-three/drei";
+import { Color } from "three";
 
 export function Cube() {
+  const laptop = useGLTF("laptop.gltf");
   const ref = useRef();
 
-  useFrame((state, delta) => {
-    ref.current.rotation.x += 0.01;
-    ref.current.rotation.y += 0.01;
-  });
   return (
-    <mesh ref={ref}>
-      <torusKnotGeometry args={[2, 0.2, 100, 100]} />
-      <meshStandardMaterial color={"#8ce99a"} />
+    <mesh position={[-0.5, -1, 0]} rotation={[Math.PI / 8, 0, 0]} ref={ref}>
+      <primitive scale={1.5} object={laptop.scene} />
     </mesh>
+  );
+}
+
+export function Loader() {
+  const { progress } = useProgress();
+  return (
+    <Html as="div" style={{ color: "white" }} center>
+      {progress} % loaded
+    </Html>
   );
 }
 
 export default function Square() {
   return (
     <div className="canvas-con">
-      <Canvas>
-        <ambientLight intensity={0.1} />
-        <directionalLight position={[0, 0, 5]} />
-        <Cube />
+      <Canvas
+        gl={{ preserveDrawingBuffer: true }}
+        frameloop="demand"
+        shadows
+        dpr={[1, 2]}
+      >
+        <ambientLight intensity={4} />
+        <directionalLight intensity={10} position={[0, 0, 4]} />
+        <Suspense fallback={<Loader />}>
+          <Cube />
+          <OrbitControls enableZoom={false} />
+        </Suspense>
+
+        <Preload all />
       </Canvas>
     </div>
   );

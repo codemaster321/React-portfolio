@@ -35,11 +35,12 @@ body {
   font-optical-sizing: auto;
 
   line-height: 1;
-  /*background-color: #212529;*/
+  background-color: #212529;
 
   cursor: none;
   cursor: url("../gold-key.png"), auto;
   overflow-x: hidden;
+  /* background-color: #212529; */
 }
 
 canvas {
@@ -232,14 +233,14 @@ main {
 }
 
 .btn1:hover {
-  transform: translateY(-0.1875rem);
+  transform: translateY(-0.1875rem) !important;
   transition: all 0.2s;
   box-shadow: 0.75rem 1.875rem 3.75rem rgba(255, 255, 255, 0.2);
   cursor: url("gold-key.png"), auto;
 }
 
 .btn1:active {
-  transform: translateY(-0.0625rem);
+  transform: translateY(-0.0625rem) !important;
   transition: all 0.2s;
   box-shadow: 0.75rem 1.875rem 3.75rem rgba(255, 255, 255, 0.2);
   cursor: url("gold-key.png"), auto;
