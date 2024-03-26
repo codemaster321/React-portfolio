@@ -10,8 +10,8 @@ export function Cube() {
   });
   return (
     <mesh ref={ref}>
-      <torusGeometry args={[3, 0.1, 30, 30]} />
-      <meshStandardMaterial color={"orange"} />
+      <torusKnotGeometry args={[2, 0.2, 100, 100]} />
+      <meshStandardMaterial color={"#8ce99a"} />
     </mesh>
   );
 }

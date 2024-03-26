@@ -1,4 +1,3 @@
-import "./App.css";
 import NavBar from "./components/NavBar";
 import MainComponent from "./components/MainComponent";
 import Particle from "./components/Particle";

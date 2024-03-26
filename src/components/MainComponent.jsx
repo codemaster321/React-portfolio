@@ -1,8 +1,38 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
 import Typed from "typed.js";
 import Square from "./Square";
 
 export default function MainComponent() {
+  const comp = useRef(null);
+  console.log(comp.current);
+
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      const t1 = gsap.timeline();
+      t1.from(".about-me", {
+        opacity: 0,
+        xPercent: "-50",
+        duration: 1,
+        delay: 1,
+      })
+        .from(".about-me--description", {
+          opacity: 0,
+          xPercent: "+50",
+          duration: 1,
+          delay: 0,
+        })
+        .from([".btn--1, .btn--2"], {
+          opacity: 0,
+          xPercent: "+50",
+          duration: 1,
+          delay: 0,
+        });
+    }, comp.current);
+
+    return () => ctx.revert();
+  }, []);
+
   useEffect(() => {
     const typed = new Typed("#element", {
       strings: [" Coder 💻", " Web Developer 🕸️", " Nerd 🤓😎"],
@@ -16,7 +46,7 @@ export default function MainComponent() {
 
   return (
     <>
-      <main>
+      <main ref={comp}>
         <div className="canvas-container">
           <div className="about-me">
             <h1>Hey this is Shivendra Shukla!</h1>
