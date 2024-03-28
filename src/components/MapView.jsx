@@ -1,11 +1,12 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import { createPortal } from "react-dom";
 import "leaflet/dist/leaflet.css";
+import { forwardRef } from "react";
 
-export default function MapView() {
+const MapView = forwardRef(function MapView(props, ref) {
   const position = [26.4466159, 80.325814];
   return (
-    <div id="map">
+    <div ref={ref} id="map">
       <MapContainer center={position} zoom={10} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -25,4 +26,6 @@ export default function MapView() {
       </MapContainer>
     </div>
   );
-}
+});
+
+export default MapView;

@@ -5,12 +5,12 @@ import { Html, useProgress, Preload } from "@react-three/drei";
 import { Color } from "three";
 
 export function Cube() {
-  const laptop = useGLTF("laptop.gltf");
+  const laptop = useGLTF("personal.gltf");
   const ref = useRef();
 
   return (
-    <mesh position={[-0.5, -1, 0]} rotation={[Math.PI / 8, 0, 0]} ref={ref}>
-      <primitive scale={1.5} object={laptop.scene} />
+    <mesh position={[-0.5, -4, 0]} rotation={[Math.PI / 8, 0, 0]} ref={ref}>
+      <primitive scale={3} object={laptop.scene} />
     </mesh>
   );
 }
@@ -19,7 +19,7 @@ export function Loader() {
   const { progress } = useProgress();
   return (
     <Html as="div" style={{ color: "white" }} center>
-      {progress} % loaded
+      {progress.toFixed(2)} % loaded
     </Html>
   );
 }

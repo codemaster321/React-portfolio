@@ -1,11 +1,35 @@
+import { useEffect, useLayoutEffect, useRef } from "react";
 import Skill from "./Skill";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Skills() {
   const skills = ["Javascript", "Node.js", "HTML", "CSS", "Python", "React.js"];
+
+  const refSkills = useRef();
+
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section--skills",
+        start: "top-=100 50%", // when the top of the trigger hits the top of the viewport
+        end: "+=400px", // end after scrolling 500px beyond the start
+        scrub: 1,
+        markers: true,
+      },
+    });
+
+    tl.from(refSkills.current, { y: 300, opacity: 0 }).to(refSkills.current, {
+      y: 0,
+      opacity: 1,
+    });
+  }, []);
   return (
     <>
       <section className="section--skills section">
-        <div className="skills">
+        <div ref={refSkills} className="skills">
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"

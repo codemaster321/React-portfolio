@@ -1,19 +1,67 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useLayoutEffect } from "react";
 
-import ReactDOM from "react-dom";
 import React from "react";
 import MapView from "./MapView";
 import Modal from "./Modal";
 import { Form } from "react-router-dom";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 export default function Contact() {
-  const [isOpen, setIsOpen] = useState(false);
+  const refMap = useRef(null);
+  const refForm = useRef(null);
 
-  const closeRef = useRef();
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".contactSection",
+        start: "top-=100 50%", // when the top of the trigger hits the top of the viewport
+        end: "+=400px", // end after scrolling 500px beyond the start
+        scrub: 1,
+        markers: true,
+      },
+    });
+
+    console.log(refMap);
+
+    tl.from(refMap.current, { x: -100, opacity: 0 })
+      .to(refMap.current, {
+        x: 0,
+        opacity: 1,
+      })
+      .from(refForm.current, { x: 100, opacity: 0 })
+      .to(refForm.current, {
+        x: 0,
+        opacity: 1,
+      });
+  }, []);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  function handleChangeName(e) {
+    setFormData({ ...formData, name: e.target.value });
+  }
+
+  function handleChangeEmail(e) {
+    setFormData({ ...formData, email: e.target.value });
+  }
+
+  function handleChangeInput(e) {
+    setFormData({ ...formData, message: e.target.value });
+  }
 
   function handleSumbit(e) {
     e.preventDefault();
     console.log("Submitted");
+    console.log(formData);
+    setFormData({ name: "", email: "", message: "" });
     setIsOpen(true);
   }
 
@@ -23,17 +71,45 @@ export default function Contact() {
 
   return (
     <footer class="contactSection section">
-      {isOpen && <Modal onClose={onCloseHandler} ref={closeRef} />}
-      <MapView />
-      <Form onSubmit={handleSumbit} method="post" className="contact-me">
+      {isOpen && <Modal onClose={onCloseHandler} />}
+      <MapView ref={refMap} />
+      <Form
+        ref={refForm}
+        onSubmit={handleSumbit}
+        method="post"
+        className="contact-me"
+      >
         <h1>Contact Me</h1>
         <p>If you have anything in your mind, i will code it out for you</p>
         <span>Name</span>
-        <input class="name" type="text" name="name" id="" required />
+        <input
+          onChange={handleChangeName}
+          class="name"
+          type="text"
+          name="name"
+          id=""
+          value={formData.name}
+          required
+        />
         <span>Email</span>
-        <input class="email" type="email" name="email" id="" required />
+        <input
+          onChange={handleChangeEmail}
+          class="email"
+          type="email"
+          name="email"
+          id=""
+          value={formData.email}
+          required
+        />
         <span>Message</span>
-        <textarea name="message" id="" cols="30" rows="10"></textarea>
+        <textarea
+          onChange={handleChangeInput}
+          name="message"
+          id=""
+          cols="30"
+          rows="10"
+          value={formData.message}
+        ></textarea>
         <button class="show-modal">Submit!!</button>
       </Form>
     </footer>

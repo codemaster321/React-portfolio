@@ -1,4 +1,7 @@
 import Project from "./Project";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLayoutEffect, useRef, useEffect } from "react";
 
 export default function Portfolio() {
   const projects = [
@@ -20,6 +23,30 @@ export default function Portfolio() {
       projectTitle: "Made a web app in Javascript called Pig Game",
     },
   ];
+  const refProject = useRef(null);
+
+  useLayoutEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    let tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".portfolioSection ",
+        start: "top+=200 50%", // when the top of the trigger hits the centre of the viewport
+        end: "+=500px", // end after scrolling 400px beyond the start
+        scrub: 1,
+        markers: true,
+      },
+    });
+
+    const q = gsap.utils.selector(refProject);
+    q(".util-box").forEach((el) => {
+      console.log(el);
+      tl.from(el, { x: "-=100", opacity: 0 }).to(el, {
+        x: 0,
+        opacity: 1,
+      });
+    });
+  }, []);
   return (
     <section className="portfolioSection section">
       <div>
@@ -39,7 +66,7 @@ export default function Portfolio() {
         </svg>
         <h1 className="heading">Past Projects</h1>
       </div>
-      <div className="portfolio">
+      <div ref={refProject} className="portfolio">
         {projects.map((project) => {
           return (
             <Project
