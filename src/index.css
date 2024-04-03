@@ -679,6 +679,9 @@ a:hover:after {
 
   .canvas-con {
     height: 40%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
   }
   .section--skills {
     margin-top: 80vh;
