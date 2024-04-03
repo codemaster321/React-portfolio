@@ -54,8 +54,6 @@ export default function NavBar() {
 
   return (
     <>
-      <div className="bg"></div>
-
       <header ref={comp}>
         <h2 className="nav-title" id="heading">
           !Shiv
