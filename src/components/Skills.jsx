@@ -1,10 +1,10 @@
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import Skill from "./Skill";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function Skills() {
-  const skills = ["Javascript", "Node.js", "HTML", "CSS", "Python", "React.js"];
+const Skills = function Skills(props) {
+  const skills = ["Vanilla JS", "Node", "HTML", "CSS", "Python", "React"];
 
   const refSkills = useRef();
 
@@ -30,7 +30,7 @@ export default function Skills() {
     <>
       <section className="section--skills section">
         <div ref={refSkills} className="skills">
-          <div>
+          <div className="skill--heading">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -57,4 +57,6 @@ export default function Skills() {
       </section>
     </>
   );
-}
+};
+
+export default Skills;

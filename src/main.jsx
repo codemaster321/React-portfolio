@@ -10,9 +10,14 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
   },
+
   {
-    path: "/404",
-    element: <h1>404</h1>,
+    path: "404",
+    element: (
+      <h1 style={{ color: "white", textAlign: "center", marginTop: "50vh" }}>
+        404
+      </h1>
+    ),
   },
 ]);
 

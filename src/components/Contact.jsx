@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
 
 import React from "react";
 import MapView from "./MapView";
@@ -7,7 +7,7 @@ import { Form } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
-export default function Contact() {
+const Contact = function Contact(props) {
   const refMap = useRef(null);
   const refForm = useRef(null);
 
@@ -114,4 +114,6 @@ export default function Contact() {
       </Form>
     </footer>
   );
-}
+};
+
+export default Contact;

@@ -1,14 +1,17 @@
 import Project from "./Project";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef, useEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 
-export default function Portfolio() {
+const Portfolio = function Portfolio(props) {
+  const refProject = useRef(null);
+
   const projects = [
     {
       id: 1,
       projectTitle: "Forkify App: Made a web app for managing recipe",
     },
+
     {
       id: 2,
       projectTitle:
@@ -23,7 +26,6 @@ export default function Portfolio() {
       projectTitle: "Made a web app in Javascript called Pig Game",
     },
   ];
-  const refProject = useRef(null);
 
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -79,4 +81,6 @@ export default function Portfolio() {
       </div>
     </section>
   );
-}
+};
+
+export default Portfolio;

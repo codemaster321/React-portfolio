@@ -1,9 +1,35 @@
-import { IonIcon, IonMenuButton } from "@ionic/react";
+import {
+  IonButton,
+  IonIcon,
+  IonMenuButton,
+  setupIonicReact,
+} from "@ionic/react";
 import { menu, close } from "ionicons/icons";
 import gsap from "gsap";
 import { useLayoutEffect, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+
+setupIonicReact();
 
 export default function NavBar() {
+  const openNavRef = useRef(null);
+  const closeNavRef = useRef(null);
+
+  const onClickContactHandler = () => {
+    document
+      .querySelector(".contactSection")
+      .scrollIntoView({ behavior: "smooth" });
+  };
+  const onClickSkillsHandler = () => {
+    document
+      .querySelector(".section--skills")
+      .scrollIntoView({ behavior: "smooth" });
+  };
+  const onClickPortfolioHandler = () => {
+    document
+      .querySelector(".portfolioSection")
+      .scrollIntoView({ behavior: "smooth" });
+  };
   const comp = useRef(null);
   console.log(comp.current);
 
@@ -36,34 +62,44 @@ export default function NavBar() {
         </h2>
         <nav className="main-nav" id="navbar">
           <div className="e">
-            <a className="main-nav-link " href="#">
+            <Link onClick={onClickPortfolioHandler} className="main-nav-link ">
               Portfolio
-            </a>
+            </Link>
           </div>
           <div className="e">
-            <a className="main-nav-link skills--link" href="#">
+            <Link
+              onClick={onClickSkillsHandler}
+              className="main-nav-link skills--link"
+            >
               Skills
-            </a>
+            </Link>
           </div>
 
           <div className="e">
-            <a className="main-nav-link contact" href="#">
+            <Link
+              onClick={onClickContactHandler}
+              className="main-nav-link contact"
+            >
               Contact
-            </a>
+            </Link>
           </div>
         </nav>
 
         <button className="btn-mobile-nav">
           <IonIcon
-            className="icon-mobile-nav"
-            name="menu-outline"
+            ref={openNavRef}
+            className="icon-mobile-nav md hydrated"
+            data-name="menu-outline"
             icon={menu}
+            color="black"
           ></IonIcon>
-          <IonIcon
+
+          <IonButton
+            ref={closeNavRef}
             className="icon-mobile-nav"
             icon={close}
-            name="close-outline"
-          ></IonIcon>
+            data-name="close-outline"
+          ></IonButton>
         </button>
       </header>
     </>

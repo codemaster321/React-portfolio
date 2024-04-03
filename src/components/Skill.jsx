@@ -1,7 +1,7 @@
 export default function Skill({ skill }) {
   return (
     <div className="skill">
-      <svg
+      {/* <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -14,7 +14,7 @@ export default function Skill({ skill }) {
           strokeLinejoin="round" // Change "stroke-linejoin" to "strokeLinejoin"
           d="M4.5 12.75l6 6 9-13.5"
         />
-      </svg>
+      </svg> */}
       {skill}
     </div>
   );

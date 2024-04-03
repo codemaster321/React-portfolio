@@ -1,6 +1,6 @@
-import { Fragment, forwardRef } from "react";
+import { Fragment } from "react";
 
-const Project = forwardRef(function Project({ project, title }) {
+const Project = function Project({ project, title }) {
   return (
     <Fragment>
       <div className="util-box">
@@ -14,6 +14,6 @@ const Project = forwardRef(function Project({ project, title }) {
       </div>
     </Fragment>
   );
-});
+};
 
 export default Project;
