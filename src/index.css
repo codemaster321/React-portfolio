@@ -41,7 +41,7 @@ body {
 
   cursor: none;
   cursor: url("../gold-key.png"), auto;
-  overflow-x: hidden;
+
   box-sizing: border-box;
   /* background-color: #212529; */
 }
@@ -610,12 +610,12 @@ a:hover:after {
   }
 }
 
-@media (max-width: 94rem) {
+@media (max-width: 94em) {
   /*will add code later */
 }
 
 /*Landscape Tablets*/
-@media only screen and (max-width: 75rem) {
+@media only screen and (max-width: 75em) {
   /* MOBILE NAVIGATION */
 
   .marquee {
@@ -695,7 +695,7 @@ a:hover:after {
   }
 }
 
-@media only screen and (max-width: 49rem) {
+@media only screen and (max-width: 49em) {
   .canvas-container {
     flex-direction: column;
     height: 120vh;
@@ -719,7 +719,7 @@ a:hover:after {
 }
 
 /*Smaller Tablets*/
-@media (max-width: 41rem) {
+@media (max-width: 41em) {
   .main-container {
     align-items: center;
     justify-content: center;
@@ -727,7 +727,7 @@ a:hover:after {
 }
 
 /* For mobiles */
-@media only screen and (max-width: 30rem) {
+@media only screen and (max-width: 30em) {
   .main-container {
     display: flex;
     font-size: 10rem;
