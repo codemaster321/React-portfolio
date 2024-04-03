@@ -589,32 +589,20 @@ a:hover:after {
   padding-top: 10vw;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(-100%, 0);
-  }
-}
-
 @media (max-width: 94em) {
   /*will add code later */
 }
 
 /*Landscape Tablets*/
-@media only screen and (max-width: 75em) {
+@media all and (max-width: 75em) {
   /* MOBILE NAVIGATION */
-
-  .marquee {
-    display: block;
-    visibility: visible;
-  }
 
   html {
     font-size: 62.5%;
+  }
+
+  #root {
     overflow-x: hidden;
-    overflow-y: scroll;
   }
 
   .btn-mobile-nav {
