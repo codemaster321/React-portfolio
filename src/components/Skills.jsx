@@ -17,7 +17,6 @@ const Skills = function Skills(props) {
         start: "top-=100 50%", // when the top of the trigger hits the top of the viewport
         end: "+=400px", // end after scrolling 500px beyond the start
         scrub: 1,
-        markers: true,
       },
     });
 

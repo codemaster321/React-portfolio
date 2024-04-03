@@ -21,10 +21,12 @@
   height: 100%;
 }
 
-* {
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: inherit;
 }
 
 /* ------------------------ */
@@ -40,6 +42,7 @@ body {
   cursor: none;
   cursor: url("../gold-key.png"), auto;
   overflow-x: hidden;
+  box-sizing: border-box;
   /* background-color: #212529; */
 }
 
@@ -607,15 +610,12 @@ a:hover:after {
   }
 }
 
-@media (max-width: 94em) {
-  .marquee {
-    display: none;
-    visibility: hidden;
-  }
+@media (max-width: 94rem) {
+  /*will add code later */
 }
 
 /*Landscape Tablets*/
-@media (max-width: 75em) {
+@media only screen and (max-width: 75rem) {
   /* MOBILE NAVIGATION */
 
   .marquee {
@@ -626,6 +626,7 @@ a:hover:after {
   html {
     font-size: 62.5%;
     overflow-x: hidden;
+    overflow-y: scroll;
   }
 
   .btn-mobile-nav {
@@ -694,9 +695,14 @@ a:hover:after {
   }
 }
 
-@media (max-width: 49rem) {
+@media only screen and (max-width: 49rem) {
   .canvas-container {
     flex-direction: column;
+    height: 120vh;
+  }
+
+  .canvas-con {
+    flex-basis: 50%;
   }
 
   footer {
@@ -713,21 +719,15 @@ a:hover:after {
 }
 
 /*Smaller Tablets*/
-@media (max-width: 41em) {
+@media (max-width: 41rem) {
   .main-container {
     align-items: center;
     justify-content: center;
   }
-
-  .funny-photo {
-    display: none;
-    visibility: hidden;
-    pointer-events: none;
-  }
 }
 
 /* For mobiles */
-@media (max-width: 30em) {
+@media only screen and (max-width: 30rem) {
   .main-container {
     display: flex;
     font-size: 10rem;

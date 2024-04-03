@@ -36,7 +36,6 @@ const Portfolio = function Portfolio(props) {
         start: "top+=200 50%", // when the top of the trigger hits the centre of the viewport
         end: "+=500px", // end after scrolling 400px beyond the start
         scrub: 1,
-        markers: true,
       },
     });
 
