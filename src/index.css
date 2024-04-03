@@ -695,6 +695,10 @@ a:hover:after {
 }
 
 @media (max-width: 49rem) {
+  .canvas-container {
+    flex-direction: column;
+  }
+
   footer {
     grid-template-columns: 1fr;
   }
@@ -744,10 +748,6 @@ a:hover:after {
     height: 5rem;
     width: 5rem;
   } */
-
-  .marquee {
-    display: none;
-  }
 
   nav {
     display: none;
