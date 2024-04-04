@@ -2,6 +2,7 @@ import { useEffect, useRef, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import Typed from "typed.js";
 import Square from "./Square";
+import NavBar from "./NavBar";
 
 export default function MainComponent() {
   const comp = useRef(null);
@@ -48,6 +49,11 @@ export default function MainComponent() {
   return (
     <>
       <main>
+        <video loop muted autoPlay>
+          <source src="stars.mp4" type="video/mp4" />
+        </video>
+
+        <NavBar />
         <div ref={comp} className="canvas-container">
           <div className="about-me">
             <h1>Hey this is Shivendra Shukla!</h1>

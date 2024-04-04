@@ -8,7 +8,6 @@ import Contact from "./components/Contact";
 function App() {
   return (
     <>
-      <NavBar />
       <MainComponent />
       <Skills />
       <Portfolio />
