@@ -26,7 +26,7 @@
 *::after {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 /* ------------------------ */
@@ -42,7 +42,6 @@ body {
   cursor: none;
   cursor: url("../gold-key.png"), auto;
 
-  box-sizing: border-box;
   /* background-color: #212529; */
 }
 
@@ -480,7 +479,7 @@ footer form p {
   background: none;
 }
 
-.icon-mobile-nav[name="close-outline"] {
+.icon-mobile-nav[data-name="close-outline"] {
   display: none;
 }
 
@@ -640,7 +639,7 @@ a:hover:after {
     left: 0;
     width: 100%;
     height: 100vh;
-    transform: translateX(100%);
+    transform: translateX(100%) !important;
 
     display: flex;
     align-items: center;
@@ -664,23 +663,23 @@ a:hover:after {
   }
 
   .nav-open .main-nav {
-    opacity: 1;
-    z-index: 1;
+    opacity: 1 !important;
+    z-index: 2;
     pointer-events: auto;
     visibility: visible;
-    transform: translateX(0);
+    transform: translateX(0) !important;
   }
 
-  .nav-open .icon-mobile-nav[name="close-outline"] {
+  .nav-open .icon-mobile-nav[data-name="close-outline"] {
     display: block;
-    z-index: 2;
+    z-index: 200;
     position: relative;
   }
 
-  .nav-open .icon-mobile-nav[name="menu-outline"] {
+  .nav-open .icon-mobile-nav[data-name="menu-outline"] {
     flex-direction: column;
-    display: block;
-    z-index: 2;
+    display: none;
+    z-index: 200;
     position: relative;
   }
 
@@ -695,18 +694,14 @@ a:hover:after {
   }
 }
 
-@media only screen and (max-width: 50em) {
+@media (max-width: 50em) {
   .canvas-container {
     flex-direction: column;
-    height: 180vh;
-    margin-bottom: 80vh;
+    height: 100vh;
   }
 
   .canvas-con {
     display: none;
-  }
-  .section--skills {
-    margin-top: 80vh;
   }
 
   footer {

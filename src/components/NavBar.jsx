@@ -6,7 +6,7 @@ import {
 } from "@ionic/react";
 import { menu, close } from "ionicons/icons";
 import gsap from "gsap";
-import { useLayoutEffect, useRef, useEffect } from "react";
+import { useLayoutEffect, useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 setupIonicReact();
@@ -14,6 +14,13 @@ setupIonicReact();
 export default function NavBar() {
   const openNavRef = useRef(null);
   const closeNavRef = useRef(null);
+
+  const btnNavEl = useRef(null);
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const navTriggerHandler = () => {
+    setIsNavOpen(!isNavOpen);
+  };
 
   const onClickContactHandler = () => {
     document
@@ -52,6 +59,17 @@ export default function NavBar() {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const header = comp.current;
+    if (header) {
+      if (isNavOpen) {
+        header.classList.add("nav-open");
+      } else {
+        header.classList.remove("nav-open");
+      }
+    }
+  }, [isNavOpen]);
+
   return (
     <>
       <header ref={comp}>
@@ -83,21 +101,26 @@ export default function NavBar() {
           </div>
         </nav>
 
-        <button className="btn-mobile-nav">
+        <button
+          onClick={navTriggerHandler}
+          ref={btnNavEl}
+          className="btn-mobile-nav"
+        >
           <IonIcon
             ref={openNavRef}
-            className="icon-mobile-nav md hydrated"
+            className="icon-mobile-nav "
             data-name="menu-outline"
             icon={menu}
             color="black"
           ></IonIcon>
 
-          <IonButton
+          <IonIcon
             ref={closeNavRef}
             className="icon-mobile-nav"
             icon={close}
             data-name="close-outline"
-          ></IonButton>
+            color="black"
+          ></IonIcon>
         </button>
       </header>
     </>

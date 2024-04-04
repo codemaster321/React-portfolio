@@ -26,7 +26,6 @@
     "typed.js": "^2.1.0"
   },
   "devDependencies": {
-    "@ionic/cli": "^7.2.0",
     "@ionic/react": "^7.8.0",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
