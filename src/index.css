@@ -47,7 +47,7 @@ body {
 }
 
 canvas {
-  z-index: -1;
+  z-index: 1;
 }
 
 .cover-photo {
@@ -588,13 +588,38 @@ a:hover:after {
   padding-top: 10vw;
 }
 
+.canvas-con {
+  max-width: 100vw;
+  max-height: 50vw;
+  flex-shrink: 1;
+  flex-basis: 40%;
+}
+
 @media (max-width: 94em) {
   /*will add code later */
+  .about-me {
+    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
+
+  .canvas-con {
+    flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+  }
 }
 
 /*Landscape Tablets*/
-@media all and (max-width: 75em) {
+@media (max-width: 75em) {
   /* MOBILE NAVIGATION */
+
+  .canvas-con {
+    padding: auto 0;
+    transform: translateY(-3.5vw);
+    max-width: 100vw;
+    max-height: 50vw;
+  }
 
   html {
     font-size: 62.5%;
@@ -670,7 +695,7 @@ a:hover:after {
   }
 }
 
-@media only screen and (max-width: 49em) {
+@media only screen and (max-width: 50em) {
   .canvas-container {
     flex-direction: column;
     height: 180vh;
@@ -678,10 +703,7 @@ a:hover:after {
   }
 
   .canvas-con {
-    height: 40%;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
+    display: none;
   }
   .section--skills {
     margin-top: 80vh;
@@ -713,6 +735,10 @@ a:hover:after {
   .main-container {
     display: flex;
     font-size: 10rem;
+  }
+
+  .canvas-con {
+    display: none;
   }
 
   .about-me {
@@ -752,12 +778,4 @@ a:hover:after {
 
 .canvas-container {
   display: flex;
-}
-
-.canvas-con {
-  display: flex;
-  flex-basis: 40%;
-  justify-items: flex-end;
-  align-content: center;
-  flex-shrink: 1;
 }
