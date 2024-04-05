@@ -50,11 +50,6 @@ html {
   overflow-x: hidden;
 }
 
-button:hover {
-  transition-duration: 0.4s;
-  cursor: url("../gold-key.png"), auto !important;
-}
-
 header {
   display: flex;
   align-items: center;
@@ -82,10 +77,6 @@ nav div {
   margin-right: auto;
   margin-left: 0.75rem;
 }
-
-/*nav a:hover {*/
-/*  background-color: #343a40;*/
-/*}*/
 
 .e {
   width: 6.25rem;
@@ -216,7 +207,6 @@ main {
   transform: translateY(-0.1875rem) !important;
   transition: all 0.2s;
   box-shadow: 0.75rem 1.875rem 3.75rem rgba(255, 255, 255, 0.2);
-  cursor: url("gold-key.png"), auto;
 }
 
 .btn1:active {
@@ -351,17 +341,6 @@ textarea {
   color: #adb5bd;
 }
 
-.hover-it:hover .portfolio-photo {
-  opacity: 0;
-}
-
-.portfolio-photo {
-  left: 0;
-  top: 0;
-  position: absolute;
-  transition: 0.005s ease;
-}
-
 .hover-it {
   position: relative;
   width: 25rem;
@@ -425,34 +404,6 @@ footer form p {
   height: 3rem;
   width: 3rem;
   stroke: white;
-}
-
-.marquee {
-  width: 100%;
-  line-height: 3.125rem;
-  height: 4.25rem;
-  background-color: #5c7cfa;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  box-sizing: border-box;
-  margin-bottom: 1.25rem;
-  display: inline-block;
-}
-
-.marquee p {
-  display: inline-block;
-  padding-left: 100%;
-  animation: marquee 20s linear infinite;
-  font-size: 2.25rem;
-  font-weight: 500;
-}
-
-.marquee p:hover,
-.marquee:hover {
-  animation-play-state: paused;
-  color: white;
-  background-color: #212529;
 }
 
 /* Navigation for mobile devices and tablets, wont work on laptops */
@@ -541,10 +492,17 @@ a:hover:after {
   z-index: 1;
   background-color: whitesmoke;
 }
-.header__main-text:hover ~ .header__main-long_text {
-  transform: translateX(5em);
-  transition: transform 2s ease-out, opacity 2s ease-out;
+
+.header__main-text:active {
+  color: black !important;
+  z-index: 1;
+  background-color: whitesmoke;
+}
+
+.click + .header__main-long_text {
+  transform: translate(1em, 0);
   opacity: 1;
+  z-index: 2;
 }
 
 .util-box {
@@ -681,9 +639,41 @@ a:hover:after {
   .main-container {
     margin-bottom: -2rem;
   }
+
+  .header__main-long_text {
+    display: block;
+    background-color: pink;
+
+    text-align: center;
+    padding: 0 1vw;
+    border-radius: 0;
+    margin: 0 0.2vw;
+    font-size: small;
+    z-index: 0;
+    transform: translateY(0vw);
+    opacity: 0;
+    transition: transform 1s ease-out, opacity 0.2s ease-out;
+    width: 95vw;
+  }
+
+  .header__main-text:active {
+    color: black !important;
+    z-index: 1;
+    background-color: whitesmoke;
+  }
+
+  .click + .header__main-long_text {
+    transform: translate(0, 5px);
+    opacity: 1;
+    z-index: 2;
+  }
+
+  .util-box {
+    flex-direction: column;
+  }
 }
 
-@media (max-width: 50em) {
+@media (max-width: 51em) {
   .canvas-container {
     flex-direction: column;
     height: 100vh;
@@ -715,7 +705,7 @@ a:hover:after {
 }
 
 /* For mobiles */
-@media only screen and (max-width: 30em) {
+@media (max-width: 30em) {
   .main-container {
     display: flex;
     font-size: 10rem;

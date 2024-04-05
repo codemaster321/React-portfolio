@@ -46,6 +46,18 @@ export default function MainComponent() {
     return () => typed.destroy();
   }, []);
 
+  const onClickContactHandler = () => {
+    document
+      .querySelector(".contactSection")
+      .scrollIntoView({ behavior: "smooth" });
+  };
+
+  const onClickPortfolioHandler = () => {
+    document
+      .querySelector(".portfolioSection")
+      .scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <>
       <main>
@@ -63,10 +75,18 @@ export default function MainComponent() {
             </p>
 
             <div className="btns">
-              <button className="btn1 btn--1" id="btn--1">
+              <button
+                onClick={onClickContactHandler}
+                className="btn1 btn--1"
+                id="btn--1"
+              >
                 Contact me
               </button>
-              <button className="btn1 btn--2" id="btn--2">
+              <button
+                onClick={onClickPortfolioHandler}
+                className="btn1 btn--2"
+                id="btn--2"
+              >
                 Past Projects
               </button>
             </div>
