@@ -38,22 +38,12 @@ body {
 
   line-height: 1;
   background-color: #212529;
-  position: relative;
-  cursor: none;
-  cursor: url("../gold-key.png"), auto;
 
   /* background-color: #212529; */
 }
 
 canvas {
-  z-index: -1;
-}
-
-.cover-photo {
-  background-image: url("../earth.jpg");
-  background-attachment: fixed;
-  background-position: right;
-  height: 100vh;
+  z-index: 1;
 }
 
 html {
@@ -69,6 +59,7 @@ header {
   display: flex;
   align-items: center;
   /*background-color: #5c7cfa;*/
+
   font-size: 1.5rem;
   padding: 1.25rem 3.125rem;
   justify-content: flex-end;
@@ -775,13 +766,12 @@ a:hover:after {
 
 video {
   position: absolute;
-  bottom: 0;
-  right: 0;
+  top: 0;
+  left: 0;
   z-index: -1000;
   opacity: 0.6;
   background-position: center;
 }
-
 @media (min-aspect-ratio: 16/9) {
   video {
     width: 100%;
