@@ -37,7 +37,7 @@ body {
   font-optical-sizing: auto;
 
   line-height: 1;
-  background-color: #212529;
+  background-image: linear-gradient(to right, #087f5b, #65be3195);
 
   /* background-color: #212529; */
 }
@@ -286,12 +286,12 @@ footer {
 
 form p,
 span {
-  color: #adb5bd;
+  color: #000000;
 }
 
 form input,
 textarea {
-  background-color: #ced4da;
+  background-color: #ffffff;
 }
 
 .section {
@@ -442,7 +442,7 @@ textarea {
 input:focus,
 textarea:focus {
   outline: none;
-  border: 3px solid white; /* Change border color when focused */
+  border: 3px solid rgb(0, 0, 0); /* Change border color when focused */
 }
 
 form button,
@@ -515,7 +515,7 @@ a:hover:after {
 
 .header__main-long_text {
   display: block;
-  background-color: pink;
+  background-color: cadetblue;
   flex: 2;
   text-align: center;
   border-radius: 100px;
@@ -642,7 +642,7 @@ a:hover:after {
 
   .header__main-long_text {
     display: block;
-    background-color: pink;
+    background-color: cadetblue;
 
     text-align: center;
     padding: 0 1vw;
@@ -759,7 +759,7 @@ video {
   top: 0;
   left: 0;
   z-index: -1000;
-  opacity: 0.6;
+  opacity: 0.9;
   background-position: center;
 }
 @media (min-aspect-ratio: 16/9) {
