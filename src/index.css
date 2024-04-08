@@ -672,7 +672,7 @@ a:hover:after {
     flex-direction: column;
   }
   .section--skills {
-    margin-top: 5%;
+    margin-top: 15%;
   }
 }
 
@@ -680,6 +680,10 @@ a:hover:after {
   .canvas-container {
     flex-direction: column;
     height: 100vh;
+  }
+
+  .section--skills {
+    margin-top: 20%;
   }
 
   .canvas-con {
