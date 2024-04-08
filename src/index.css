@@ -130,7 +130,7 @@ img {
 }
 
 main {
-  width: 100%;
+  max-width: 100%;
   height: 100vh;
   margin-bottom: 10rem;
   position: relative;
@@ -671,6 +671,9 @@ a:hover:after {
   .util-box {
     flex-direction: column;
   }
+  .section--skills {
+    margin-top: 5%;
+  }
 }
 
 @media (max-width: 51em) {
@@ -701,6 +704,10 @@ a:hover:after {
   .main-container {
     align-items: center;
     justify-content: center;
+  }
+
+  .section--skills {
+    margin-top: 30%;
   }
 }
 
