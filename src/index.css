@@ -44,7 +44,6 @@ body {
   line-height: 1;
   background-image: linear-gradient(to right, #087f5b, #65be3195);
   cursor: none;
-  pointer-events: none;
 
   /* background-color: #212529; */
 }
