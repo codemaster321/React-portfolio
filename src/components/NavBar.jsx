@@ -48,11 +48,12 @@ export default function NavBar() {
         yPercent: "-50",
         duration: 1,
         delay: 1,
-      }).from("#navbar", {
+      }).from(".e", {
         opacity: 0,
         yPercent: "-50",
         duration: 1,
         delay: 0,
+        stagger: 0.5,
       });
     }, comp.current);
 

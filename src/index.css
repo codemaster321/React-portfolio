@@ -29,6 +29,11 @@
   box-sizing: border-box;
 }
 
+h1::selection {
+  background-color: white;
+  color: #000000;
+}
+
 /* ------------------------ */
 /* GENERAL STYLES */
 /* ------------------------ */
@@ -38,8 +43,23 @@ body {
 
   line-height: 1;
   background-image: linear-gradient(to right, #087f5b, #65be3195);
+  cursor: none;
+  pointer-events: none;
 
   /* background-color: #212529; */
+}
+
+.cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  mix-blend-mode: exclusion;
+  background-color: white;
+  transform: scale(2);
+  pointer-events: none;
+
+  z-index: 1;
 }
 
 canvas {

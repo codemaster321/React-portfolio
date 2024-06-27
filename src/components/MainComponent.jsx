@@ -28,7 +28,7 @@ export default function MainComponent() {
           xPercent: "+=50",
           duration: 1,
           stagger: 0.5,
-          delay: 0,
+          delay: 1,
         });
     }, comp.current);
 
