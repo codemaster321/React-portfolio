@@ -7,7 +7,7 @@ const Modal = ({ onClose }) => {
         <button onClick={onClose} class="close-modal">
           &times;
         </button>
-        <h1>I will reach u back ASAP!!😍</h1>
+        <h1>Contact form will be implemented soon!!</h1>
       </div>
       <div class="overlay--contact "></div>
     </>,

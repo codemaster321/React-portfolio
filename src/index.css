@@ -573,6 +573,12 @@ a:hover:after {
     flex-grow: 1;
     flex-shrink: 1;
   }
+
+  .cursor {
+    opacity: 0;
+
+    visibility: hidden;
+  }
 }
 
 /*Landscape Tablets*/
