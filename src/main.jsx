@@ -4,20 +4,20 @@ import App from "./App.jsx";
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { RootLayout } from "./components/RootLayout.jsx";
+import { Error } from "./components/Error.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-  },
-
-  {
-    path: "404",
-    element: (
-      <h1 style={{ color: "white", textAlign: "center", marginTop: "50vh" }}>
-        404
-      </h1>
-    ),
+    element: <RootLayout />,
+    errorElement: <Error />,
+    children: [
+      {
+        index: true,
+        element: <App />,
+      },
+    ],
   },
 ]);
 

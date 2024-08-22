@@ -1,29 +1,24 @@
-import { Fragment, useRef } from "react";
+import { Link } from "react-router-dom";
 
-const Project = function Project({ project, title }) {
-  const ProjectRef = useRef(null);
-
-  const handleClick = () => {
-    ProjectRef.current.classList.toggle("click");
-  };
-
+function Project({ project, title, link }) {
   return (
-    <Fragment>
-      <div className="util-box">
-        <div
-          ref={ProjectRef}
-          onClick={handleClick}
-          className="header__main-text"
-        >
-          <h1>{title}</h1>
+    <div className="card">
+      <div className="card__side card__side--front">
+        <div className="project--image">
+          <img src="https://picsum.photos/1000/1000" alt="imagee" />
         </div>
+        <div className="project--title">{project}</div>
+      </div>
 
-        <div className="header__main-long_text">
-          <h1>{project}</h1>
+      <div className="card__side card__side--back">
+        <div className="project--title__back">
+          <Link to={link}>
+            <div style={{ textDecoration: "underline" }}>Live site</div>
+          </Link>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
-};
+}
 
 export default Project;

@@ -42,13 +42,12 @@ body {
   font-optical-sizing: auto;
 
   line-height: 1;
-  background-image: linear-gradient(to right, #087f5b, #65be3195);
-  cursor: none;
-
+  /* background-color: #021526; */
+  /* cursor: none; */
   /* background-color: #212529; */
 }
 
-.cursor {
+/* .cursor {
   position: fixed;
   width: 20px;
   height: 20px;
@@ -59,7 +58,7 @@ body {
   pointer-events: none;
 
   z-index: 1;
-}
+} */
 
 canvas {
   z-index: 1;
@@ -67,6 +66,21 @@ canvas {
 
 html {
   overflow-x: hidden;
+
+  /* CSS for making background curly pattern */
+  --s: 140px; /* control the size*/
+  --c1: #170409;
+  --c2: #023b1c;
+
+  --_g: #0000 52%, var(--c1) 54% 57%, #0000 59%;
+  background: radial-gradient(farthest-side at -33.33% 50%, var(--_g)) 0
+      calc(var(--s) / 2),
+    radial-gradient(farthest-side at 50% 133.33%, var(--_g)) calc(var(--s) / 2)
+      0,
+    radial-gradient(farthest-side at 133.33% 50%, var(--_g)),
+    radial-gradient(farthest-side at 50% -33.33%, var(--_g)), var(--c2);
+  background-size: calc(var(--s) / 4.667) var(--s),
+    var(--s) calc(var(--s) / 4.667);
 }
 
 header {
@@ -232,7 +246,6 @@ main {
   transform: translateY(-0.0625rem) !important;
   transition: all 0.2s;
   box-shadow: 0.75rem 1.875rem 3.75rem rgba(255, 255, 255, 0.2);
-  cursor: url("gold-key.png"), auto;
 }
 
 .overlay {
@@ -297,17 +310,6 @@ footer {
   row-gap: 0.625rem;
 }
 
-.contact-me button {
-  background-color: #a5d8ff;
-  border: none;
-  box-shadow: 0 1.875rem 3.75rem rgba(0, 0, 0, 0.01);
-}
-
-form p,
-span {
-  color: #000000;
-}
-
 form input,
 textarea {
   background-color: #ffffff;
@@ -349,6 +351,12 @@ textarea {
   background: none;
   border: none;
   color: #868e96;
+}
+.show-modal {
+  font-size: 1.25rem;
+  border-radius: 8px;
+  font-family: inherit;
+  background-color: #bde8ca;
 }
 
 .hidden {
@@ -476,13 +484,13 @@ form button:active {
 }
 
 /* hover animation over nav links */
-a {
+.e {
   color: #fff;
   text-decoration: none;
   padding: 15px 0px;
   position: relative;
 }
-a:after {
+.e:after {
   background: none repeat scroll 0 0 transparent;
   bottom: 0;
   content: "";
@@ -494,63 +502,134 @@ a:after {
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   width: 0;
 }
-a:hover:after {
+.e:hover:after {
   width: 100%;
   left: 0;
 }
 
-.header__main-text {
-  background-color: black;
-  padding: 2vw 5vw;
-  color: whitesmoke;
-  z-index: 1;
-  transition: all 0.5s cubic-bezier(0.2, 0, 0, 0.8);
-}
-.header__main-text:hover {
-  color: black !important;
-  z-index: 1;
-  background-color: whitesmoke;
-}
-
-.header__main-text:active {
-  color: black !important;
-  z-index: 1;
-  background-color: whitesmoke;
-}
-
-.click + .header__main-long_text {
-  transform: translate(1em, 0);
-  opacity: 1;
-  z-index: 2;
-}
-
-.util-box {
-  display: flex;
-  margin-left: 2vw;
-}
-.util-box:not(:last-child) {
-  margin-bottom: 2vw;
-}
-
-.header__main-long_text {
-  display: block;
-  background-color: cadetblue;
-  flex: 2;
-  text-align: center;
-  border-radius: 100px;
-  margin-left: -5vw;
-  z-index: 0;
-  transform: translateX(-20em);
-  opacity: 0;
-  transition: transform 2s ease-out, opacity 2s ease-out;
-}
-
 .portfolio {
-  height: 95vh;
-
-  position: relative;
+  height: 200vh;
+  display: grid;
   font-size: 2rem;
   padding-top: 10vw;
+  grid-template-columns: 1fr 1fr;
+
+  gap: 5rem;
+
+  margin: 0 5rem;
+  align-self: center;
+}
+
+.card__side {
+  color: #fff;
+  width: 100%;
+  height: 100%;
+
+  flex-direction: column;
+  background-color: #6f88ef;
+  padding: 24px;
+  border-radius: 10px;
+  transform-style: preserve-3d; /* Ensure 3D context is preserved */
+
+  display: block;
+  transition: all 0.8s; /* Smooth transition for rotation */
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+}
+
+.project--title {
+  margin: 2rem 0;
+  font-size: 1.5rem;
+}
+
+.project--image {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  overflow: hidden;
+  object-position: center;
+}
+
+.card:hover .card__side--front {
+  transform: rotateY(180deg) !important;
+}
+
+.card:hover .card__side--back {
+  transform: rotateY(0deg) !important;
+  transform: translate(-50%, -50%);
+}
+
+.card__side--front {
+  background-color: orangered;
+  display: flex;
+  flex-shrink: 1;
+}
+
+.card__side--front img {
+  border-radius: 10px;
+}
+
+.card__side--back {
+  transform: rotateY(180deg) !important;
+}
+
+.card {
+  perspective: 150rem;
+  -moz-perspective: 150rem;
+  position: relative;
+  height: 35rem;
+  width: 70%;
+  place-self: center;
+  padding: 2em;
+}
+
+.card::after,
+.card::before {
+  content: "";
+  position: absolute;
+  width: calc(100% + 6px); /* Increase width to create the border effect */
+  height: calc(100% + 6px); /* Increase height to create the border effect */
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: -1;
+  padding: 10px;
+  background-image: conic-gradient(
+    from var(--angle),
+    #b1bacb,
+    #00ff99,
+    #8ec71c,
+    #aab2bc
+  );
+  border-radius: 10px;
+  animation: 3s spin linear infinite;
+}
+
+.card::before {
+  filter: blur(1.5rem);
+  opacity: 0.5;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
+
+.project--title__back {
+  margin-top: 40%;
 }
 
 .canvas-con {
@@ -578,6 +657,10 @@ a:hover:after {
 /*Landscape Tablets*/
 @media (max-width: 75em) {
   /* MOBILE NAVIGATION */
+
+  main {
+    height: 40vh;
+  }
 
   .canvas-con {
     padding: auto 0;
@@ -659,34 +742,6 @@ a:hover:after {
     margin-bottom: -2rem;
   }
 
-  .header__main-long_text {
-    display: block;
-    background-color: cadetblue;
-
-    text-align: center;
-    padding: 0 1vw;
-    border-radius: 0;
-    margin: 0 0.2vw;
-    font-size: small;
-    z-index: 0;
-    transform: translateY(0vw);
-    opacity: 0;
-    transition: transform 1s ease-out, opacity 0.2s ease-out;
-    width: 95vw;
-  }
-
-  .header__main-text:active {
-    color: black !important;
-    z-index: 1;
-    background-color: whitesmoke;
-  }
-
-  .click + .header__main-long_text {
-    transform: translate(0, 5px);
-    opacity: 1;
-    z-index: 2;
-  }
-
   .util-box {
     flex-direction: column;
   }
@@ -725,6 +780,16 @@ a:hover:after {
 
     visibility: hidden;
   }
+  .portfolio {
+    grid-template-columns: 1fr;
+  }
+
+  .portfolioSection {
+    margin-bottom: 120vh;
+  }
+  .card {
+    width: 60vw;
+  }
 }
 
 /*Smaller Tablets*/
@@ -744,6 +809,9 @@ a:hover:after {
   .main-container {
     display: flex;
     font-size: 10rem;
+  }
+  main {
+    height: 95vh;
   }
 
   .canvas-con {
@@ -783,6 +851,14 @@ a:hover:after {
     grid-template-columns: 1fr;
     margin-bottom: 40rem;
   }
+
+  .portfolio {
+    grid-template-columns: 1fr;
+  }
+
+  /* .card {
+    width: 80vw;
+  } */
 }
 
 .canvas-container {

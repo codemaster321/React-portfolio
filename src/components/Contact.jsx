@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect, Suspense } from "react";
 
 import React from "react";
 import MapView from "./MapView";

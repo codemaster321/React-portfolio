@@ -1,4 +1,4 @@
-import { useEffect, useRef, useLayoutEffect, useState } from "react";
+import { useEffect, useRef, useLayoutEffect, useState, Suspense } from "react";
 import gsap from "gsap";
 import Typed from "typed.js";
 import Square from "./Square";
@@ -59,42 +59,38 @@ export default function MainComponent() {
   };
 
   return (
-    <>
-      <main>
-        <video loop muted autoPlay>
-          <source src="stars.mp4" type="video/mp4" />
-        </video>
+    <main>
+      {/* <video loop muted autoPlay preload="auto">
+        <source src="stars.mp4" type="video/mp4" />
+      </video> */}
 
-        <NavBar />
-        <div ref={comp} className="canvas-container">
-          <div className="about-me">
-            <h1>Hey this is Shivendra Shukla!</h1>
+      <div ref={comp} className="canvas-container">
+        <div className="about-me">
+          <h1>Hey this is Shivendra Shukla!</h1>
 
-            <p className="about-me--description">
-              I'm a <span id="element"></span>
-            </p>
+          <p className="about-me--description">
+            I'm a <span id="element"></span>
+          </p>
 
-            <div className="btns">
-              <button
-                onClick={onClickContactHandler}
-                className="btn1 btn--1"
-                id="btn--1"
-              >
-                Contact me
-              </button>
-              <button
-                onClick={onClickPortfolioHandler}
-                className="btn1 btn--2"
-                id="btn--2"
-              >
-                Past Projects
-              </button>
-            </div>
+          <div className="btns">
+            <button
+              onClick={onClickContactHandler}
+              className="btn1 btn--1"
+              id="btn--1"
+            >
+              Contact me
+            </button>
+            <button
+              onClick={onClickPortfolioHandler}
+              className="btn1 btn--2"
+              id="btn--2"
+            >
+              Past Projects
+            </button>
           </div>
-
-          <Square />
         </div>
-      </main>
-    </>
+        <Square />
+      </div>
+    </main>
   );
 }

@@ -1,7 +1,7 @@
 import Project from "./Project";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import { Suspense, useLayoutEffect, useRef } from "react";
 
 const Portfolio = function Portfolio(props) {
   const refProject = useRef(null);
@@ -10,20 +10,25 @@ const Portfolio = function Portfolio(props) {
     {
       id: 1,
       projectTitle: "Forkify App: Made a web app for managing recipe",
+      img: "",
+      link: "https://shiv-forkify.netlify.app/",
     },
 
     {
       id: 2,
       projectTitle:
         "Made a app in node.js from scratch to track the medicines and their expiry date",
+      link: "/404",
     },
     {
       id: 3,
       projectTitle: "Made a video chat app in reactjs using WebRTC",
+      link: "/404",
     },
     {
       id: 4,
       projectTitle: "Made a web app in Javascript called Pig Game",
+      link: "/404",
     },
   ];
 
@@ -74,6 +79,7 @@ const Portfolio = function Portfolio(props) {
               key={project.id}
               title={`Project ${project.id}`}
               project={project.projectTitle}
+              link={project.link}
             />
           );
         })}

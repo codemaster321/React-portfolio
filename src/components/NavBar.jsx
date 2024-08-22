@@ -7,7 +7,7 @@ import {
 import { menu, close } from "ionicons/icons";
 import gsap from "gsap";
 import { useLayoutEffect, useRef, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 setupIonicReact();
 
@@ -79,26 +79,29 @@ export default function NavBar() {
         </h2>
         <nav className="main-nav" id="navbar">
           <div className="e">
-            <Link onClick={onClickPortfolioHandler} className="main-nav-link ">
+            <NavLink
+              onClick={onClickPortfolioHandler}
+              className="main-nav-link "
+            >
               Portfolio
-            </Link>
+            </NavLink>
           </div>
           <div className="e">
-            <Link
+            <NavLink
               onClick={onClickSkillsHandler}
               className="main-nav-link skills--link"
             >
               Skills
-            </Link>
+            </NavLink>
           </div>
 
           <div className="e">
-            <Link
+            <NavLink
               onClick={onClickContactHandler}
               className="main-nav-link contact"
             >
               Contact
-            </Link>
+            </NavLink>
           </div>
         </nav>
 

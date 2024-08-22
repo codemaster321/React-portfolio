@@ -1,5 +1,4 @@
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
-import { createPortal } from "react-dom";
 import "leaflet/dist/leaflet.css";
 import { forwardRef } from "react";
 

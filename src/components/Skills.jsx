@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { Suspense, useLayoutEffect, useRef } from "react";
 import Skill from "./Skill";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -26,7 +26,7 @@ const Skills = function Skills(props) {
     });
   }, []);
   return (
-    <>
+    <Suspense fallback="Loading....">
       <section className="section--skills section">
         <div ref={refSkills} className="skills">
           <div className="skill--heading">
@@ -54,7 +54,7 @@ const Skills = function Skills(props) {
           </div>
         </div>
       </section>
-    </>
+    </Suspense>
   );
 };
 
