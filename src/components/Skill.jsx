@@ -1,21 +1,33 @@
-export default function Skill({ skill }) {
+import React from "react";
+import {
+  FaJs,
+  FaNodeJs,
+  FaHtml5,
+  FaCss3Alt,
+  FaPython,
+  FaReact,
+} from "react-icons/fa";
+
+const skillData = [
+  { name: "Vanilla JS", icon: <FaJs /> },
+  { name: "Node", icon: <FaNodeJs /> },
+  { name: "HTML", icon: <FaHtml5 /> },
+  { name: "CSS", icon: <FaCss3Alt /> },
+  { name: "Python", icon: <FaPython /> },
+  { name: "React", icon: <FaReact /> },
+];
+
+const Skill = () => {
   return (
-    <div className="skill">
-      {/* <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth="1.5" // Change "stroke-width" to "strokeWidth"
-        stroke="currentColor"
-        className="skillIcon"
-      >
-        <path
-          strokeLinecap="round" // Change "stroke-linecap" to "strokeLinecap"
-          strokeLinejoin="round" // Change "stroke-linejoin" to "strokeLinejoin"
-          d="M4.5 12.75l6 6 9-13.5"
-        />
-      </svg> */}
-      {skill}
+    <div className="skills-list">
+      {skillData.map((skill, index) => (
+        <div key={index} className="skill">
+          <div className="icon">{skill.icon}</div>
+          <span>{skill.name}</span>
+        </div>
+      ))}
     </div>
   );
-}
+};
+
+export default Skill;

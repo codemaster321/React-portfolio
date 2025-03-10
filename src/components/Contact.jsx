@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect, Suspense } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
 
 import React from "react";
 import MapView from "./MapView";
@@ -6,12 +6,15 @@ import Modal from "./Modal";
 import { Form } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import emailjs from "@emailjs/browser";
 
 const Contact = function Contact(props) {
   const refMap = useRef(null);
   const refForm = useRef(null);
+  console.log(import.meta.env.VITE_TEMPLATE_ID);
 
   useLayoutEffect(() => {
+    emailjs.init({ publicKey: import.meta.env.VITE_PUBLIC_KEY });
     gsap.registerPlugin(ScrollTrigger);
 
     let tl = gsap.timeline({
@@ -22,8 +25,6 @@ const Contact = function Contact(props) {
         scrub: 1,
       },
     });
-
-    console.log(refMap);
 
     tl.from(refMap.current, { x: -100, opacity: 0 })
       .to(refMap.current, {
@@ -58,10 +59,22 @@ const Contact = function Contact(props) {
 
   function handleSumbit(e) {
     e.preventDefault();
-    console.log("Submitted");
-    console.log(formData);
-    setFormData({ name: "", email: "", message: "" });
+
+    emailjs
+      .sendForm(
+        import.meta.env.VITE_SERVICE_ID,
+        import.meta.env.VITE_TEMPLATE_ID,
+        refForm.current
+      )
+      .then((result) => {
+        console.log(result);
+        console.log("SUCCESS!"),
+          (error) => {
+            console.log("FAILED...", error.text);
+          };
+      });
     setIsOpen(true);
+    setFormData({ name: "", email: "", message: "" });
   }
 
   function onCloseHandler() {

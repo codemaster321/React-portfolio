@@ -1,11 +1,10 @@
-import { Suspense, useLayoutEffect, useRef } from "react";
-import Skill from "./Skill";
+import { lazy, Suspense, useLayoutEffect, useRef } from "react";
+
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Skill from "./Skill";
 
-const Skills = function Skills(props) {
-  const skills = ["Vanilla JS", "Node", "HTML", "CSS", "Python", "React"];
-
+const Skills = function Skills() {
   const refSkills = useRef();
 
   useLayoutEffect(() => {
@@ -26,35 +25,29 @@ const Skills = function Skills(props) {
     });
   }, []);
   return (
-    <Suspense fallback="Loading....">
-      <section className="section--skills section">
-        <div ref={refSkills} className="skills">
-          <div className="skill--heading">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="skill--icon"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
-              />
-            </svg>
+    <section className="section--skills section">
+      <div ref={refSkills} className="skills">
+        <div className="skill--heading">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth="1.5"
+            stroke="currentColor"
+            className="skill--icon"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
+            />
+          </svg>
 
-            <h1 className="heading">Skills</h1>
-          </div>
-          <div className="skills-list">
-            {skills.map((skill) => (
-              <Skill skill={skill} />
-            ))}
-          </div>
+          <h1 className="heading">Skills</h1>
+          <Skill />
         </div>
-      </section>
-    </Suspense>
+      </div>
+    </section>
   );
 };
 

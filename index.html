@@ -16,16 +16,7 @@
     />
   </head>
   <body>
-    <div class="cursor"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-
-<script>
-  const cursor = document.querySelector(".cursor");
-  document.addEventListener("mousemove", (e) => {
-    cursor.style.left = e.clientX + "px";
-    cursor.style.top = e.clientY + "px";
-  });
-</script>
