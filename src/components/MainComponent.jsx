@@ -8,33 +8,6 @@ export default function MainComponent() {
   const comp = useRef(null);
   console.log(comp.current);
 
-  useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-      const t1 = gsap.timeline();
-      t1.from(".about-me", {
-        opacity: 0,
-        xPercent: "-50",
-        duration: 1,
-        delay: 0,
-      })
-        .from(".about-me--description", {
-          opacity: 0,
-          xPercent: "+50",
-          duration: 1,
-          delay: 0,
-        })
-        .from(["#btn--1, #btn--2"], {
-          opacity: 0,
-          xPercent: "+=50",
-          duration: 1,
-          stagger: 0.5,
-          delay: 1,
-        });
-    }, comp.current);
-
-    return () => ctx.revert();
-  }, []);
-
   useEffect(() => {
     const typed = new Typed("#element", {
       strings: [" Coder 💻", " Web Developer 🕸️", " Nerd 🤓😎"],
@@ -60,10 +33,6 @@ export default function MainComponent() {
 
   return (
     <main>
-      {/* <video loop muted autoPlay preload="auto">
-        <source src="stars.mp4" type="video/mp4" />
-      </video> */}
-
       <div ref={comp} className="canvas-container">
         <div className="about-me">
           <h1>Hey this is Shivendra Shukla!</h1>

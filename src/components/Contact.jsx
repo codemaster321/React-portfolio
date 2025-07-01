@@ -11,7 +11,6 @@ import emailjs from "@emailjs/browser";
 const Contact = function Contact(props) {
   const refMap = useRef(null);
   const refForm = useRef(null);
-  console.log(import.meta.env.VITE_TEMPLATE_ID);
 
   useLayoutEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_PUBLIC_KEY });

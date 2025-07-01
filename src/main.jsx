@@ -6,7 +6,6 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RootLayout } from "./components/RootLayout.jsx";
 import { Error } from "./components/Error.jsx";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -16,6 +15,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <App />,
+      },
+      {
+        path: "home",
+        element: <App />, // Redirects to main site after loading
       },
     ],
   },

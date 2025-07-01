@@ -17,15 +17,6 @@ export function Cube() {
   );
 }
 
-export function Loader() {
-  const { progress } = useProgress();
-  return (
-    <Html as="div" style={{ color: "white" }} center>
-      {progress.toFixed(2)} % loaded
-    </Html>
-  );
-}
-
 export default function Square() {
   return (
     <div className="canvas-con">
@@ -37,10 +28,9 @@ export default function Square() {
       >
         <ambientLight intensity={4} />
         <directionalLight intensity={10} position={[0, 0, 4]} />
-        <Suspense fallback={<Loader />}>
-          <Cube />
-          <OrbitControls enableZoom={false} />
-        </Suspense>
+
+        <Cube />
+        <OrbitControls enableZoom={false} />
 
         <Preload all />
       </Canvas>

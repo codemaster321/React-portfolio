@@ -2,22 +2,36 @@ import { lazy } from "react";
 import MainComponent from "./components/MainComponent";
 import SmoothScrolling from "./components/SmoothScrolling";
 
-const Skills = lazy(() => import("./components/Skills"));
-const Portfolio = lazy(() => import("./components/Portfolio"));
-const Contact = lazy(() => import("./components/Contact"));
-const Timeline = lazy(() => import("./components/Timeline"));
+import Skills from "./components/Skills";
+import Portfolio from "./components/Portfolio";
+import Contact from "./components/Contact";
+import Timeline from "./components/Timeline";
+import VerticalProgress from "./components/VertilcalProgress";
+import LoadingScreen from "./components/LoadingScreen";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
-    <SmoothScrolling>
-      <MainComponent />
+    <>
+      <div className="main-content">
+        <>
+          <LoadingScreen />
+        </>
+        <>
+          <VerticalProgress />
+          <SmoothScrolling>
+            <NavBar />
 
-      <Skills />
-      <Timeline />
-      <Portfolio />
-      <Contact />
-    </SmoothScrolling>
+            <MainComponent />
+
+            <Skills />
+            <Timeline />
+            <Portfolio />
+            <Contact />
+          </SmoothScrolling>
+        </>
+      </div>
+    </>
   );
 }
-
 export default App;
