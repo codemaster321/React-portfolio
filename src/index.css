@@ -231,6 +231,7 @@ main {
 
 .about-me h1 {
   font-size: 4rem;
+  text-align: center;
 }
 
 .about-me--description {
@@ -785,6 +786,8 @@ form button:active {
     margin-top: 15%;
   }
 }
+
+
 
 @media (max-width: 51em) {
   .canvas-container {
