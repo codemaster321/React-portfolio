@@ -109,22 +109,13 @@ html {
 }
 
 body {
-  z-index: -1000;
+  z-index: 1;
 
-  /* CSS for making background curly pattern */
-  --s: 140px; /* control the size*/
-  --c1: #170409;
-  --c2: #023b1c;
 
-  --_g: #0000 52%, var(--c1) 54% 57%, #0000 59%;
-  background: radial-gradient(farthest-side at -33.33% 50%, var(--_g)) 0
-      calc(var(--s) / 2),
-    radial-gradient(farthest-side at 50% 133.33%, var(--_g)) calc(var(--s) / 2)
-      0,
-    radial-gradient(farthest-side at 133.33% 50%, var(--_g)),
-    radial-gradient(farthest-side at 50% -33.33%, var(--_g)), var(--c2);
-  background-size: calc(var(--s) / 4.667) var(--s),
-    var(--s) calc(var(--s) / 4.667);
+  background: #16222A;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #3A6073, #16222A);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #3A6073, #16222A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
 }
 
 header {
@@ -190,6 +181,10 @@ div a {
   gap: 2.5rem;
 }
 
+form span{
+  font-size:  1.3rem;
+}
+
 section {
   /*background-color: #212529;*/
   text-align: center;
@@ -223,31 +218,27 @@ main {
 }
 
 .about-me {
-  margin: 9.375rem 6.25rem 9.375rem 6.25rem;
+  margin: auto;
   color: #fff;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
   gap: 1.25rem;
+  margin-top: 30vh;
 }
 
 .about-me h1 {
-  font-size: 3rem;
+  font-size: 4rem;
 }
 
 .about-me--description {
   color: #dee2e6;
-  margin: 0.625rem 0;
-  font-size: 1.5rem;
+  font-size: 3rem;
 }
 
-.funny-photo {
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  padding-top: 4.6875rem;
-  /*background-image: url('../BHFO.gif');*/
-  /*background-repeat: no-repeat;*/
-}
+
 
 .btns {
   margin-top: 1.875rem;
@@ -268,8 +259,8 @@ main {
 }
 
 .btn1 {
-  width: 12.5rem;
-  height: 4.375rem;
+  width: 14rem;
+  height: 5rem;
   background-color: #f8f9fa;
   border: none;
   box-shadow: 0.75rem 1.875rem 3.75rem rgba(0, 0, 0, 0.2);
@@ -354,10 +345,6 @@ footer {
   row-gap: 0.625rem;
 }
 
-form input,
-textarea {
-  background-color: #ffffff;
-}
 
 .section {
   transition: transform 2s, opacity 2s;
@@ -401,6 +388,7 @@ textarea {
   border-radius: 8px;
   font-family: inherit;
   background-color: #bde8ca;
+  color: #000000;
 }
 
 .hidden {
@@ -408,7 +396,7 @@ textarea {
 }
 
 #element {
-  font-size: 1.875rem;
+  font-size: 3rem;
   color: #adb5bd;
 }
 
@@ -497,36 +485,44 @@ footer form p {
   display: none;
 }
 
-/* Color changes when you press on an input box */
 input,
 textarea {
-  width: 100%; /* Full width */
-  padding: 12px 20px; /* Padding inside the input */
-  margin: 8px 0; /* Space above and below the input */
-  box-sizing: border-box; /* Include padding and border in the input's width */
-  border: 2px solid #272f3753;
-  border-radius: 4px; /* Rounded corners */
-
-  transition: border-color 0.2s, box-shadow 0.3s; /* Smooth transition for border and shadow */
+  border: 2px solid #ccc;
+  padding: 10px 14px;
+  border-radius: 6px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fefefe;
+  color: #222;
 }
 
-/* Style for the input box when it's clicked (focused) */
 input:focus,
 textarea:focus {
   outline: none;
-  border: 3px solid rgb(0, 0, 0); /* Change border color when focused */
+  border: 2px solid #718dfb;
+  box-shadow: 0 0 0 3px rgba(113, 141, 251, 0.4);
 }
 
-form button,
-button:hover {
-  background-color: #718dfb;
-  transition: all 0.2s;
+/* Button styling */
+form button {
+  border: none;
+  padding: auto;
+  color: white;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+form button:hover {
+  background-color: #bde8cae1;
+  transform: translateY(-2px);
 }
 
 form button:active {
-  background-color: #859bf3;
-  transition: all 0.2s;
+  background-color: #a8f5bfe1;
+  transform: scale(0.98);
 }
+
 
 /* hover animation over nav links */
 .e {
@@ -596,6 +592,16 @@ form button:active {
   height: auto;
   overflow: hidden;
   object-position: center;
+}
+
+
+.canvas-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .card:hover .card__side--front {
@@ -677,12 +683,6 @@ form button:active {
   margin-top: 40%;
 }
 
-.canvas-con {
-  max-width: 100vw;
-  max-height: 50vw;
-  flex-shrink: 1;
-  flex-basis: 40%;
-}
 
 @media (max-width: 94em) {
   /*will add code later */
@@ -692,11 +692,7 @@ form button:active {
     flex-shrink: 1;
   }
 
-  .canvas-con {
-    flex: 1;
-    flex-grow: 1;
-    flex-shrink: 1;
-  }
+  
 }
 
 /*Landscape Tablets*/
@@ -707,12 +703,7 @@ form button:active {
     height: 40vh;
   }
 
-  .canvas-con {
-    padding: auto 0;
-    transform: translateY(-3.5vw);
-    max-width: 100vw;
-    max-height: 50vw;
-  }
+  
 
   html {
     font-size: 62.5%;
@@ -797,7 +788,6 @@ form button:active {
 
 @media (max-width: 51em) {
   .canvas-container {
-    flex-direction: column;
     height: 100vh;
   }
 
@@ -805,9 +795,7 @@ form button:active {
     margin-top: 20%;
   }
 
-  .canvas-con {
-    display: none;
-  }
+
 
   footer {
     grid-template-columns: 1fr;
@@ -866,8 +854,8 @@ form button:active {
 
   .about-me {
     display: flex;
-    width: 70%;
-    margin-top: 22rem;
+    width: 100%;
+    margin-top: 20vh;
     gap: 2rem;
   }
 
@@ -909,6 +897,7 @@ form button:active {
 
 .canvas-container {
   display: flex;
+
 }
 
 video {

@@ -58,7 +58,6 @@ export default function MainComponent() {
             </button>
           </div>
         </div>
-        <Square />
       </div>
     </main>
   );
