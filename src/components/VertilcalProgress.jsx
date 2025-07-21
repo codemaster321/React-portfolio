@@ -11,17 +11,15 @@ export default function VerticalProgress() {
         document.documentElement.clientHeight;
       let scrolled = (scroll / height) * 100;
       if (scrolled <= 1) {
-        progressBar.style.height = "1%";
-      } else if (scrolled >= 2 && scrolled <= 99.9) {
+        progressBar.style.height = "0%";
+      } else if (scrolled >= 1 && scrolled <= 99.9) {
         progressBar.style.height = scrolled + "%";
-        progressBar.classList.remove("glow");
       } else if (scrolled === 100) {
         progressBar.style.height = scrolled + "%";
-        progressBar.classList.add("glow");
       }
     };
     // Set initial height
-    progressBar.style.height = "1%";
+    progressBar.style.height = "0%";
     // Attach scroll event listener
     window.addEventListener("scroll", updateProgressBar);
     // Cleanup function
