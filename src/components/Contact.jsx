@@ -7,6 +7,7 @@ import { Form } from "react-router-dom";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import emailjs from "@emailjs/browser";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Contact = function Contact(props) {
   const refMap = useRef(null);

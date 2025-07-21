@@ -651,6 +651,30 @@ form button:active {
   opacity: 0.5;
 }
 
+.footer-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 1.5rem 2rem;
+  width: 100%;
+  background: linear-gradient(to left, #3a6073cc, #16222acc);
+}
+
+.icon-link {
+  color: #e2e8f0;
+}
+
+.footer-text {
+  font-size: 1rem;
+  font-weight: 300;
+  color: #c2bdbd;
+  margin-left: 0.5rem;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
 @property --angle {
   syntax: "<angle>";
   initial-value: 0deg;
@@ -682,6 +706,9 @@ form button:active {
 /*Landscape Tablets*/
 @media (max-width: 75em) {
   /* MOBILE NAVIGATION */
+  .footer-text {
+    font-size: 1.6rem;
+  }
 
   main {
     height: 40vh;

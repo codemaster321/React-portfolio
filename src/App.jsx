@@ -9,6 +9,7 @@ import Timeline from "./components/Timeline";
 import VerticalProgress from "./components/VertilcalProgress";
 import LoadingScreen from "./components/LoadingScreen";
 import NavBar from "./components/NavBar";
+import Links from "./components/Links";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Timeline />
             <Portfolio />
             <Contact />
+            <Links />
           </SmoothScrolling>
         </>
       </div>
