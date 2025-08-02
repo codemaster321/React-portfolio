@@ -1,18 +1,34 @@
 import { Link } from "react-router-dom";
 
-function Project({ project, link }) {
+function Project({ project, link, description, skillset, category }) {
   return (
-    <div className="card">
-      <div className="card__side card__side--front">
-        <div className="project--image">
-          <img src="https://picsum.photos/1000/1000" alt="image" />
+    <div className="project-card">
+      <div className="project--image">
+        <img src="https://picsum.photos/1000/1000" alt="image" />
+        <div className="project--overlay">
+          <Link to={link} className="project--link">
+            View Project
+          </Link>
         </div>
-        <div className="project--title">{project}</div>
       </div>
 
-      <div className="card__side card__side--back">
-        <div className="project--title__back">
-          <Link to={link}>Live site</Link>
+      <div className="project--content">
+        <div className="project--header">
+          <div className="project--category">{category}</div>
+          <h3 className="project--title">{project}</h3>
+        </div>
+
+        <div className="project--description">{description}</div>
+
+        <div className="project--skills">
+          <h4>Tech Stack:</h4>
+          <div className="skills--grid">
+            {skillset.map((skill, index) => (
+              <span key={index} className="skill--tag">
+                {skill}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -20,3 +36,4 @@ function Project({ project, link }) {
 }
 
 export default Project;
+//

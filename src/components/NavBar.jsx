@@ -5,8 +5,7 @@ import {
   setupIonicReact,
 } from "@ionic/react";
 import { menu, close } from "ionicons/icons";
-import gsap from "gsap";
-import { useLayoutEffect, useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 setupIonicReact();
@@ -39,26 +38,6 @@ export default function NavBar() {
   };
   const comp = useRef(null);
   console.log(comp.current);
-
-  useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-      const t1 = gsap.timeline();
-      t1.from("#heading", {
-        opacity: 0,
-        yPercent: "-50",
-        duration: 1,
-        delay: 1,
-      }).from(".e", {
-        opacity: 0,
-        yPercent: "-50",
-        duration: 1,
-        delay: 0,
-        stagger: 0.5,
-      });
-    }, comp.current);
-
-    return () => ctx.revert();
-  }, []);
 
   useEffect(() => {
     const header = comp.current;

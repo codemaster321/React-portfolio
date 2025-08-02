@@ -1,7 +1,6 @@
 import { useRef, useState, useLayoutEffect } from "react";
 
 import React from "react";
-import MapView from "./MapView";
 import Modal from "./Modal";
 import { Form } from "react-router-dom";
 import gsap from "gsap";
@@ -10,32 +9,11 @@ import emailjs from "@emailjs/browser";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Contact = function Contact(props) {
-  const refMap = useRef(null);
   const refForm = useRef(null);
 
   useLayoutEffect(() => {
     emailjs.init({ publicKey: import.meta.env.VITE_PUBLIC_KEY });
     gsap.registerPlugin(ScrollTrigger);
-
-    let tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".contactSection",
-        start: "top-=100 50%", // when the top of the trigger hits the top of the viewport
-        end: "+=400px", // end after scrolling 500px beyond the start
-        scrub: 1,
-      },
-    });
-
-    tl.from(refMap.current, { x: -100, opacity: 0 })
-      .to(refMap.current, {
-        x: 0,
-        opacity: 1,
-      })
-      .from(refForm.current, { x: 100, opacity: 0 })
-      .to(refForm.current, {
-        x: 0,
-        opacity: 1,
-      });
   }, []);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -84,7 +62,6 @@ const Contact = function Contact(props) {
   return (
     <footer class="contactSection section">
       {isOpen && <Modal onClose={onCloseHandler} />}
-      <MapView ref={refMap} />
       <Form
         ref={refForm}
         onSubmit={handleSumbit}

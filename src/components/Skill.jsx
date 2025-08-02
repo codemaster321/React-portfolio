@@ -14,7 +14,7 @@ const skillData = [
   { name: "HTML", icon: <FaHtml5 /> },
   { name: "CSS", icon: <FaCss3Alt /> },
   { name: "Python", icon: <FaPython /> },
-  { name: "React", icon: <FaReact /> },
+  { name: "React/Next", icon: <FaReact /> },
 ];
 
 const Skill = () => {

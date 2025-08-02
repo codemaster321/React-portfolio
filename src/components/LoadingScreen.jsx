@@ -10,6 +10,7 @@ export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
   const comp = useRef();
+
   useEffect(() => {
     let interval;
     if (loading) {
@@ -67,14 +68,14 @@ export default function LoadingScreen() {
         <div className="bar"></div>
         <div className="bar"></div>
         <div className="bar"></div>
-      </div>
 
-      <p
-        className="loadingScreen"
-        style={{ fontSize: "8rem", marginTop: "1rem", zIndex: 1000 }}
-      >
-        {progress}
-      </p>
+        <p
+          className="loadingScreen"
+          style={{ fontSize: "8rem", marginTop: "1rem" }}
+        >
+          {progress}
+        </p>
+      </div>
     </>
   );
 }

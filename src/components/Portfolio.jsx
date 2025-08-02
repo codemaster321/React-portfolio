@@ -9,26 +9,62 @@ const Portfolio = function Portfolio(props) {
   const projects = [
     {
       id: 1,
-      projectTitle: "Forkify App: Made a web app for managing recipe",
+      projectTitle: "Forkify App: Recipe Management Web Application",
+      description:
+        "A comprehensive web application for managing and discovering recipes with search functionality, bookmarking, and user-friendly interface.",
       img: "",
       link: "https://shiv-forkify.netlify.app/",
+      skillset: ["JavaScript", "HTML5", "CSS3", "REST API", "Webpack", "Babel"],
+      category: "Web Development",
     },
 
     {
       id: 2,
-      projectTitle:
-        "Made a app in node.js from scratch to track the medicines and their expiry date",
+      projectTitle: "Medicine Tracker: Node.js Application",
+      description:
+        "A full-stack application to track medicines and their expiry dates with user authentication and database management.",
       link: "/404",
+      skillset: [
+        "Node.js",
+        "Express.js",
+        "MongoDB",
+        "JavaScript",
+        "REST API",
+        "Authentication",
+      ],
+      category: "Backend Development",
     },
     {
       id: 3,
-      projectTitle: "Made a video chat app in reactjs using WebRTC",
+      projectTitle: "Video Chat App: React WebRTC",
+      description:
+        "Real-time video communication application built with React and WebRTC for peer-to-peer video calling.",
       link: "/404",
+      skillset: [
+        "React.js",
+        "WebRTC",
+        "Socket.io",
+        "JavaScript",
+        "CSS3",
+        "Real-time Communication",
+      ],
+      category: "Real-time Applications",
     },
     {
       id: 4,
-      projectTitle: "Made a web app in Javascript called Pig Game",
+      projectTitle: "Pig Game: JavaScript Dice Game",
+      description:
+        "Interactive dice game built with vanilla JavaScript featuring game logic, score tracking, and responsive design.",
       link: "/404",
+      skillset: [
+        "JavaScript",
+        "HTML5",
+        "CSS3",
+        "DOM Manipulation",
+        "Game Logic",
+        "Responsive Design",
+      ],
+      category: "Game Development",
     },
   ];
 
@@ -77,8 +113,10 @@ const Portfolio = function Portfolio(props) {
           return (
             <Project
               key={project.id}
-              title={`Project ${project.id}`}
               project={project.projectTitle}
+              description={project.description}
+              skillset={project.skillset}
+              category={project.category}
               link={project.link}
             />
           );
