@@ -39,11 +39,14 @@ const Portfolio = function Portfolio(props) {
       projectTitle: "Video Chat App: React WebRTC",
       description:
         "Real-time video communication application built with React and WebRTC for peer-to-peer video calling.",
-      link: "/404",
+      link: "https://github.com/codemaster321/video-chat-app",
       skillset: [
         "React.js",
         "WebRTC",
         "Socket.io",
+        "Node.js",
+        "Tailwind CSS",
+        "Shadecn UI",
         "JavaScript",
         "CSS3",
         "Real-time Communication",
@@ -55,7 +58,7 @@ const Portfolio = function Portfolio(props) {
       projectTitle: "Pig Game: JavaScript Dice Game",
       description:
         "Interactive dice game built with vanilla JavaScript featuring game logic, score tracking, and responsive design.",
-      link: "/404",
+      link: "https://codemaster321.github.io/Roll-the-Dice/",
       skillset: [
         "JavaScript",
         "HTML5",

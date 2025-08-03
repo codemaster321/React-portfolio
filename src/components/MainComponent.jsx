@@ -1,7 +1,6 @@
 import { useEffect, useRef, useLayoutEffect, useState, Suspense } from "react";
 import gsap from "gsap";
 import Typed from "typed.js";
-import Square from "./Square";
 import NavBar from "./NavBar";
 
 export default function MainComponent() {

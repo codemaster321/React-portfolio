@@ -21,7 +21,7 @@ export default function LoadingScreen() {
             setLoading(false);
             return 100;
           }
-          return prev + Math.floor(Math.random() * 10) + 1;
+          return Math.min(prev + Math.floor(Math.random() * 10), 100);
         });
       }, 150);
     }
@@ -71,9 +71,18 @@ export default function LoadingScreen() {
 
         <p
           className="loadingScreen"
-          style={{ fontSize: "8rem", marginTop: "1rem" }}
+          style={{
+            fontSize: "8rem",
+            marginTop: "1rem",
+            fontFamily: "'Inter', sans-serif",
+            fontWeight: "700",
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
         >
-          {progress}
+          {progress}%
         </p>
       </div>
     </>
