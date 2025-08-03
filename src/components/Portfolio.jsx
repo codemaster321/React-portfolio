@@ -55,19 +55,20 @@ const Portfolio = function Portfolio(props) {
     },
     {
       id: 4,
-      projectTitle: "Pig Game: JavaScript Dice Game",
+      projectTitle: "Sleep Tracker Web App(Ongoing)",
       description:
-        "Interactive dice game built with vanilla JavaScript featuring game logic, score tracking, and responsive design.",
-      link: "https://codemaster321.github.io/Roll-the-Dice/",
+        "A full-stack sleep tracker with user auth, Stripe payments, and sleep data visualization using Chart.js. Built with Next.js, React, and Tailwind.",
+      link: "/404",
       skillset: [
-        "JavaScript",
-        "HTML5",
-        "CSS3",
-        "DOM Manipulation",
-        "Game Logic",
-        "Responsive Design",
+        "React",
+        "Next.js",
+        "Chart.js",
+        "Stripe",
+        "Clerk",
+        "Tailwind CSS",
+        "shadcn/ui",
       ],
-      category: "Game Development",
+      category: "Full Stack / Health Tech",
     },
   ];
 
