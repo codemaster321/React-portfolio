@@ -44,9 +44,9 @@ export default function Timeline() {
             date="2018-2022"
             dateClassName="timeline-date"
             iconStyle={{
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
               color: "#fff",
-              boxShadow: "0 4px 20px rgba(102, 126, 234, 0.4)",
+              boxShadow: "0 4px 20px rgba(16, 185, 129, 0.4)",
             }}
           >
             <h3 className="vertical-timeline-element-title">Student</h3>
@@ -71,9 +71,9 @@ export default function Timeline() {
             date="2022-2024"
             dateClassName="timeline-date"
             iconStyle={{
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
               color: "#fff",
-              boxShadow: "0 4px 20px rgba(102, 126, 234, 0.4)",
+              boxShadow: "0 4px 20px rgba(16, 185, 129, 0.4)",
             }}
           >
             <h3 className="vertical-timeline-element-title">

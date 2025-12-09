@@ -74,9 +74,9 @@ export default function LoadingScreen() {
           style={{
             fontSize: "8rem",
             marginTop: "1rem",
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "'Space Grotesk', 'Inter', sans-serif",
             fontWeight: "700",
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",

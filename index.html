@@ -1,25 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
 
-    <meta
-      name="description"
-      content="Hi! I’m Shivendra — a full-stack dev who builds cool things on the web. Come check out my projects and say hi!"
-    />
+<head>
+  <meta charset="UTF-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shivendra Portfolio website</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="root"></div>
+  <meta name="description"
+    content="Hi! I'm Shivendra — a full-stack dev who builds cool things on the web. Come check out my projects and say hi!" />
 
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shivendra Portfolio website</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+  <!-- Critical CSS to prevent Flash of Unstyled Content -->
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      min-height: 100vh;
+    }
+
+    #root {
+      background: #0d1117;
+      min-height: 100vh;
+      opacity: 0;
+    }
+
+    #root.loaded {
+      opacity: 1;
+    }
+
+    /* Pre-React loading overlay - shows immediately */
+    #pre-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      z-index: 999999999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.3s ease;
+    }
+
+    #pre-loader.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #pre-loader-text {
+      font-size: 4rem;
+      font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+      font-weight: 700;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 0.6;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Pre-React loader that shows IMMEDIATELY before any JS loads -->
+  <div id="pre-loader">
+    <span id="pre-loader-text">Loading...</span>
+  </div>
+  <div id="root"></div>
+
+  <script type="module" src="/src/main.jsx"></script>
+  <script>
+    // Hide pre-loader once React has mounted and CSS is ready
+    function hidePreLoader() {
+      var preLoader = document.getElementById('pre-loader');
+      var root = document.getElementById('root');
+      if (preLoader && root) {
+        // Small delay to ensure React has rendered
+        setTimeout(function () {
+          preLoader.classList.add('hidden');
+          root.classList.add('loaded');
+        }, 50);
+      }
+    }
+    // Check if React has mounted by watching for content in #root
+    var observer = new MutationObserver(function (mutations) {
+      var root = document.getElementById('root');
+      if (root && root.children.length > 0) {
+        hidePreLoader();
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.getElementById('root'), { childList: true });
+  </script>
+</body>
+
 </html>
