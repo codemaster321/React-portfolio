@@ -1461,10 +1461,11 @@ footer form p {
 }
 
 .skill:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #212529;
+  background: var(--gradient-subtle);
+  color: var(--color-primary-400);
   transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), var(--shadow-glow);
+  border-color: var(--color-border-accent);
 }
 
 .skillIcon {
@@ -1887,9 +1888,11 @@ form button:active {
 }
 
 .skill--tag:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--gradient-subtle);
+  color: var(--color-primary-300);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  border-color: var(--color-border-accent);
 }
 
 @media (max-width: 94em) {
