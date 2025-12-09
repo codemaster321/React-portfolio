@@ -19,7 +19,7 @@ export default function Links() {
       >
         <FaLinkedin size={30} />
       </a>
-      <p className="footer-text">Made with ❤️ by Shivendra</p>
+      <p className="footer-text">Made with ☘️ by Shivendra</p>
     </div>
   );
 }

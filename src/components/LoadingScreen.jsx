@@ -50,6 +50,8 @@ export default function LoadingScreen() {
           if (comp.current) {
             comp.current.style.pointerEvents = "none";
           }
+          // Dispatch custom event when loading is complete
+          window.dispatchEvent(new CustomEvent('loadingComplete'));
         },
       });
     }

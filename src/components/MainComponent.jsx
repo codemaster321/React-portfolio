@@ -10,6 +10,17 @@ export default function MainComponent() {
   const descriptionRef = useRef(null);
   const buttonsRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  // Listen for loading screen completion event
+  useEffect(() => {
+    const handleLoadingComplete = () => {
+      setShouldAnimate(true);
+    };
+
+    window.addEventListener('loadingComplete', handleLoadingComplete);
+    return () => window.removeEventListener('loadingComplete', handleLoadingComplete);
+  }, []);
 
   useEffect(() => {
     const typed = new Typed("#element", {
@@ -102,53 +113,44 @@ export default function MainComponent() {
           </div>
 
           <div className="hero-visual">
-            <div className="code-editor">
-              <div className="editor-header">
+            <div className={`terminal ${shouldAnimate ? 'animate' : ''}`}>
+              <div className="terminal-header">
                 <div className="window-controls">
                   <div className="control control--close"></div>
                   <div className="control control--minimize"></div>
                   <div className="control control--maximize"></div>
                 </div>
-                <div className="file-tab">main.jsx</div>
+                <div className="terminal-title">shivendra@portfolio ~ zsh</div>
               </div>
-              <div className="editor-content">
-                <div className="line-numbers">
-                  <span>1</span>
-                  <span>2</span>
-                  <span>3</span>
-                  <span>4</span>
-                  <span>5</span>
-                  <span>6</span>
-                  <span>7</span>
-                  <span>8</span>
+              <div className="terminal-body">
+                <div className="terminal-line">
+                  <span className="terminal-prompt">$</span>
+                  <span className="terminal-path">~</span>
+                  <span className="terminal-command typing-1">whoami</span>
                 </div>
-                <div className="code-lines">
-                  <div className="code-line">
-                    <span className="keyword">const</span>{" "}
-                    <span className="variable">developer</span> = {"{"}
-                  </div>
-                  <div className="code-line">
-                    <span className="property">name</span>:{" "}
-                    <span className="string">"Shivendra"</span>,
-                  </div>
-                  <div className="code-line">
-                    <span className="property">role</span>:{" "}
-                    <span className="string">"Full Stack Developer"</span>,
-                  </div>
-                  <div className="code-line">
-                    <span className="property">skills</span>: [
-                  </div>
-                  <div className="code-line">
-                    <span className="string">"React"</span>,{" "}
-                    <span className="string">"Node.js"</span>,{" "}
-                    <span className="string">"TypeScript"</span>
-                  </div>
-                  <div className="code-line">],</div>
-                  <div className="code-line">
-                    <span className="property">passion</span>:{" "}
-                    <span className="string">"Building amazing apps"</span>
-                  </div>
-                  <div className="code-line">{"}"};</div>
+                <div className="terminal-output output-1">Shivendra Shukla</div>
+
+                <div className="terminal-line line-2">
+                  <span className="terminal-prompt">$</span>
+                  <span className="terminal-path">~</span>
+                  <span className="terminal-command typing-2">cat skills.json</span>
+                </div>
+                <div className="terminal-output output-2">
+                  <span className="json-bracket">{"{"}</span>
+                  <br />
+                  <span className="json-key">"frontend"</span>: <span className="json-value">["React", "TypeScript", "Next.js"]</span>,
+                  <br />
+                  <span className="json-key">"backend"</span>: <span className="json-value">["Node.js", "Express", "MongoDB"]</span>,
+                  <br />
+                  <span className="json-key">"status"</span>: <span className="json-string">"Available for hire"</span>
+                  <br />
+                  <span className="json-bracket">{"}"}</span>
+                </div>
+
+                <div className="terminal-line line-3">
+                  <span className="terminal-prompt">$</span>
+                  <span className="terminal-path">~</span>
+                  <span className="terminal-cursor"></span>
                 </div>
               </div>
             </div>
