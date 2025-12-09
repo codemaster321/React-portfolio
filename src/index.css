@@ -1800,8 +1800,9 @@ form button:active {
   }
 
   .main-nav {
-    background-color: rgba(255, 255, 255, 0.97);
-    position: absolute;
+    background: linear-gradient(135deg, rgba(13, 17, 23, 0.98), rgba(22, 27, 34, 0.98));
+    backdrop-filter: blur(20px);
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -1811,13 +1812,10 @@ form button:active {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.5s ease-in;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 
     flex-direction: column;
-    gap: 2.5rem;
-    /* Hide navigation */
-    /* Allows NO transitions at all */
-    /* display: none; */
+    gap: 3rem;
 
     /* 1) Hide it visually */
     opacity: 0;
@@ -1831,7 +1829,7 @@ form button:active {
 
   .nav-open .main-nav {
     opacity: 1 !important;
-    z-index: 3;
+    z-index: 9999;
     pointer-events: auto;
     visibility: visible;
     transform: translateX(0) !important;
@@ -1839,21 +1837,39 @@ form button:active {
 
   .nav-open .icon-mobile-nav[data-name="close-outline"] {
     display: block;
-    z-index: 200;
+    z-index: 10000;
     position: relative;
+    color: var(--color-primary-400);
   }
 
   .nav-open .icon-mobile-nav[data-name="menu-outline"] {
     flex-direction: column;
     display: none;
-    z-index: 200;
+    z-index: 10000;
     position: relative;
   }
 
   .main-nav-link:link,
   .main-nav-link:visited {
-    font-size: 2.5rem;
-    color: #343a40;
+    font-size: 2rem;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-lg);
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-subtle);
+    transition: var(--transition-base);
+  }
+
+  .main-nav-link:hover,
+  .main-nav-link:active {
+    color: var(--color-primary-400);
+    background: var(--gradient-subtle);
+    border-color: var(--color-border-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow);
   }
 
   .main-container {
