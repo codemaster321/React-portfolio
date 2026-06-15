@@ -29,7 +29,7 @@
     "typed.js": "^2.1.0"
   },
   "devDependencies": {
-    "@ionic/react": "^7.8.0",
+    "@ionic/react": "^8.8.10",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.21",
     "@vitejs/plugin-react": "^4.2.1",
