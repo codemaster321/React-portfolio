@@ -1,15 +1,31 @@
-import { Link } from "react-router-dom";
-
-function Project({ project, link, description, skillset, category }) {
+function Project({ project, link, image, description, skillset, category }) {
   return (
     <div className="project-card">
       <div className="project--image">
-        <img src="https://picsum.photos/1000/1000" alt="image" />
-        <div className="project--overlay">
-          <Link to={link} className="project--link">
-            View Project
-          </Link>
-        </div>
+        {/* The card renders ~370px wide, so 1x displays only need the 640w
+            file; width/height keep the box reserved before the image lands. */}
+        <img
+          src={image}
+          srcSet={`${image.replace(".webp", "-640.webp")} 640w, ${image} 1280w`}
+          sizes="(max-width: 900px) 92vw, 400px"
+          width="1280"
+          height="720"
+          alt={`${project} landing page`}
+          loading="lazy"
+          decoding="async"
+        />
+        {link && (
+          <div className="project--overlay">
+            <a
+              href={link}
+              target="_blank"
+              rel="noreferrer"
+              className="project--link"
+            >
+              View Project
+            </a>
+          </div>
+        )}
       </div>
 
       <div className="project--content">
@@ -36,4 +52,3 @@ function Project({ project, link, description, skillset, category }) {
 }
 
 export default Project;
-//

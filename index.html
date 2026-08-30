@@ -3,23 +3,38 @@
 
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shivendra Shukla — Full-Stack Developer</title>
 
   <meta name="description"
     content="Hi! I'm Shivendra — a full-stack dev who builds cool things on the web. Come check out my projects and say hi!" />
+  <meta name="author" content="Shivendra Shukla" />
+  <meta name="theme-color" content="#0d1117" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shivendra Portfolio website</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2334d399' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'/%3E%3Cpath d='M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12'/%3E%3C/svg%3E" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Shivendra Shukla — Full-Stack Developer" />
+  <meta property="og:description"
+    content="Full-stack developer building AI platforms, agentic workflows and web apps. See my projects." />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Only Inter and Space Grotesk are actually used by the stylesheet. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-    rel="stylesheet" />
-  <!-- Critical CSS to prevent Flash of Unstyled Content -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" />
+
+  <!-- Critical CSS to prevent a flash of unstyled content -->
   <style>
     html,
     body {
       margin: 0;
       padding: 0;
-      background: #000;
+      background: #0d1117;
       min-height: 100vh;
     }
 
@@ -27,20 +42,17 @@
       background: #0d1117;
       min-height: 100vh;
       opacity: 0;
+      transition: opacity 0.2s ease;
     }
 
     #root.loaded {
       opacity: 1;
     }
 
-    /* Pre-React loading overlay - shows immediately */
     #pre-loader {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #000;
+      inset: 0;
+      background: #0d1117;
       z-index: 999999999;
       display: flex;
       justify-content: center;
@@ -54,13 +66,13 @@
     }
 
     #pre-loader-text {
-      font-size: 4rem;
+      font-size: clamp(2rem, 8vw, 4rem);
       font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
       font-weight: 700;
       background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
       background-clip: text;
+      -webkit-text-fill-color: transparent;
       animation: pulse 1.5s ease-in-out infinite;
     }
 
@@ -75,39 +87,57 @@
         opacity: 1;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      #pre-loader-text {
+        animation: none;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <!-- Pre-React loader that shows IMMEDIATELY before any JS loads -->
   <div id="pre-loader">
-    <span id="pre-loader-text">Loading...</span>
+    <span id="pre-loader-text">Loading…</span>
   </div>
   <div id="root"></div>
 
+  <noscript>
+    <p style="color:#f0f6fc;font-family:system-ui,sans-serif;text-align:center;padding:2rem">
+      This portfolio needs JavaScript enabled. You can still reach me at
+      <a style="color:#34d399" href="mailto:shivendrashukla06@gmail.com">shivendrashukla06@gmail.com</a>.
+    </p>
+  </noscript>
+
   <script type="module" src="/src/main.jsx"></script>
   <script>
-    // Hide pre-loader once React has mounted and CSS is ready
-    function hidePreLoader() {
+    (function () {
+      var root = document.getElementById('root');
       var preLoader = document.getElementById('pre-loader');
-      var root = document.getElementById('root');
-      if (preLoader && root) {
-        // Small delay to ensure React has rendered
-        setTimeout(function () {
-          preLoader.classList.add('hidden');
-          root.classList.add('loaded');
-        }, 50);
+      var revealed = false;
+
+      function reveal() {
+        if (revealed) return;
+        revealed = true;
+        preLoader.classList.add('hidden');
+        root.classList.add('loaded');
       }
-    }
-    // Check if React has mounted by watching for content in #root
-    var observer = new MutationObserver(function (mutations) {
-      var root = document.getElementById('root');
-      if (root && root.children.length > 0) {
-        hidePreLoader();
+
+      var observer = new MutationObserver(function () {
+        if (root.children.length > 0) {
+          observer.disconnect();
+          setTimeout(reveal, 50);
+        }
+      });
+      observer.observe(root, { childList: true });
+
+      // Failsafe: never leave the page stuck on a blank #root if the bundle
+      // fails to mount for any reason.
+      setTimeout(function () {
         observer.disconnect();
-      }
-    });
-    observer.observe(document.getElementById('root'), { childList: true });
+        reveal();
+      }, 5000);
+    })();
   </script>
 </body>
 

@@ -22,5 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment — `.env` alone does not cover Vite's other env files
 .env
-package-lock.json
+.env.*
+!.env.example
+
+# Test coverage output
+coverage
+
+# Deploy CLI state (contains project/org IDs)
+.vercel
+.netlify

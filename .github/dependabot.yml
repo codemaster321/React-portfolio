@@ -5,5 +5,17 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
-    auto-merged: true
+    # Group the noisy ecosystems into single PRs instead of one per package.
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
 
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

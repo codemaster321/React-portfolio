@@ -1,51 +1,62 @@
-import { lazy, Suspense, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Skill from "./Skill";
 
 const Skills = function Skills() {
-  const refSkills = useRef();
+  const refSkills = useRef(null);
 
   useLayoutEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     gsap.registerPlugin(ScrollTrigger);
 
-    let tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: ".section--skills",
-        start: "top-=100 50%", // when the top of the trigger hits the top of the viewport
-        end: "+=400px", // end after scrolling 500px beyond the start
-        scrub: 1,
-      },
-    });
+    const ctx = gsap.context(() => {
+      gsap.from(".skill-group", {
+        y: 40,
+        opacity: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: 0.15,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: ".section--skills",
+          start: "top 90%",
+          once: true,
+        },
+      });
+    }, refSkills);
 
-    tl.from(refSkills.current, { y: 300, opacity: 0 }).to(refSkills.current, {
-      y: 0,
-      opacity: 1,
-    });
+    return () => ctx.revert();
   }, []);
+
   return (
     <section className="section--skills section">
-      <div ref={refSkills} className="skills">
-        <div className="skill--heading">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="skill--icon"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
-            />
-          </svg>
+      <div className="section--header">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="skill--icon"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"
+          />
+        </svg>
+        <h2 className="heading">Skills</h2>
+        <p className="section--subtitle">
+          The stack I reach for when building and shipping products.
+        </p>
+      </div>
 
-          <h1 className="heading">Skills</h1>
-          <Skill />
-        </div>
+      <div ref={refSkills} className="skills">
+        <Skill />
       </div>
     </section>
   );

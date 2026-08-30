@@ -1,7 +1,13 @@
-import { useEffect, useRef, useLayoutEffect, useState, Suspense } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import Typed from "typed.js";
-import NavBar from "./NavBar";
+import useSectionScroll from "../hooks/useSectionScroll";
+
+const SKILLS_JSON = [
+  { key: "frontend", value: ["React", "Next.js", "TypeScript"] },
+  { key: "backend", value: ["Node.js", "FastAPI", "PostgreSQL"] },
+  { key: "status", value: "Available for hire", isString: true },
+];
 
 export default function MainComponent() {
   const comp = useRef(null);
@@ -9,17 +15,26 @@ export default function MainComponent() {
   const titleRef = useRef(null);
   const descriptionRef = useRef(null);
   const buttonsRef = useRef(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [shouldAnimate, setShouldAnimate] = useState(false);
+  const scrollToSection = useSectionScroll();
 
-  // Listen for loading screen completion event
+  // The terminal body is hidden by CSS until `.animate` is applied, so this
+  // must never be missed: check whether the loader already finished before we
+  // mounted, and keep a timeout so the terminal shows even if it never signals.
   useEffect(() => {
-    const handleLoadingComplete = () => {
+    if (window.__loadingComplete) {
       setShouldAnimate(true);
-    };
+      return;
+    }
 
-    window.addEventListener('loadingComplete', handleLoadingComplete);
-    return () => window.removeEventListener('loadingComplete', handleLoadingComplete);
+    const handleLoadingComplete = () => setShouldAnimate(true);
+    window.addEventListener("loadingComplete", handleLoadingComplete);
+    const failsafe = setTimeout(() => setShouldAnimate(true), 4000);
+
+    return () => {
+      window.removeEventListener("loadingComplete", handleLoadingComplete);
+      clearTimeout(failsafe);
+    };
   }, []);
 
   useEffect(() => {
@@ -40,35 +55,26 @@ export default function MainComponent() {
     tl.fromTo(
       titleRef.current,
       { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, ease: "power2.out" }
+      { y: 0, opacity: 1, duration: 1.1, ease: "power3.out" }
     )
       .fromTo(
         descriptionRef.current,
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
-        "-=0.4"
+        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+        "-=0.6"
       )
       .fromTo(
         buttonsRef.current,
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" },
-        "-=0.3"
+        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+        "-=0.5"
       );
 
-    setIsLoaded(true);
+    return () => tl.kill();
   }, []);
 
-  const onClickContactHandler = () => {
-    document
-      .querySelector(".contactSection")
-      .scrollIntoView({ behavior: "smooth" });
-  };
-
-  const onClickPortfolioHandler = () => {
-    document
-      .querySelector(".portfolioSection")
-      .scrollIntoView({ behavior: "smooth" });
-  };
+  const onClickContactHandler = () => scrollToSection(".contactSection");
+  const onClickPortfolioHandler = () => scrollToSection(".portfolioSection");
 
   return (
     <main className="hero-main">
@@ -83,11 +89,12 @@ export default function MainComponent() {
             </div>
 
             <h1 ref={titleRef} className="hero-title">
-              Hey, I'm <span className="highlight">Shivendra Shukla</span>
+              Hey, I&apos;m{" "}
+              <span className="highlight">Shivendra Shukla</span>
             </h1>
 
             <p ref={descriptionRef} className="hero-description">
-              I'm a <span id="element" className="typed-text"></span>
+              I&apos;m a <span id="element" className="typed-text"></span>
             </p>
 
             <p className="hero-subtitle">
@@ -138,12 +145,18 @@ export default function MainComponent() {
                 <div className="terminal-output output-2">
                   <span className="json-bracket">{"{"}</span>
                   <br />
-                  <span className="json-key">"frontend"</span>: <span className="json-value">["React", "TypeScript", "Next.js"]</span>,
-                  <br />
-                  <span className="json-key">"backend"</span>: <span className="json-value">["Node.js", "Express", "MongoDB"]</span>,
-                  <br />
-                  <span className="json-key">"status"</span>: <span className="json-string">"Available for hire"</span>
-                  <br />
+                  {SKILLS_JSON.map(({ key, value, isString }) => (
+                    <span key={key}>
+                      <span className="json-key">{`"${key}"`}</span>:{" "}
+                      <span className={isString ? "json-string" : "json-value"}>
+                        {isString
+                          ? `"${value}"`
+                          : `[${value.map((v) => `"${v}"`).join(", ")}]`}
+                      </span>
+                      {isString ? "" : ","}
+                      <br />
+                    </span>
+                  ))}
                   <span className="json-bracket">{"}"}</span>
                 </div>
 

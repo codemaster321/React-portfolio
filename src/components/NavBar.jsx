@@ -1,111 +1,71 @@
-import {
-  IonButton,
-  IonIcon,
-  IonMenuButton,
-  setupIonicReact,
-} from "@ionic/react";
-import { menu, close } from "ionicons/icons";
-import { useRef, useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { HiMenu, HiX } from "react-icons/hi";
+import useSectionScroll from "../hooks/useSectionScroll";
 
-setupIonicReact();
+const NAV_ITEMS = [
+  { label: "Portfolio", target: ".portfolioSection" },
+  { label: "Skills", target: ".section--skills" },
+  { label: "Experience", target: ".timeline" },
+  { label: "Contact", target: ".contactSection" },
+];
 
 export default function NavBar() {
-  const openNavRef = useRef(null);
-  const closeNavRef = useRef(null);
-
-  const btnNavEl = useRef(null);
+  const headerRef = useRef(null);
   const [isNavOpen, setIsNavOpen] = useState(false);
-
-  const navTriggerHandler = () => {
-    setIsNavOpen(!isNavOpen);
-  };
-
-  const onClickContactHandler = () => {
-    document
-      .querySelector(".contactSection")
-      .scrollIntoView({ behavior: "smooth" });
-  };
-  const onClickSkillsHandler = () => {
-    document
-      .querySelector(".section--skills")
-      .scrollIntoView({ behavior: "smooth" });
-  };
-  const onClickPortfolioHandler = () => {
-    document
-      .querySelector(".portfolioSection")
-      .scrollIntoView({ behavior: "smooth" });
-  };
-  const comp = useRef(null);
-  console.log(comp.current);
+  const scrollToSection = useSectionScroll();
 
   useEffect(() => {
-    const header = comp.current;
-    if (header) {
-      if (isNavOpen) {
-        header.classList.add("nav-open");
-      } else {
-        header.classList.remove("nav-open");
-      }
-    }
+    const header = headerRef.current;
+    if (!header) return;
+    header.classList.toggle("nav-open", isNavOpen);
   }, [isNavOpen]);
 
+  // Close the mobile menu on Escape so it can't trap the user.
+  useEffect(() => {
+    if (!isNavOpen) return;
+    const onKeyDown = (e) => e.key === "Escape" && setIsNavOpen(false);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isNavOpen]);
+
+  const handleNavClick = (target) => {
+    setIsNavOpen(false);
+    scrollToSection(target);
+  };
+
   return (
-    <>
-      <header ref={comp}>
-        <h2 className="nav-title" id="heading">
-          !Shiv
-        </h2>
-        <nav className="main-nav" id="navbar">
-          <div className="e">
-            <NavLink
-              onClick={onClickPortfolioHandler}
-              className="main-nav-link "
-            >
-              Portfolio
-            </NavLink>
-          </div>
-          <div className="e">
-            <NavLink
-              onClick={onClickSkillsHandler}
-              className="main-nav-link skills--link"
-            >
-              Skills
-            </NavLink>
-          </div>
+    <header ref={headerRef}>
+      <h2 className="nav-title" id="heading">
+        !Shiv
+      </h2>
 
-          <div className="e">
-            <NavLink
-              onClick={onClickContactHandler}
-              className="main-nav-link contact"
+      <nav className="main-nav" id="navbar" aria-label="Main navigation">
+        {NAV_ITEMS.map(({ label, target }) => (
+          <div className="e" key={label}>
+            <button
+              type="button"
+              onClick={() => handleNavClick(target)}
+              className="main-nav-link"
             >
-              Contact
-            </NavLink>
+              {label}
+            </button>
           </div>
-        </nav>
+        ))}
+      </nav>
 
-        <button
-          onClick={navTriggerHandler}
-          ref={btnNavEl}
-          className="btn-mobile-nav"
-        >
-          <IonIcon
-            ref={openNavRef}
-            className="icon-mobile-nav "
-            data-name="menu-outline"
-            icon={menu}
-            color="black"
-          ></IonIcon>
-
-          <IonIcon
-            ref={closeNavRef}
-            className="icon-mobile-nav"
-            icon={close}
-            data-name="close-outline"
-            color="black"
-          ></IonIcon>
-        </button>
-      </header>
-    </>
+      <button
+        onClick={() => setIsNavOpen((open) => !open)}
+        className="btn-mobile-nav"
+        aria-label={isNavOpen ? "Close menu" : "Open menu"}
+        aria-expanded={isNavOpen}
+        aria-controls="navbar"
+      >
+        {isNavOpen ? (
+          <HiX className="icon-mobile-nav" aria-hidden="true" />
+        ) : (
+          <HiMenu className="icon-mobile-nav" aria-hidden="true" />
+        )}
+      </button>
+    </header>
   );
 }

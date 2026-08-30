@@ -1,89 +1,114 @@
-import { Suspense } from "react";
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
+import { useLayoutEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import "react-vertical-timeline-component/style.min.css";
+// Most recent first, the way a CV reads.
+const ENTRIES = [
+  {
+    period: "Feb 2026 — Present",
+    role: "Senior Software Engineer",
+    org: "Quess Corp",
+    current: true,
+  },
+  {
+    period: "Feb 2024 — Jan 2026",
+    role: "Freelance Full Stack Developer",
+    org: "Independent",
+    summary:
+      "Designed and shipped full-stack products end to end for clients — AI agent platforms, subscription web apps, and marketing sites.",
+  },
+  {
+    period: "2022 — 2024",
+    role: "Associate IT Consultant",
+    org: "ITC Infotech",
+    location: "India",
+    summary: "IT development and consulting.",
+  },
+  {
+    period: "2018 — 2022",
+    role: "Student",
+    org: "DIT University",
+    location: "Dehradun, India",
+    summary: "Computer science studies.",
+  },
+];
 
 export default function Timeline() {
+  const listRef = useRef(null);
+
+  useLayoutEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const ctx = gsap.context(() => {
+      gsap.from(".timeline-entry", {
+        y: 30,
+        opacity: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.15,
+        immediateRender: false,
+        scrollTrigger: {
+          trigger: ".timeline",
+          start: "top 90%",
+          once: true,
+        },
+      });
+    }, listRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <Suspense fallback="Loading....">
-      <section className="timeline section">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="cpu--icon"
+    <section className="timeline section">
+      <div className="section--header">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="cpu--icon"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <h2 className="heading">Experience</h2>
+        <p className="section--subtitle">Where I&apos;ve worked and studied.</p>
+      </div>
+
+      <ol className="timeline-list" ref={listRef}>
+        {ENTRIES.map(({ period, role, org, location, summary, current }) => (
+          <li
+            className={`timeline-entry${current ? " timeline-entry--current" : ""}`}
+            key={`${period}-${role}`}
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <h1 className="heading">Experience</h1>
-        </div>
-        <VerticalTimeline>
-          <VerticalTimelineElement
-            className="vertical-timeline-element--work"
-            contentStyle={{
-              background: "rgba(255, 255, 255, 0.05)",
-              color: "#fff",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              backdropFilter: "blur(10px)",
-              borderRadius: "20px",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-            }}
-            contentArrowStyle={{
-              borderRight: "7px solid rgba(189, 232, 202, 0.3)",
-            }}
-            date="2018-2022"
-            dateClassName="timeline-date"
-            iconStyle={{
-              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-              color: "#fff",
-              boxShadow: "0 4px 20px rgba(16, 185, 129, 0.4)",
-            }}
-          >
-            <h3 className="vertical-timeline-element-title">Student</h3>
-            <h4 className="vertical-timeline-element-subtitle">
-              Dehradun, India
-            </h4>
-            <p>DIT University</p>
-          </VerticalTimelineElement>
-          <VerticalTimelineElement
-            className="vertical-timeline-element--work"
-            contentStyle={{
-              background: "rgba(255, 255, 255, 0.05)",
-              color: "#fff",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              backdropFilter: "blur(10px)",
-              borderRadius: "20px",
-              boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-            }}
-            contentArrowStyle={{
-              borderRight: "7px solid rgba(189, 232, 202, 0.3)",
-            }}
-            date="2022-2024"
-            dateClassName="timeline-date"
-            iconStyle={{
-              background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-              color: "#fff",
-              boxShadow: "0 4px 20px rgba(16, 185, 129, 0.4)",
-            }}
-          >
-            <h3 className="vertical-timeline-element-title">
-              Associate IT Consultant
-            </h3>
-            <h4 className="vertical-timeline-element-subtitle">ITC Infotech</h4>
-            <p>IT development and consulting</p>
-          </VerticalTimelineElement>
-        </VerticalTimeline>
-      </section>
-    </Suspense>
+            <span className="timeline-entry__marker" aria-hidden="true" />
+
+            <div className="timeline-entry__card">
+              <span className="timeline-entry__period">
+                {period}
+                {current && <span className="timeline-entry__badge">Current</span>}
+              </span>
+              <h3 className="timeline-entry__role">{role}</h3>
+              <p className="timeline-entry__org">
+                {org}
+                {location && (
+                  <span className="timeline-entry__location"> · {location}</span>
+                )}
+              </p>
+              {summary && (
+                <p className="timeline-entry__summary">{summary}</p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
   );
 }
