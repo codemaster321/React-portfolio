@@ -1,82 +1,72 @@
-import { useState, useEffect, useRef } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { prefersReducedMotion } from "../lib/motion";
 
-// The intro is a brand flourish, not a real loading bar. Paced to feel
-// deliberate without becoming a tax on the first visit — roughly 1.5s on the
-// counter, then a ~1.6s reveal.
-const TICK_MS = 75;
-const MAX_STEP = 9;
-const PREFERS_REDUCED_MOTION =
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NAME = "Shivendra Shukla";
 
+const markComplete = () => {
+  // Record the state as well as firing the event: a listener that mounts
+  // after this point would otherwise miss the signal entirely.
+  window.__loadingComplete = true;
+  window.dispatchEvent(new CustomEvent("loadingComplete"));
+};
+
+/**
+ * A short branded intro: the name rises letter by letter, then the curtain
+ * lifts. Kept under ~1.6s so it reads as a flourish, not a wait.
+ */
 export default function LoadingScreen() {
-  const [loading, setLoading] = useState(!PREFERS_REDUCED_MOTION);
-  const [progress, setProgress] = useState(PREFERS_REDUCED_MOTION ? 100 : 0);
+  const root = useRef(null);
   const [dismissed, setDismissed] = useState(false);
-  const comp = useRef(null);
 
-  useEffect(() => {
-    if (!loading) return;
-
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const next = Math.min(prev + Math.ceil(Math.random() * MAX_STEP), 100);
-        if (next >= 100) {
-          clearInterval(interval);
-          setLoading(false);
-        }
-        return next;
-      });
-    }, TICK_MS);
-
-    return () => clearInterval(interval);
-  }, [loading]);
-
-  useEffect(() => {
-    if (loading) return;
-
-    const done = () => {
-      // Record the state as well as firing the event: a listener that mounts
-      // after this point would otherwise miss the signal entirely.
-      window.__loadingComplete = true;
-      window.dispatchEvent(new CustomEvent("loadingComplete"));
+  useLayoutEffect(() => {
+    if (prefersReducedMotion()) {
+      markComplete();
       setDismissed(true);
-    };
-
-    if (PREFERS_REDUCED_MOTION) {
-      gsap.set([".loadingScreen", ".bar"], { opacity: 0, height: 0 });
-      done();
       return;
     }
 
-    const tl = gsap.timeline({ defaults: { ease: "power4.inOut" } });
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: "expo.out" },
+        onComplete: () => setDismissed(true),
+      });
 
-    tl.to(".loadingScreen", { duration: 0.7, opacity: 0 }).to(
-      ".bar",
-      {
+      tl.from(".intro__char", {
+        yPercent: 110,
         duration: 0.9,
-        height: 0,
-        stagger: { amount: 0.5 },
-        onComplete: done,
-      },
-      // Start the curtain lifting slightly before the counter has fully faded
-      // so the two read as one continuous movement.
-      "-=0.3"
-    );
+        stagger: 0.025,
+      })
+        .to(".intro__char", {
+          yPercent: -110,
+          duration: 0.6,
+          stagger: 0.015,
+          ease: "expo.in",
+        }, "+=0.15")
+        .to(root.current, {
+          yPercent: -100,
+          duration: 0.9,
+          ease: "expo.inOut",
+          // Let the hero start its own entrance as the curtain clears.
+          onStart: () => setTimeout(markComplete, 250),
+        }, "-=0.2");
+    }, root);
 
-    return () => tl.kill();
-  }, [loading]);
+    return () => ctx.revert();
+  }, []);
 
-  // Unmount once finished so a full-viewport fixed overlay isn't left in the DOM.
   if (dismissed) return null;
 
   return (
-    <div ref={comp} className="overlay-loading" aria-hidden="true">
-      {Array.from({ length: 10 }, (_, i) => (
-        <div className="bar" key={i}></div>
-      ))}
-      <p className="loadingScreen">{progress}%</p>
+    <div ref={root} className="intro" aria-hidden="true">
+      <p className="intro__name">
+        {NAME.split("").map((ch, i) => (
+          <span className="intro__mask" key={i}>
+            <span className="intro__char">{ch === " " ? " " : ch}</span>
+          </span>
+        ))}
+      </p>
+      <span className="intro__meta mono">Portfolio — ©{new Date().getFullYear()}</span>
     </div>
   );
 }

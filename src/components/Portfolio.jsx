@@ -1,157 +1,151 @@
-import Project from "./Project";
+import HoverText from "./HoverText";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLayoutEffect, useRef } from "react";
+import Project from "./Project";
+import { hasFinePointer, prefersReducedMotion, useReveal } from "../lib/motion";
 
-const Portfolio = function Portfolio() {
-  const refProject = useRef(null);
+const PROJECTS = [
+  {
+    id: "modelhub",
+    title: "ModelHub",
+    summary:
+      "A no-code multi-agent platform running three production verticals on one engine: HR recruitment, a Hindi-first government scheme finder and an FSSAI food-safety checker.",
+    category: "Agentic AI platform",
+    image: "/projects/modelhub.webp",
+    link: "https://github.com/codemaster321/ai_modelhub",
+    stack: ["FastAPI", "CrewAI", "pgvector"],
+  },
+  {
+    id: "sleeplog",
+    title: "SleepLog",
+    summary:
+      "A sleep and wellness platform with an AI sleep coach, journaling, streaks and trend charts, plus Stripe billing with scheduled plan changes.",
+    category: "Full-stack · Health",
+    image: "/projects/sleeplog.webp",
+    link: "https://github.com/codemaster321/SleepTracker",
+    stack: ["Next.js 15", "Supabase", "LangChain"],
+  },
+  {
+    id: "procurement",
+    title: "Procurement AI",
+    summary:
+      "Turns plain-English requirements into RFPs, emails vendors, parses their unstructured replies over IMAP and scores proposals with an AI recommendation.",
+    category: "Enterprise automation",
+    image: "/projects/procurement.webp",
+    link: "https://github.com/codemaster321/AI-Vendor-Procurement-System",
+    stack: ["Node.js", "MongoDB", "GPT-4o"],
+  },
+  {
+    id: "charvaka",
+    title: "Charvaka Recovery",
+    summary:
+      "A server-rendered site for a mental-health therapy practice: therapist profiles, mission, testimonials, FAQs and enquiry flows.",
+    category: "SSR marketing site",
+    image: "/projects/charvaka.webp",
+    link: "https://charvaka-recovery.vercel.app/",
+    stack: ["React Router v7", "SSR", "Tailwind v4"],
+  },
+];
 
-  const projects = [
-    {
-      id: 1,
-      projectTitle: "ModelHub: Multi-Vertical Agentic Workflow Platform",
-      description:
-        "A no-code multi-agent platform running three production verticals on one engine: HR recruitment, a Hindi-first government scheme finder, and an FSSAI food safety checker. Drag-and-drop graph editor with streaming execution, RAG, and per-run cost tracking.",
-      image: "/projects/modelhub.webp",
-      link: "https://github.com/codemaster321/ai_modelhub",
-      skillset: [
-        "Python",
-        "FastAPI",
-        "CrewAI",
-        "PostgreSQL",
-        "pgvector",
-        "RAG",
-        "JWT Auth",
-        "Docker",
-      ],
-      category: "AI / Agentic Platform",
-    },
-    {
-      id: 2,
-      projectTitle: "SleepLog: AI Sleep & Wellness Tracker",
-      description:
-        "A full-stack sleep platform with an AI sleep coach, journaling, health logs, goals, streaks, and trend visualisation — plus subscription billing with scheduled plan upgrades and downgrades.",
-      image: "/projects/sleeplog.webp",
-      link: "https://github.com/codemaster321/SleepTracker",
-      skillset: [
-        "Next.js 15",
-        "React 19",
-        "TypeScript",
-        "Supabase",
-        "Clerk",
-        "Stripe",
-        "LangChain",
-        "Chart.js",
-        "Tailwind CSS",
-      ],
-      category: "Full Stack / Health Tech",
-    },
-    {
-      id: 3,
-      projectTitle: "AI Vendor Procurement System",
-      description:
-        "An intelligent procurement platform that turns plain-English requirements into structured RFPs, emails them to vendors, parses unstructured replies over IMAP, and scores proposals on price, delivery, and warranty with an AI recommendation.",
-      image: "/projects/procurement.webp",
-      link: "https://github.com/codemaster321/AI-Vendor-Procurement-System",
-      skillset: [
-        "React",
-        "Vite",
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "OpenAI GPT-4o",
-        "Nodemailer",
-        "IMAP",
-        "Tailwind CSS",
-      ],
-      category: "AI / Enterprise Automation",
-    },
-    {
-      id: 4,
-      projectTitle: "Charvaka Recovery",
-      description:
-        "A server-rendered marketing site for a mental health therapy practice, covering therapist profiles, mission and values, testimonials, FAQs, and enquiry contact flows.",
-      image: "/projects/charvaka.webp",
-      link: "https://charvaka-recovery.vercel.app/",
-      skillset: [
-        "React 19",
-        "React Router v7",
-        "SSR",
-        "TypeScript",
-        "Tailwind CSS v4",
-        "Vite",
-        "Docker",
-      ],
-      category: "Web / SSR Marketing Site",
-    },
-  ];
+/**
+ * Floating screenshot that trails the cursor over the list. All four images
+ * sit in one vertical strip; hovering a row slides the strip to that image,
+ * which reads as a single preview changing rather than four popping in.
+ */
+function CursorPreview({ listRef, activeIndex }) {
+  const previewRef = useRef(null);
+  const [enabled] = useState(() => hasFinePointer() && !prefersReducedMotion());
 
-  useLayoutEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  useEffect(() => {
+    const list = listRef.current;
+    const preview = previewRef.current;
+    if (!enabled || !list || !preview) return;
 
-    gsap.registerPlugin(ScrollTrigger);
+    // Centre the preview on the cursor.
+    gsap.set(preview, { xPercent: -50, yPercent: -50 });
 
-    // Previously this selected ".util-box", which matches nothing in the
-    // markup, so the cards never animated. Stagger the real cards instead.
-    const ctx = gsap.context(() => {
-      // immediateRender: false keeps the cards visible until the trigger
-      // actually fires — a `from` tween would hide them on load and strand
-      // them at opacity 0 if the trigger never fires.
-      gsap.from(".project-card", {
-        y: 40,
-        opacity: 0,
-        duration: 0.9,
-        ease: "power3.out",
-        stagger: 0.18,
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: refProject.current,
-          start: "top 90%",
-          once: true,
-        },
-      });
-    }, refProject);
+    const xTo = gsap.quickTo(preview, "x", { duration: 0.7, ease: "power3.out" });
+    const yTo = gsap.quickTo(preview, "y", { duration: 0.7, ease: "power3.out" });
 
-    return () => ctx.revert();
-  }, []);
+    const onMove = (e) => {
+      xTo(e.clientX);
+      yTo(e.clientY);
+    };
+    const onEnter = (e) => {
+      gsap.set(preview, { x: e.clientX, y: e.clientY });
+      gsap.to(preview, { scale: 1, opacity: 1, duration: 0.5, ease: "expo.out" });
+    };
+    const onLeave = () =>
+      gsap.to(preview, { scale: 0.6, opacity: 0, duration: 0.4, ease: "power3.out" });
+
+    list.addEventListener("pointermove", onMove);
+    list.addEventListener("pointerenter", onEnter);
+    list.addEventListener("pointerleave", onLeave);
+    return () => {
+      list.removeEventListener("pointermove", onMove);
+      list.removeEventListener("pointerenter", onEnter);
+      list.removeEventListener("pointerleave", onLeave);
+    };
+  }, [enabled, listRef]);
+
+  if (!enabled) return null;
 
   return (
-    <section className="portfolioSection section">
-      <div className="section--header">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="cpu--icon"
-          aria-hidden="true"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z"
+    <div ref={previewRef} className="preview" aria-hidden="true">
+      <div
+        className="preview__strip"
+        style={{ transform: `translateY(${-Math.max(activeIndex, 0) * 100}%)` }}
+      >
+        {PROJECTS.map(({ id, image }) => (
+          <img
+            key={id}
+            src={image.replace(".webp", "-640.webp")}
+            alt=""
+            width="640"
+            height="360"
+            decoding="async"
           />
-        </svg>
-        <h2 className="heading">Past Projects</h2>
+        ))}
       </div>
-      <div ref={refProject} className="portfolio">
-        {projects.map((project) => {
-          return (
-            <Project
-              key={project.id}
-              project={project.projectTitle}
-              description={project.description}
-              skillset={project.skillset}
-              category={project.category}
-              image={project.image}
-              link={project.link}
-            />
-          );
-        })}
-      </div>
+    </div>
+  );
+}
+
+export default function Portfolio() {
+  const root = useRef(null);
+  const listRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  useReveal(root);
+
+  return (
+    <section className="section work" id="work" ref={root}>
+      <header className="section__head" data-reveal>
+        <span className="section__index mono">(01)</span>
+        <h2 className="section__title">
+          <HoverText text="Selected work" /><sup className="mono">{String(PROJECTS.length).padStart(2, "0")}</sup>
+        </h2>
+        <p className="section__aside">
+          Products I&apos;ve designed, built and shipped end to end.
+        </p>
+      </header>
+
+      <ol
+        className={`work__list${activeIndex >= 0 ? " work__list--hovering" : ""}`}
+        ref={listRef}
+        onPointerLeave={() => setActiveIndex(-1)}
+      >
+        {PROJECTS.map((project, i) => (
+          <Project
+            key={project.id}
+            index={i}
+            {...project}
+            isActive={activeIndex === i}
+            onActivate={() => setActiveIndex(i)}
+          />
+        ))}
+      </ol>
+
+      <CursorPreview listRef={listRef} activeIndex={activeIndex} />
     </section>
   );
-};
-
-export default Portfolio;
+}

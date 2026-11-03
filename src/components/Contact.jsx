@@ -1,3 +1,4 @@
+import HoverText from "./HoverText";
 import { useRef, useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
@@ -85,7 +86,7 @@ const Contact = function Contact() {
   const isSending = status === "sending";
 
   return (
-    <footer className="contactSection section">
+    <section className="section contact" id="contact">
       {status === "success" && <Modal onClose={() => setStatus("idle")} />}
       {status === "error" && (
         <Modal
@@ -96,43 +97,45 @@ const Contact = function Contact() {
         />
       )}
 
-      <div className="contact-layout">
-        <div className="contact-intro">
-          <span className="contact-eyebrow">Get in touch</span>
-          <h2 className="contact-title">
-            Let&apos;s build something <span className="highlight">good</span>.
-          </h2>
-          <p className="contact-lead">
-            Got a project, a role, or just an idea worth arguing about? Send it
-            over — I read everything and reply to most things within a day or
-            two.
+      <header className="section__head">
+        <span className="section__index mono">(04)</span>
+        <span className="section__title section__title--small">Contact</span>
+      </header>
+
+      <h2 className="contact__title">
+        <HoverText text="Let's build something" />{" "}
+        <em><HoverText text="worth shipping." /></em>
+      </h2>
+
+      <div className="contact__grid">
+        <div className="contact__intro">
+          <p className="contact__lead">
+            Got a project, a role, or an idea worth arguing about? Send it over.
+            I read everything and reply to most messages within a day or two.
           </p>
 
-          <ul className="contact-links">
-            {DIRECT_LINKS.map(({ label, href, Icon }) => (
+          <a className="contact__email" href={`mailto:${EMAIL}`}>
+            {EMAIL}
+            <span aria-hidden="true">↗</span>
+          </a>
+
+          <ul className="contact__links">
+            {DIRECT_LINKS.slice(1).map(({ label, href, Icon }) => (
               <li key={href}>
-                <a
-                  className="contact-link"
-                  href={href}
-                  target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  <span className="contact-link__icon" aria-hidden="true">
-                    <Icon />
-                  </span>
-                  <span className="contact-link__label">{label}</span>
+                <a href={href} target="_blank" rel="noreferrer">
+                  <Icon aria-hidden="true" />
+                  {label}
                 </a>
               </li>
             ))}
           </ul>
         </div>
 
-        <form ref={refForm} onSubmit={handleSubmit} className="contact-me">
+        <form ref={refForm} onSubmit={handleSubmit} className="form">
           <div className="field">
             <label htmlFor="contact-name">Name</label>
             <input
               id="contact-name"
-              className="name"
               type="text"
               name="name"
               placeholder="Ada Lovelace"
@@ -148,7 +151,6 @@ const Contact = function Contact() {
             <label htmlFor="contact-email">Email</label>
             <input
               id="contact-email"
-              className="email"
               type="email"
               name="email"
               placeholder="you@example.com"
@@ -165,7 +167,7 @@ const Contact = function Contact() {
             <textarea
               id="contact-message"
               name="message"
-              rows="6"
+              rows="5"
               placeholder="Tell me what you're building…"
               value={formData.message}
               onChange={handleChange("message")}
@@ -186,13 +188,13 @@ const Contact = function Contact() {
             />
           </div>
 
-          <button type="submit" className="show-modal" disabled={isSending}>
+          <button type="submit" className="btn btn--solid form__submit" disabled={isSending}>
             {isSending ? "Sending…" : "Send message"}
-            {!isSending && <span className="btn-icon">→</span>}
+            {!isSending && <span aria-hidden="true">→</span>}
           </button>
         </form>
       </div>
-    </footer>
+    </section>
   );
 };
 

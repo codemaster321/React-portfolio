@@ -1,54 +1,56 @@
-function Project({ project, link, image, description, skillset, category }) {
+import HoverText from "./HoverText";
+export default function Project({
+  index,
+  title,
+  summary,
+  category,
+  image,
+  link,
+  stack,
+  isActive,
+  onActivate,
+}) {
   return (
-    <div className="project-card">
-      <div className="project--image">
-        {/* The card renders ~370px wide, so 1x displays only need the 640w
-            file; width/height keep the box reserved before the image lands. */}
-        <img
-          src={image}
-          srcSet={`${image.replace(".webp", "-640.webp")} 640w, ${image} 1280w`}
-          sizes="(max-width: 900px) 92vw, 400px"
-          width="1280"
-          height="720"
-          alt={`${project} landing page`}
-          loading="lazy"
-          decoding="async"
-        />
-        {link && (
-          <div className="project--overlay">
-            <a
-              href={link}
-              target="_blank"
-              rel="noreferrer"
-              className="project--link"
-            >
-              View Project
-            </a>
-          </div>
-        )}
-      </div>
+    <li
+      className={`work__row${isActive ? " is-active" : ""}`}
+      data-reveal
+      onPointerEnter={onActivate}
+    >
+      <a
+        className="work__link"
+        href={link}
+        target="_blank"
+        rel="noreferrer"
+        onFocus={onActivate}
+      >
+        <span className="work__num mono">{String(index + 1).padStart(2, "0")}</span>
 
-      <div className="project--content">
-        <div className="project--header">
-          <div className="project--category">{category}</div>
-          <h3 className="project--title">{project}</h3>
-        </div>
+        <span className="work__main">
+          <span className="work__title"><HoverText text={title} /></span>
+          <span className="work__summary">{summary}</span>
+        </span>
 
-        <div className="project--description">{description}</div>
+        <span className="work__meta">
+          <span className="work__category mono">{category}</span>
+          <span className="work__stack mono">{stack.join(" · ")}</span>
+        </span>
 
-        <div className="project--skills">
-          <h4>Tech Stack:</h4>
-          <div className="skills--grid">
-            {skillset.map((skill, index) => (
-              <span key={index} className="skill--tag">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+        <span className="work__arrow" aria-hidden="true">↗</span>
+
+        {/* Touch screens have no cursor preview, so show the image inline. */}
+        <span className="work__thumb">
+          <img
+            src={image.replace(".webp", "-640.webp")}
+            srcSet={`${image.replace(".webp", "-640.webp")} 640w, ${image} 1280w`}
+            sizes="(max-width: 900px) 92vw, 1px"
+            width="1280"
+            height="720"
+            alt={`${title} landing page`}
+            loading="lazy"
+            decoding="async"
+          />
+        </span>
+      </a>
+    </li>
   );
 }
-
-export default Project;
