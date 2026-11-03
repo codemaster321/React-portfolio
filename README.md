@@ -98,5 +98,5 @@ so content is never stranded invisible if a trigger doesn't fire.
 
 ## CI
 
-`.github/workflows/react.js.yml` runs lint, tests and build on Node 18/20/22
+`.github/workflows/react.js.yml` runs lint, tests and build on Node 20/22/24
 for every push and PR to `main`.
