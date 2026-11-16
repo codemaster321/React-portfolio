@@ -1,0 +1,15 @@
+.footer .footer__word {
+  font-size: clamp(3rem, 19vw, 24rem);
+  line-height: 1;
+  letter-spacing: -.065em;
+  padding-top: .32em;
+  margin-top: 1rem;
+}
+.elastic-name { position: relative; display: inline-flex; white-space: nowrap; }
+.elastic-name__char {
+  --ink: 0;
+  display: inline-block;
+  transform-origin: center bottom;
+  color: var(--fg);
+  color: color-mix(in srgb, var(--accent) calc(var(--ink) * 1%), var(--fg));
+}

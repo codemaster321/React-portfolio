@@ -8,19 +8,23 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import LoadingScreen from "./components/LoadingScreen";
 import NavBar from "./components/NavBar";
+import ReadingProgress from "./components/ReadingProgress";
+import { useState } from "react";
 
 function App() {
+  const [projectRequest, setProjectRequest] = useState(null);
   return (
     <>
       <LoadingScreen />
       <SmoothScrolling>
+        <ReadingProgress />
         <a className="skip-link" href="#main">Skip to content</a>
         <NavBar />
         <main id="main">
           <MainComponent />
           <Marquee />
-          <Portfolio />
-          <About />
+          <Portfolio projectRequest={projectRequest} />
+          <About onOpenProject={(id) => setProjectRequest({ id })} />
           <Timeline />
           <Contact />
         </main>

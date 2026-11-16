@@ -15,11 +15,15 @@ export default function useSectionScroll(offset = -70) {
     (selector) => {
       const target = document.querySelector(selector);
       if (!target) return;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       if (lenis) {
-        lenis.scrollTo(target, { offset, duration: 1.4 });
+        lenis.scrollTo(target, { offset, duration: 1.4, immediate: reducedMotion });
       } else {
-        target.scrollIntoView({ behavior: "smooth" });
+        window.scrollTo({
+          top: Math.max(0, target.getBoundingClientRect().top + window.scrollY + offset),
+          behavior: reducedMotion ? "auto" : "smooth",
+        });
       }
     },
     [lenis, offset]

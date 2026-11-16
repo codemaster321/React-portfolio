@@ -1,5 +1,6 @@
-import HoverText from "./HoverText";
-import { useEffect, useState } from "react";
+import ElasticName from "./ElasticName";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import gsap from "gsap";
 import useSectionScroll from "../hooks/useSectionScroll";
 
 const SOCIALS = [
@@ -24,10 +25,30 @@ function useIndiaTime() {
 }
 
 export default function Footer() {
+  const root = useRef(null);
   const time = useIndiaTime();
   const scrollToSection = useSectionScroll(0);
 
+  useLayoutEffect(() => {
+    const media = gsap.matchMedia();
+    media.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(".footer", { yPercent: -30 }, {
+        yPercent: 0,
+        ease: "none",
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top bottom",
+          end: "bottom bottom",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+    }, root);
+    return () => media.revert();
+  }, []);
+
   return (
+    <div className="footer-reveal" ref={root}>
     <footer className="footer">
       <div className="footer__row">
         <span className="mono">
@@ -54,12 +75,13 @@ export default function Footer() {
         </button>
       </div>
 
-      <p className="footer__word" aria-hidden="true"><HoverText text="Shivendra" /></p>
+      <p className="footer__word" aria-hidden="true"><ElasticName text="Shivendra" /></p>
 
       <div className="footer__row footer__row--legal mono">
         <span>© {new Date().getFullYear()} Shivendra Shukla</span>
         <span>Designed &amp; built by me</span>
       </div>
     </footer>
+    </div>
   );
 }

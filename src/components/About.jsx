@@ -2,6 +2,7 @@ import HoverText from "./HoverText";
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { useReveal } from "../lib/motion";
+import SkillsMap from "./SkillsMap";
 
 const STATEMENT =
   "I like the hard middle of a product — the stretch between a messy idea and something people actually use. I work Python-first: FastAPI services, multi-agent systems and retrieval pipelines, with the React front ends wrapped around them.";
@@ -25,7 +26,7 @@ const CAPABILITIES = [
   },
 ];
 
-export default function About() {
+export default function About({ onOpenProject }) {
   const root = useRef(null);
   useReveal(root);
 
@@ -79,6 +80,7 @@ export default function About() {
         </p>
       </div>
 
+      <SkillsMap onOpenProject={onOpenProject} />
       <div className="caps">
         <h3 className="caps__label mono" data-reveal>What I work with</h3>
         <div className="caps__grid">

@@ -16,13 +16,29 @@ design-token system. Smooth scrolling via Lenis, animation via GSAP.
 - **Intro:** the name rises letter by letter, then the curtain lifts (~1.6s).
 - **Hover letters:** headings split into letters that jitter and flash the
   accent colour under the cursor, rippling into their neighbours (`HoverText`).
-- **Work list:** a screenshot preview follows the cursor and slides between
-  projects; touch screens show the screenshot inline instead.
+- **Hero workflow:** an interactive Request / Retrieve / Reason / Respond
+  diagram draws its connections with GSAP, then sends a signal through each
+  stage with progress indicators and a subtle pointer-driven tilt. Supports
+  keyboard exploration, pause/replay and reduced motion; the loop pauses
+  during exploration, offscreen and when the browser tab is hidden.
+- **Work cards:** projects stack on scroll and expand into case studies with
+  GSAP Flip. Stacking pauses while a case study is open; Escape closes it.
 - **About statement:** pins mid-screen and fills word by word as you scroll;
   the page moves on once it is full.
 - **Marquee:** a GSAP loop that eases to a stop on hover, speeds up while
   scrolling and runs backwards when scrolling up.
-- **Nav:** inverts over content, hides on scroll down, returns on scroll up.
+- **Nav:** one moving underline follows the current section and previews
+  hovered or focused links. A full-screen menu on desktop and mobile reveals
+  oversized links with GSAP masks and contextual section previews. Includes
+  focus trapping, Escape, scroll locking and reduced-motion support.
+- **Footer name:** nearby letters gently stretch and pick up lime colour as
+  the pointer moves across the name, then ease back. Touch and reduced motion
+  use the static name.
+- **Reading progress:** a slim indicator tracks progress down the page.
+- **Skills map:** AI, Backend and Frontend filters rearrange technologies and
+  connect them to project case studies, which open directly from the map.
+- **Experience:** a scroll-drawn line connects the roles with sequenced text
+  and milestone reveals. Reduced motion keeps the complete timeline visible.
 
 ## Getting started
 

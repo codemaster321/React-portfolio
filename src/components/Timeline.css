@@ -1,0 +1,35 @@
+.exp--drawn .exp__journey { position: relative; padding-left: clamp(1.75rem, 4vw, 4rem); }
+.exp--drawn .exp__track { position: absolute; left: 4px; top: 0; width: 2px; height: 100%; background: var(--line); }
+.exp__draw { position: absolute; inset: 0; background: var(--accent); transform-origin: center top; }
+.exp--drawn .exp__row {
+  position: relative; display: grid; grid-template-columns: minmax(9rem, .7fr) minmax(0, 1.7fr);
+  gap: clamp(1.5rem, 4vw, 5rem); align-items: start; padding: 2.75rem 0;
+  min-height: 300px; border: 0; perspective: 900px; transition: none;
+}
+.exp--drawn .exp__row:hover { padding-left: 0; }
+.exp--drawn .exp__marker { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); left: calc(0px - clamp(1.75rem, 4vw, 4rem)); top: 3.8rem; box-shadow: 0 0 0 5px var(--bg); }
+.exp--drawn .exp__marker::after { content: ""; position: absolute; inset: -7px; border: 1px solid var(--accent); border-radius: 50%; opacity: 0; transform: scale(.65); transition: transform .45s, opacity .45s; }
+.exp--drawn .is-current .exp__marker::after { opacity: .6; transform: scale(1); }
+.exp__date { display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; }
+.exp__year { font-family: var(--font-display); font-size: clamp(3.5rem, 7vw, 7rem); font-weight: 500; line-height: .95; letter-spacing: -.065em; color: transparent; -webkit-text-stroke: 1px var(--muted); background: linear-gradient(var(--accent), var(--accent)) left bottom / 100% var(--year-fill, 0%) no-repeat; background-clip: text; -webkit-background-clip: text; }
+.exp--drawn .exp__period { font-size: .75rem; white-space: nowrap; }
+.exp__panel { position: relative; padding: 0 0 2.5rem; min-width: 0; }
+.exp__chapter { display: block; color: var(--muted); font-size: .65rem; letter-spacing: .1em; margin-bottom: 1.25rem; }
+.exp--drawn .exp__role { font-size: clamp(1.8rem, 3.5vw, 3.5rem); line-height: 1.12; font-weight: 500; margin-bottom: 1.25rem; }
+.exp__word-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; }
+.exp__word-inner { display: inline-block; transform-origin: left bottom; }
+.exp--drawn .exp__org { gap: .65rem; font-size: 1rem; }
+.exp--drawn .exp__summary { max-width: 42ch; font-size: .9rem; line-height: 1.65; }
+.exp__rule { position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: var(--line-strong); }
+.exp__rule::after { content: ""; position: absolute; inset: 0; background: var(--accent); transform: scaleX(var(--rule-fill, 0)); transform-origin: left; }
+@media (max-width: 700px) {
+  .exp--drawn .exp__row { grid-template-columns: 1fr; gap: 1.75rem; padding: 2.25rem 0; min-height: 0; }
+  .exp__date { flex-direction: row; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+  .exp__year { font-size: 3.5rem; }
+  .exp--drawn .exp__marker { top: 3.2rem; }
+  .exp__chapter { margin-bottom: .85rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp__year { color: var(--fg); -webkit-text-stroke: 0; }
+  .exp__rule { --rule-fill: 1; }
+}

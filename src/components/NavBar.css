@@ -1,0 +1,88 @@
+﻿/* Keep the orientation cue present while visitors scroll. */
+.nav.nav--tracked {
+  mix-blend-mode: normal;
+  color: var(--fg);
+  background: rgba(11, 11, 10, 0.92);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+}
+
+.nav--tracked .nav__links {
+  position: relative;
+}
+
+.nav--tracked .nav__link {
+  min-height: 30px;
+  align-items: center;
+}
+
+.nav--tracked .nav__link-label,
+.nav--tracked .nav__link:hover .nav__link-label {
+  transform: none;
+}
+
+.nav--tracked .nav__link-label::after {
+  content: none;
+}
+
+.nav--tracked .nav__link[aria-current="location"] {
+  color: var(--accent);
+}
+
+.nav__indicator {
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 0;
+  background: var(--accent);
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: left center;
+}
+
+.menu--tracked .menu__link[aria-current="location"],
+.menu--tracked .menu__link[aria-current="location"] .mono {
+  color: var(--accent);
+}
+
+.nav--tracked .nav__toggle { display: inline-flex; align-items: center; gap: .65rem; padding: .6rem 0 .6rem 1rem; border-left: 1px solid var(--line); }
+.nav--tracked .nav__toggle::after { content: "+"; font-size: 1.2rem; color: var(--accent); }
+.menu.menu--editorial {
+  z-index: 8100; height: 100dvh; padding: 1.5rem var(--gutter); gap: 2rem;
+  background: #10110e; visibility: hidden; opacity: 0; transition: none;
+  overflow-y: auto; overscroll-behavior: contain; pointer-events: none;
+}
+.menu.menu--editorial.menu--open { pointer-events: auto; }
+.menu__top, .menu__bottom { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-shrink: 0; }
+.menu__top { color: var(--muted); font-size: .75rem; }
+.menu__close { display: flex; align-items: center; gap: .8rem; padding: .4rem 0 .4rem 1rem; color: var(--fg); }
+.menu__close span { font-size: 1.5rem; color: var(--accent); }
+.menu__layout { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(12rem, .7fr); gap: clamp(2rem, 7vw, 8rem); align-items: center; margin-block: auto; }
+.menu--editorial .menu__link { position: relative; align-items: center; padding: .6rem 0; gap: 1.3rem; opacity: 1; transform: none; transition: color .25s; font-size: clamp(2.25rem, 7.2vw, 7rem); font-weight: 500; }
+.menu--editorial .menu__index { font-size: .75rem; min-width: 1.5rem; }
+.menu__mask { overflow: hidden; display: block; padding-bottom: .08em; margin-bottom: -.08em; }
+.menu__word { display: block; transform-origin: left bottom; }
+.menu__arrow { margin-left: auto; color: var(--accent); font-size: .38em; opacity: 0; transform: translate(-.5rem, .5rem); transition: transform .3s, opacity .3s; }
+.menu--editorial .menu__link:hover, .menu--editorial .menu__link:focus-visible { color: var(--accent); }
+.menu__link:hover .menu__arrow, .menu__link:focus-visible .menu__arrow { opacity: 1; transform: translate(0,0); }
+.menu--editorial button:focus-visible, .menu--editorial a:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
+.menu__aside { align-self: stretch; display: flex; align-items: center; border-left: 1px solid var(--line); padding-left: clamp(1.5rem, 3vw, 3rem); }
+.menu__preview { animation: menu-preview-in .4s var(--ease-out) both; }
+.menu__preview-number { display: block; font-family: var(--font-display); font-size: clamp(6rem, 13vw, 13rem); line-height: 1; letter-spacing: -.08em; color: transparent; -webkit-text-stroke: 1px #60684a; }
+.menu__caption { color: var(--accent); font-size: .65rem; margin: 1.75rem 0 .75rem; }
+.menu__description { max-width: 22ch; color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.25rem); }
+.menu__bottom { padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .65rem; flex-wrap: wrap; }
+.menu--editorial .menu__mail { font-size: .75rem; overflow-wrap: anywhere; }
+@keyframes menu-preview-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 760px) {
+  .menu__layout { grid-template-columns: minmax(0, 1fr); }
+  .menu__aside { display: none; }
+  .menu--editorial .menu__link { font-size: clamp(2.25rem, 9vw, 4.5rem); padding-block: 1rem; gap: .75rem; }
+  .menu__arrow { opacity: .65; transform: none; }
+  .menu__top > span { max-width: 20ch; }
+}
+@media (max-height: 600px) and (min-width: 761px) {
+  .menu--editorial .menu__link { font-size: clamp(2.25rem, 9vh, 4rem); }
+  .menu__preview-number { font-size: 7rem; }
+}

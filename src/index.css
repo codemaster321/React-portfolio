@@ -58,7 +58,9 @@ body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  /* Unlike hidden, clip does not create a second scroll container that
+     prevents the project cards from sticking to the viewport. */
+  overflow-x: clip;
 }
 
 /* Film grain over everything — a few percent of noise takes the digital
@@ -265,6 +267,17 @@ em,
 /* =========================================================
    Nav
    ========================================================= */
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 3px;
+  z-index: 9500;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
 .nav {
   position: fixed;
   inset: 0 0 auto;
@@ -663,6 +676,142 @@ em,
   display: none;
 }
 
+/* Keep cards in one block containing all rows. A separate grid track per
+   card leaves no space for its sticky position to travel. */
+.work--cards .work__list {
+  display: block;
+}
+
+.work--cards .work__row {
+  border: 0;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.work--cards .work__row:last-child {
+  margin-bottom: 0;
+}
+
+.work--cards .work__link {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  grid-template-rows: auto 1fr auto;
+  gap: 1.5rem 2rem;
+  min-height: clamp(24rem, 58vh, 34rem);
+  padding: 2.5rem 0 2.5rem 2.5rem;
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transform-origin: center top;
+  box-shadow: 0 -1rem 3rem rgba(0, 0, 0, 0.2);
+}
+
+.work--cards .work__num {
+  grid-column: 1;
+  grid-row: 1;
+  padding: 0;
+  color: var(--accent);
+}
+
+.work--cards .work__main {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: center;
+}
+
+.work--cards .work__title {
+  font-size: clamp(2.25rem, 4.3vw, 5rem);
+}
+
+.work--cards .work__meta {
+  grid-column: 1;
+  grid-row: 3;
+  padding: 0;
+}
+
+.work--cards .work__thumb {
+  position: relative;
+  display: block;
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-self: stretch;
+  margin-block: -2.5rem;
+  min-width: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+}
+
+.work--cards .work__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
+}
+
+
+.work--cards .work__arrow {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--bg);
+  color: var(--accent);
+}
+
+.work--cards .work__link:hover .work__title {
+  color: var(--accent);
+}
+
+.work--stacked .work__row {
+  position: sticky;
+  top: calc(min(6rem, 12vh) + var(--card-index) * 12px);
+  z-index: var(--card-index);
+}
+
+.work--stacked .work__list {
+  /* Hold the completed stack briefly before the About section takes over. */
+  padding-bottom: min(25vh, 12rem);
+}
+
+/* Bring a keyboard-focused card in front of the stack. */
+.work--stacked .work__row:focus-within {
+  z-index: 5;
+}
+
+.work--stacked .work__link:focus-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  outline-offset: -4px;
+}
+
+@media (max-width: 900px) {
+  .work--cards .work__link {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    min-height: 0;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  .work--cards .work__main { grid-row: 1; }
+  .work--cards .work__meta { grid-row: 2; }
+  .work--cards .work__thumb {
+    grid-column: 1;
+    grid-row: 3;
+    margin: 0;
+    aspect-ratio: 16 / 9;
+    border-radius: 0.5rem;
+  }
+
+  .work--cards .work__title { padding-right: 3rem; }
+}
+
 /* Cursor-following preview */
 .preview {
   position: fixed;
@@ -940,8 +1089,14 @@ em,
 /* =========================================================
    Footer
    ========================================================= */
-.footer {
+.footer-reveal {
   margin-top: var(--section-space);
+  overflow: clip;
+  background: var(--bg-raised);
+}
+
+.footer {
+  background: var(--bg-raised);
   padding: 2rem var(--gutter) 1.5rem;
   border-top: 1px solid var(--line);
   overflow: hidden;
