@@ -3,6 +3,6 @@
 .intro--handoff .intro__name { position: relative; z-index: 1; color: var(--fg); white-space: nowrap; }
 .intro--handoff .intro__char { transform: translateY(115%); }
 .intro--handoff .intro__meta { z-index: 1; }
-@media (max-width: 900px), (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce) {
   .intro.intro--handoff { display: none; }
 }

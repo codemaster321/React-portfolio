@@ -18,7 +18,7 @@ export default function LoadingScreen() {
   useLayoutEffect(() => {
     let seen = false;
     try { seen = sessionStorage.getItem(VISIT_KEY) === "1"; } catch { /* Storage is optional. */ }
-    if (prefersReducedMotion() || seen || window.matchMedia("(max-width: 900px)").matches) {
+    if (prefersReducedMotion() || seen) {
       markComplete(); setDismissed(true);
       return;
     }

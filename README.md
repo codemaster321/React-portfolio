@@ -13,8 +13,8 @@ design-token system. Smooth scrolling via Lenis, animation via GSAP.
 
 ### Interaction details
 
-- **Intro:** a brief desktop name-to-navigation handoff (~0.9s), once per
-  session. Mobile and reduced motion show the page immediately.
+- **Intro:** a brief name-to-navigation handoff (~0.9s), once per session on
+  desktop and mobile. Reduced motion shows the page immediately.
 - **Hover letters:** headings split into letters that jitter and flash the
   accent colour under the cursor, rippling into their neighbours (`HoverText`).
 - **Hero workflow:** an interactive Request / Retrieve / Reason / Respond
@@ -51,7 +51,7 @@ design-token system. Smooth scrolling via Lenis, animation via GSAP.
 ### Performance
 
 - Local WOFF2 fonts with swap rendering; heading and body fonts are preloaded.
-- Hero text is visible at first paint; mobile skips the intro curtain.
+- Hero text is ready at first paint beneath the brief intro curtain.
 - Reveal effects use one-shot visibility observers. Timeline and skills-map
   animation setup waits until the section approaches the viewport.
 - Marquee animation pauses offscreen and in hidden tabs, respects reduced
