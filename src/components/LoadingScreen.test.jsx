@@ -22,12 +22,12 @@ describe("Intro visibility", () => {
     const { container } = render(<><LoadingScreen /><span data-intro-brand>Shivendra Shukla</span></>);
     expect(container.querySelector(".intro__name")).toHaveTextContent("Shivendra Shukla");
     await waitFor(() => expect(container.querySelector(".intro")).toBeNull(), { timeout: 2500 });
-    expect(sessionStorage.getItem("portfolio-intro-seen")).toBe("1");
+    expect(sessionStorage.getItem("portfolio-intro-seen-v2")).toBe("1");
     expect(window.__loadingComplete).toBe(true);
   });
 
   it("skips a repeat visit within the same session", () => {
-    sessionStorage.setItem("portfolio-intro-seen", "1");
+    sessionStorage.setItem("portfolio-intro-seen-v2", "1");
     const { container } = render(<LoadingScreen />);
     expect(container.querySelector(".intro")).toBeNull();
     expect(window.__loadingComplete).toBe(true);

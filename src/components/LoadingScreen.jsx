@@ -4,7 +4,7 @@ import { prefersReducedMotion } from "../lib/motion";
 import "./LoadingScreen.css";
 
 const NAME = "Shivendra Shukla";
-const VISIT_KEY = "portfolio-intro-seen";
+const VISIT_KEY = "portfolio-intro-seen-v2";
 const markComplete = () => {
   window.__loadingComplete = true;
   window.dispatchEvent(new CustomEvent("loadingComplete"));
@@ -41,8 +41,8 @@ export default function LoadingScreen() {
           markComplete(); setDismissed(true);
         };
         const tl = gsap.timeline({ onComplete: finish });
-        tl.fromTo(".intro__char", { yPercent: 115 },
-          { yPercent: 0, duration: 0.3, stagger: 0.008, ease: "power3.out" })
+        tl.fromTo(".intro__char", { y: 0, yPercent: 115, autoAlpha: 1 },
+          { y: 0, yPercent: 0, duration: 0.3, stagger: 0.008, ease: "power3.out" })
           .to(".intro__meta", { opacity: 0, duration: 0.15 }, 0.3)
           .to(".intro__curtain", { yPercent: -100, duration: 0.55, ease: "power3.inOut", onStart: markComplete }, 0.35);
         if (target) {
