@@ -74,9 +74,11 @@ describe("Project case studies", () => {
     expect(screen.getByRole("button", { name: "Read Charvaka Recovery case study" })).not.toHaveFocus();
   });
 
-  it("brings an offscreen case-study heading into the viewport after opening", async () => {
+  it("keeps the project header in view instead of jumping down to its case-study heading", async () => {
     const user = userEvent.setup();
     render(<Portfolio />);
+    vi.spyOn(document.querySelector("#project-modelhub .work__card"), "getBoundingClientRect")
+      .mockReturnValue({ top: 160, bottom: 560, height: 400 });
     const heading = document.getElementById("case-title-modelhub");
     vi.spyOn(heading, "getBoundingClientRect").mockReturnValue({
       top: window.innerHeight + 100,
@@ -87,9 +89,6 @@ describe("Project case studies", () => {
     await user.click(screen.getByRole("button", { name: "Read ModelHub case study" }));
 
     expect(heading).toHaveFocus();
-    expect(window.scrollTo).toHaveBeenLastCalledWith({
-      top: window.scrollY + window.innerHeight + 100 - 112,
-      behavior: "instant",
-    });
+    expect(window.scrollTo).not.toHaveBeenCalled();
   });
 });

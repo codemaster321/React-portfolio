@@ -4,6 +4,7 @@ import { useReveal } from "../lib/motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Timeline.css";
+import useNearViewport from "../hooks/useNearViewport";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,9 +37,11 @@ const ENTRIES = [
 
 export default function Timeline() {
   const root = useRef(null);
+  const near = useNearViewport(root);
   useReveal(root, ".section__head");
 
   useLayoutEffect(() => {
+    if (!near) return;
     const section = root.current;
     const rows = Array.from(section.querySelectorAll(".exp__row"));
     const track = section.querySelector(".exp__track");
@@ -108,7 +111,7 @@ export default function Timeline() {
       ScrollTrigger.removeEventListener("refreshInit", measureTrack);
       media.revert();
     };
-  }, []);
+  }, [near]);
 
   return (
     <section className="section exp exp--drawn" id="experience" ref={root}>

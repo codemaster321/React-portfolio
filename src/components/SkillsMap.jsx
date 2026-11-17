@@ -4,6 +4,7 @@ import { Flip } from "gsap/Flip";
 import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./SkillsMap.css";
+import useNearViewport from "../hooks/useNearViewport";
 
 gsap.registerPlugin(Flip, DrawSVGPlugin, ScrollTrigger);
 
@@ -27,11 +28,13 @@ const GROUPS = [
 export default function SkillsMap({ onOpenProject }) {
   const [selected, setSelected] = useState(0);
   const root = useRef(null);
+  const near = useNearViewport(root);
   const previous = useRef(null);
   const motion = useRef(null);
   const group = GROUPS[selected];
 
   useLayoutEffect(() => {
+    if (!near) return;
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
       const tl = gsap.timeline();
@@ -46,7 +49,7 @@ export default function SkillsMap({ onOpenProject }) {
     previous.current = null;
     ScrollTrigger.refresh();
     return () => media.revert();
-  }, [selected]);
+  }, [selected, near]);
 
   const select = (index) => {
     if (index === selected) return;

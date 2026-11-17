@@ -1,0 +1,41 @@
+.proc-demo { margin-top: 2.5rem; padding: clamp(1.25rem, 3vw, 2.5rem); background: #10110e; border: 1px solid var(--line-strong); border-radius: .75rem; }
+.proc-demo__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.proc-demo__eyebrow { color: var(--accent); font-size: .65rem; margin-bottom: .65rem; }
+.proc-demo h4 { font: 500 clamp(1.5rem, 2.5vw, 2.3rem)/1.15 var(--font-display); letter-spacing: -.035em; }
+.proc-demo__badge { font-size: .6rem; border: 1px solid var(--line); padding: .4rem .65rem; border-radius: 2rem; color: var(--muted); }
+.proc-demo__disclaimer { color: var(--muted); font-size: .75rem; margin: 1rem 0 1.5rem; }
+.proc-demo__stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .5rem; }
+.proc-demo__stages button { text-align: left; font-size: .8rem; padding: .75rem .5rem; color: var(--muted); }
+.proc-demo__stages .mono { display: block; color: var(--accent); font-size: .6rem; margin-bottom: .35rem; }
+.proc-demo__stages button[aria-selected="true"] { color: var(--fg); background: #202619; border-radius: .35rem; }
+.proc-demo__progress { height: 1px; background: var(--line); margin-block: .6rem 1.5rem; }
+.proc-demo__progress-fill { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+.proc-demo__panel { min-height: 15rem; padding-block: .5rem; }
+.proc-demo__label { display: block; font-size: .65rem; color: var(--accent); margin-bottom: 1.25rem; }
+.proc-demo__statement { font: 400 clamp(1.1rem, 2vw, 1.65rem)/1.5 var(--font-display); max-width: 42ch; }
+.proc-demo__statement--small { font-size: 1.15rem; }
+.proc-demo__caption { color: var(--muted); font-size: .8rem; margin-top: 1rem; max-width: 60ch; }
+.proc-demo__rfp { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.proc-demo__rfp > div { padding-bottom: .7rem; border-bottom: 1px solid var(--line); }
+.proc-demo__rfp dt { color: var(--muted); font-size: .75rem; margin-bottom: .3rem; }
+.proc-demo__rfp dd { font-size: .95rem; }
+.proc-demo__vendors { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.proc-demo__vendor { border: 1px solid var(--line); border-radius: .4rem; padding: 1rem; }
+.proc-demo__vendor h5 { color: var(--muted); font-size: .8rem; font-weight: 400; margin-bottom: .5rem; }
+.proc-demo__vendor strong { font: 500 1.5rem var(--font-display); }
+.proc-demo__vendor p, .proc-demo__vendor > span { display: block; font-size: .75rem; margin-top: .5rem; color: var(--muted); }
+.proc-demo__choice { font: 500 clamp(2rem, 4vw, 3rem) var(--font-display); letter-spacing: -.04em; margin-bottom: .5rem; }
+.proc-demo__choice > span { color: var(--accent); }
+.proc-demo__controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.proc-demo__controls > span { color: var(--muted); font-size: .65rem; }
+.proc-demo__controls > div { display: flex; align-items: center; gap: 1rem; }
+.proc-demo__controls button { font-size: .8rem; padding: .6rem .7rem; }
+.proc-demo__controls button:disabled { opacity: .3; cursor: default; }
+.proc-demo__controls .proc-demo__next { background: var(--accent); color: var(--accent-ink); border-radius: 2rem; padding-inline: 1rem; }
+.proc-demo button:focus-visible, .proc-demo__panel:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 560px) {
+  .proc-demo__stages { grid-template-columns: 1fr 1fr; }
+  .proc-demo__vendors { grid-template-columns: 1fr; }
+  .proc-demo__panel { min-height: 22rem; }
+  .proc-demo__controls > div { gap: .25rem; }
+}

@@ -1,0 +1,10 @@
+.project-motion { display: block; width: 10rem; max-width: 100%; height: 3.25rem; margin-bottom: .65rem; color: var(--accent); pointer-events: none; }
+.project-motion svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.project-motion path, .project-motion rect, .project-motion circle { stroke: currentColor; stroke-width: 1.25; vector-effect: non-scaling-stroke; }
+.project-motion__node { fill: var(--accent); stroke: none !important; }
+.project-motion__core { fill: #263019; }
+.project-motion .project-motion__guide { stroke: var(--line-strong); stroke-width: .75; }
+.project-motion__paper { fill: var(--bg-raised); }
+.project-motion__arch { fill: #d4ff3a06; stroke-opacity: .65; }
+.work__row--open .project-motion { display: none; }
+@media (max-width: 560px) { .project-motion { width: 8rem; height: 2.6rem; margin-bottom: .35rem; } }

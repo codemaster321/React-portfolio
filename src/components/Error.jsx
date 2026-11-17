@@ -2,7 +2,7 @@ import { Link, useRouteError } from "react-router-dom";
 
 export function Error() {
   const error = useRouteError();
-  const status = error?.status ?? 404;
+  const status = error?.status ?? (error ? 500 : 404);
 
   return (
     <main className="error-page">

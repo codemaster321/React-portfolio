@@ -1,6 +1,27 @@
 /* =========================================================
    Tokens
    ========================================================= */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/fonts/bricolage-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist";
+  src: url("/fonts/geist-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/fonts/geist-mono-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 500;
+  font-display: swap;
+}
 :root {
   --bg: #0b0b0a;
   --bg-raised: #151513;
@@ -780,7 +801,7 @@ em,
 }
 
 /* Bring a keyboard-focused card in front of the stack. */
-.work--stacked .work__row:focus-within {
+.work--stacked .work__row:has(:focus-visible) {
   z-index: 5;
 }
 

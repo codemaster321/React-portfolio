@@ -65,12 +65,12 @@ export default function NavBar() {
 
   useEffect(() => {
     let frame = 0;
+    const sections = NAV_ITEMS.map(({ target }) => document.querySelector(target));
     const measure = () => {
       frame = 0;
       const readingLine = Math.min(window.innerHeight * 0.35, 240);
       let next = null;
-      NAV_ITEMS.forEach(({ target }, index) => {
-        const section = document.querySelector(target);
+      sections.forEach((section, index) => {
         if (section && section.getBoundingClientRect().top <= readingLine) next = index;
       });
       setActiveIndex((current) => current === next ? current : next);
@@ -201,7 +201,7 @@ export default function NavBar() {
     <>
       <header className="nav nav--tracked" inert={isOpen ? "" : undefined} aria-hidden={isOpen || undefined}>
         <button type="button" className="nav__brand" onClick={() => go("#top")}>
-          Shivendra Shukla<span className="nav__brand-mark">©</span>
+          <span data-intro-brand>Shivendra Shukla</span><span className="nav__brand-mark">©</span>
         </button>
         <nav className="nav__links" aria-label="Main navigation" ref={navRef} onMouseLeave={() => setHoverIndex(null)}>
           {NAV_ITEMS.map(({ label, target }, index) => (

@@ -13,7 +13,8 @@ design-token system. Smooth scrolling via Lenis, animation via GSAP.
 
 ### Interaction details
 
-- **Intro:** the name rises letter by letter, then the curtain lifts (~1.6s).
+- **Intro:** a brief desktop name-to-navigation handoff (~0.9s), once per
+  session. Mobile and reduced motion show the page immediately.
 - **Hover letters:** headings split into letters that jitter and flash the
   accent colour under the cursor, rippling into their neighbours (`HoverText`).
 - **Hero workflow:** an interactive Request / Retrieve / Reason / Respond
@@ -22,7 +23,14 @@ design-token system. Smooth scrolling via Lenis, animation via GSAP.
   keyboard exploration, pause/replay and reduced motion; the loop pauses
   during exploration, offscreen and when the browser tab is hidden.
 - **Work cards:** projects stack on scroll and expand into case studies with
-  GSAP Flip. Stacking pauses while a case study is open; Escape closes it.
+  GSAP Flip. The original title and screenshot move into a compact header.
+  Stacking pauses while a case study is open; Escape closes it. Procurement AI
+  includes an on-demand, four-step illustrative workflow with sample vendor
+  data, keyboard navigation and reduced-motion support. It sends no requests.
+- **Project signatures:** ModelHub connects agent nodes, SleepLog draws a
+  trend, Procurement AI aligns documents, and Charvaka builds a quiet arch
+  motif. Each plays once on hover or keyboard focus; touch plays once in view.
+  Reduced motion shows the completed artwork.
 - **About statement:** pins mid-screen and fills word by word as you scroll;
   the page moves on once it is full.
 - **Marquee:** a GSAP loop that eases to a stop on hover, speeds up while
@@ -39,6 +47,17 @@ design-token system. Smooth scrolling via Lenis, animation via GSAP.
   connect them to project case studies, which open directly from the map.
 - **Experience:** a scroll-drawn line connects the roles with sequenced text
   and milestone reveals. Reduced motion keeps the complete timeline visible.
+
+### Performance
+
+- Local WOFF2 fonts with swap rendering; heading and body fonts are preloaded.
+- Hero text is visible at first paint; mobile skips the intro curtain.
+- Reveal effects use one-shot visibility observers. Timeline and skills-map
+  animation setup waits until the section approaches the viewport.
+- Marquee animation pauses offscreen and in hidden tabs, respects reduced
+  motion, and reuses its scroll-speed tween.
+- Touch devices render simple heading text rather than individual hover letters.
+- EmailJS downloads only when the visitor submits the contact form.
 
 ## Getting started
 

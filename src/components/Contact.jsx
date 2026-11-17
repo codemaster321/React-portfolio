@@ -1,6 +1,5 @@
 import HoverText from "./HoverText";
-import { useRef, useState, useEffect } from "react";
-import emailjs from "@emailjs/browser";
+import { useRef, useState } from "react";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import Modal from "./Modal";
 
@@ -40,11 +39,6 @@ const Contact = function Contact() {
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
   const [formData, setFormData] = useState(EMPTY_FORM);
 
-  useEffect(() => {
-    const { isConfigured, publicKey } = getEmailConfig();
-    if (isConfigured) emailjs.init({ publicKey });
-  }, []);
-
   const handleChange = (field) => (e) =>
     setFormData((prev) => ({ ...prev, [field]: e.target.value }));
 
@@ -60,7 +54,7 @@ const Contact = function Contact() {
       return;
     }
 
-    const { isConfigured, serviceId, templateId } = getEmailConfig();
+    const { isConfigured, serviceId, templateId, publicKey } = getEmailConfig();
 
     if (!isConfigured) {
       console.error(
@@ -73,6 +67,8 @@ const Contact = function Contact() {
     setStatus("sending");
 
     try {
+      const { default: emailjs } = await import("@emailjs/browser");
+      emailjs.init({ publicKey });
       await emailjs.sendForm(serviceId, templateId, refForm.current);
       // Only clear and celebrate once the send actually resolved.
       setFormData(EMPTY_FORM);

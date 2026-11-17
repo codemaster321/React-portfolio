@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { hasFinePointer } from "../lib/motion";
 
@@ -17,13 +17,21 @@ const rand = (n) => gsap.utils.random(-n, n);
  */
 export default function HoverText({ text, className = "" }) {
   const root = useRef(null);
+  const [finePointer, setFinePointer] = useState(hasFinePointer);
+
+  useEffect(() => {
+    const media = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const update = () => setFinePointer(media.matches);
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const el = root.current;
     // Kept under reduced motion: it is small, brief and only runs when the
     // visitor points at a letter, which is not the large movement that
     // setting exists to stop.
-    if (!el || !hasFinePointer()) return;
+    if (!el || !finePointer) return;
 
     const chars = Array.from(el.querySelectorAll(".ht__char"));
     const timers = new Map();
@@ -72,7 +80,11 @@ export default function HoverText({ text, className = "" }) {
       timers.forEach(clearTimeout);
       gsap.killTweensOf(chars);
     };
-  }, [text]);
+  }, [text, finePointer]);
+
+  // Touch devices have no letter-hover interaction. Render one text node
+  // instead of building a span and tween target for every character.
+  if (!finePointer) return <span className={`ht ${className}`}>{text}</span>;
 
   return (
     <span ref={root} className={`ht ${className}`}>

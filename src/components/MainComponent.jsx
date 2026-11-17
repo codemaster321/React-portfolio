@@ -29,24 +29,24 @@ export default function MainComponent() {
   const introDone = useIntroComplete();
   const scrollToSection = useSectionScroll(0);
 
-  // Hide the animated parts before first paint so there's no flash of the
-  // final state while the intro curtain is still up.
+  // Keep the heading readable at first paint. Desktop gets a small lift;
+  // mobile avoids holding useful content behind an entrance animation.
   useLayoutEffect(() => {
-    if (prefersReducedMotion()) return;
+    if (prefersReducedMotion() || window.matchMedia("(max-width: 900px)").matches) return;
     const ctx = gsap.context(() => {
-      gsap.set(".hero__line-inner", { yPercent: 110 });
-      gsap.set("[data-hero-fade]", { opacity: 0, y: 24 });
+      gsap.set(".hero__line-inner", { y: 12 });
+      gsap.set("[data-hero-fade]", { y: 8 });
     }, root);
     return () => ctx.revert();
   }, []);
 
   useLayoutEffect(() => {
-    if (!introDone || prefersReducedMotion()) return;
+    if (!introDone || prefersReducedMotion() || window.matchMedia("(max-width: 900px)").matches) return;
     const ctx = gsap.context(() => {
       gsap
         .timeline({ defaults: { ease: EASE } })
-        .to(".hero__line-inner", { yPercent: 0, duration: 1.4, stagger: 0.1 })
-        .to("[data-hero-fade]", { opacity: 1, y: 0, duration: 1.2, stagger: 0.08 }, "-=1.0");
+        .to(".hero__line-inner", { y: 0, duration: 0.55, stagger: 0.05 })
+        .to("[data-hero-fade]", { y: 0, duration: 0.45, stagger: 0.04 }, 0.15);
     }, root);
     // Not reverted on cleanup: reverting would snap the hero back to hidden.
     return () => ctx.kill();

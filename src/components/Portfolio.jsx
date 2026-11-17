@@ -80,8 +80,10 @@ export default function Portfolio({ projectRequest }) {
   const flipState = useRef(null);
   const animation = useRef(null);
   const anchor = useRef(null);
+  const navigateToStudy = useRef(false);
   const handledRequest = useRef(null);
   const [openId, setOpenId] = useState(null);
+  const [stackEnabled, setStackEnabled] = useState(() => !prefersReducedMotion());
   const lenis = useLenis();
   useReveal(root, ".section__head");
 
@@ -111,12 +113,16 @@ export default function Portfolio({ projectRequest }) {
   }, [lenis]);
 
   useLayoutEffect(() => {
-    const section = root.current;
     const cards = Array.from(listRef.current.children);
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const enable = !reducedMotion.matches;
-    section.classList.toggle("work--stacked", enable);
-    if (enable) {
+    const build = () => {
+      stackAnimations.current.forEach((tween) => {
+        tween.scrollTrigger?.kill();
+        tween.revert();
+      });
+      stackAnimations.current = [];
+      setStackEnabled(!reducedMotion.matches);
+      if (reducedMotion.matches) return;
       stackAnimations.current = cards.slice(0, -1).map((card, index) => {
         const incoming = cards[index + 1];
         const tween = gsap.to(card.querySelector(".work__card"), {
@@ -130,15 +136,18 @@ export default function Portfolio({ projectRequest }) {
         });
         return tween;
       });
-    }
-    const refresh = () => ScrollTrigger.refresh();
-    reducedMotion.addEventListener("change", refresh);
+    };
+    build();
+    reducedMotion.addEventListener("change", build);
     ScrollTrigger.refresh();
     return () => {
-      reducedMotion.removeEventListener("change", refresh);
-      stackAnimations.current.forEach((tween) => tween.scrollTrigger?.kill());
+      reducedMotion.removeEventListener("change", build);
+      stackAnimations.current.forEach((tween) => {
+        tween.scrollTrigger?.kill();
+        tween.revert();
+      });
       stackAnimations.current = [];
-      section.classList.remove("work--stacked");
+      animation.current?.kill();
     };
   }, []);
 
@@ -149,7 +158,7 @@ export default function Portfolio({ projectRequest }) {
     });
   }, []);
 
-  const toggleProject = useCallback((id) => {
+  const toggleProject = useCallback((id, navigate = false) => {
     // Finish any interrupted transition before measuring the next state.
     animation.current?.progress(1);
     animation.current?.kill();
@@ -157,10 +166,17 @@ export default function Portfolio({ projectRequest }) {
     const card = row.querySelector(".work__card");
     const top = Math.max(96, card.getBoundingClientRect().top);
     setStackPaused(true);
+    // Remove sticky positioning BEFORE capturing Flip's starting state.
+    // Otherwise a stacked card animates down to its normal document position
+    // and only then jumps back up when the case-study heading gets focused.
+    root.current.classList.add("work--expanded");
     lenis?.resize();
     keepCardInPlace(card, top);
     anchor.current = card;
-    flipState.current = prefersReducedMotion() ? null : Flip.getState(card);
+    navigateToStudy.current = navigate;
+    flipState.current = prefersReducedMotion() ? null : Flip.getState([
+      card, card.querySelector(".work__title"), card.querySelector(".work__thumb"),
+    ]);
     setOpenId((current) => current === id ? null : id);
   }, [keepCardInPlace, lenis, setStackPaused]);
 
@@ -168,7 +184,7 @@ export default function Portfolio({ projectRequest }) {
     if (!projectRequest || handledRequest.current === projectRequest) return;
     handledRequest.current = projectRequest;
     if (!PROJECTS.some(({ id }) => id === projectRequest.id)) return;
-    if (openId !== projectRequest.id) toggleProject(projectRequest.id);
+    if (openId !== projectRequest.id) toggleProject(projectRequest.id, true);
     else {
       const heading = document.getElementById(`case-title-${openId}`);
       heading?.focus({ preventScroll: true });
@@ -194,7 +210,7 @@ export default function Portfolio({ projectRequest }) {
         ? card.querySelector(`#case-title-${openId}`)
         : card.querySelector(".work__link");
       focusTarget?.focus({ preventScroll: true });
-      if (focusTarget) {
+      if (navigateToStudy.current && focusTarget) {
         const { top } = focusTarget.getBoundingClientRect();
         const previewSpace = Math.min(240, window.innerHeight * 0.4);
         if (top < 96 || top > window.innerHeight - previewSpace) {
@@ -203,6 +219,7 @@ export default function Portfolio({ projectRequest }) {
           keepCardInPlace(focusTarget, 112);
         }
       }
+      navigateToStudy.current = false;
     };
     const state = flipState.current;
     flipState.current = null;
@@ -211,6 +228,7 @@ export default function Portfolio({ projectRequest }) {
         duration: 0.55,
         ease: "power3.inOut",
         scale: false,
+        nested: true,
         onComplete: finish,
       });
     } else finish();
@@ -218,7 +236,7 @@ export default function Portfolio({ projectRequest }) {
   }, [openId, setStackPaused, keepCardInPlace, lenis, refreshLayout, refreshAfterLayout]);
 
   return (
-    <section className={`section work work--cards${openId ? " work--expanded" : ""}`} id="work" ref={root}>
+    <section className={`section work work--cards${stackEnabled ? " work--stacked" : ""}${openId ? " work--expanded" : ""}`} id="work" ref={root}>
       <header className="section__head" data-reveal>
         <span className="section__index mono">(01)</span>
         <h2 className="section__title">

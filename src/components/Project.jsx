@@ -1,4 +1,8 @@
 import HoverText from "./HoverText";
+import { lazy, Suspense } from "react";
+import ProjectMotion from "./ProjectMotion";
+
+const ProcurementDemo = lazy(() => import("./ProcurementDemo"));
 
 export default function Project({
   id,
@@ -42,6 +46,7 @@ export default function Project({
           </span>
 
           <span className="work__meta">
+            <ProjectMotion id={id} />
             <span className="work__category mono">{category}</span>
             <span className="work__stack mono">{stack.join(" · ")}</span>
             <span className="work__case-label mono">{isOpen ? "Close case study" : "Explore the build"}</span>
@@ -73,8 +78,8 @@ export default function Project({
           <div className="project-details__head">
             <div>
               <p className="mono project-details__eyebrow">Behind the build</p>
-              <h3 id={`case-title-${id}`} tabIndex={-1}>
-                {title} / Case study
+              <h3 id={`case-title-${id}`} tabIndex={-1} aria-label={`${title} / Case study`}>
+                Case study
               </h3>
             </div>
             <p className="project-details__role"><span className="mono">My role</span>End-to-end design &amp; development</p>
@@ -84,6 +89,9 @@ export default function Project({
             <div><dt>The approach</dt><dd>{details.approach}</dd></div>
             <div><dt>What shipped</dt><dd>{details.delivered}</dd></div>
           </dl>
+          {id === "procurement" && isOpen && <Suspense fallback={<div className="project-demo-loading">Loading workflow preview…</div>}>
+            <ProcurementDemo />
+          </Suspense>}
           <div className="project-details__foot">
             <a className="btn btn--solid" href={link} target="_blank" rel="noreferrer">
               {link.startsWith("https://github.com/") ? "View repository" : "Visit live site"}

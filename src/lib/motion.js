@@ -45,22 +45,25 @@ export function useIntroComplete() {
  */
 export function useReveal(scopeRef, selector = "[data-reveal]") {
   useLayoutEffect(() => {
-    if (prefersReducedMotion() || !scopeRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.utils.toArray(selector).forEach((el) => {
+    if (prefersReducedMotion() || !scopeRef.current || typeof IntersectionObserver === "undefined") return;
+    const ctx = gsap.context(() => {}, scopeRef);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(({ target: el, isIntersecting }) => {
+        if (!isIntersecting) return;
+        observer.unobserve(el);
+        ctx.add(() => {
         gsap.from(el, {
-          y: 48,
+          y: 24,
           opacity: 0,
-          duration: 1.2,
+          duration: 0.7,
           ease: EASE,
           immediateRender: false,
-          scrollTrigger: { trigger: el, start: "top 92%", once: true },
+        });
         });
       });
-    }, scopeRef);
-
-    return () => ctx.revert();
+    }, { rootMargin: "0px 0px -8% 0px" });
+    scopeRef.current.querySelectorAll(selector).forEach((el) => observer.observe(el));
+    return () => { observer.disconnect(); ctx.revert(); };
   }, [scopeRef, selector]);
 }
 
