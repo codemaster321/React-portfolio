@@ -1,17 +1,13 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import useSectionScroll from "../hooks/useSectionScroll";
 import HoverText from "./HoverText";
 import SystemDiagram from "./SystemDiagram";
 import { EASE, prefersReducedMotion, useIntroComplete, useMagnetic } from "../lib/motion";
 
-// Each entry is one masked line of the headline. Splitting by line (rather
-// than letting the browser wrap) is what lets each line rise out of its mask.
 const HEADLINE = [
-  [{ text: "I build" }],
-  [{ text: "AI agents", accent: true }],
-  [{ text: "& products" }],
-  [{ text: "that actually ship." }],
+  { text: "AI agents", accent: true },
+  { text: "built to ship." },
 ];
 
 function MagneticButton({ children, className, onClick }) {
@@ -27,7 +23,32 @@ function MagneticButton({ children, className, onClick }) {
 export default function MainComponent() {
   const root = useRef(null);
   const introDone = useIntroComplete();
-  const scrollToSection = useSectionScroll(0);
+  const scrollToSection = useSectionScroll();
+
+  useEffect(() => {
+    const hero = root.current;
+    const media = gsap.matchMedia();
+
+    media.add("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
+      const moveSpotlight = (event) => {
+        if (event.pointerType === "touch") return;
+        const bounds = hero.getBoundingClientRect();
+        hero.style.setProperty("--hero-spot-x", `${event.clientX - bounds.left}px`);
+        hero.style.setProperty("--hero-spot-y", `${event.clientY - bounds.top}px`);
+      };
+      hero.addEventListener("pointerenter", moveSpotlight);
+      hero.addEventListener("pointermove", moveSpotlight);
+
+      return () => {
+        hero.removeEventListener("pointerenter", moveSpotlight);
+        hero.removeEventListener("pointermove", moveSpotlight);
+        hero.style.removeProperty("--hero-spot-x");
+        hero.style.removeProperty("--hero-spot-y");
+      };
+    });
+
+    return () => media.revert();
+  }, []);
 
   // Keep the heading readable at first paint. Desktop gets a small lift;
   // mobile avoids holding useful content behind an entrance animation.
@@ -53,39 +74,23 @@ export default function MainComponent() {
   }, [introDone]);
 
   return (
-    <section className="hero hero--system" id="top" ref={root}>
-      <div className="hero__meta mono" data-hero-fade>
-        <span>Python Full-Stack Developer</span>
-        <span>AI &amp; Agents</span>
-        <span className="status">
-          <i className="status__dot" aria-hidden="true" />
-          Open to opportunities
-        </span>
-      </div>
-
+    <section className="hero" id="top" ref={root}>
       <div className="hero__composition">
         <div className="hero__copy">
-          <h1 className="hero__title" aria-label="I build AI agents and products that actually ship.">
-            {HEADLINE.map((line, i) => (
-              <span className="hero__line" key={i} aria-hidden="true">
+          <p className="hero__role mono" data-hero-fade>Python full-stack developer</p>
+          <h1 className="hero__title" aria-label="AI agents built to ship.">
+            {HEADLINE.map(({ text, accent }) => (
+              <span className="hero__line" key={text} aria-hidden="true">
                 <span className="hero__line-inner">
-                  {line.map(({ text, accent }) =>
-                    accent ? (
-                      <em key={text}><HoverText text={text} /></em>
-                    ) : (
-                      <HoverText key={text} text={text} />
-                    )
-                  )}
+                  {accent ? <em><HoverText text={text} /></em> : <HoverText text={text} />}
                 </span>
               </span>
             ))}
           </h1>
 
           <p className="hero__intro" data-hero-fade>
-            I&apos;m Shivendra Shukla, a Python full-stack developer and senior
-            software engineer at Quess Corp. I build FastAPI backends, multi-agent
-            systems and the React front ends around them, from first sketch to
-            production.
+            I&apos;m Shivendra Shukla, a senior software engineer at Quess Corp.
+            I build multi-agent systems, FastAPI backends and the React products people use to work with them.
           </p>
 
           <div className="hero__actions" data-hero-fade>
@@ -100,10 +105,11 @@ export default function MainComponent() {
         <SystemDiagram ready={introDone} />
       </div>
       <div className="hero__baseline mono" data-hero-fade>
-        <span>Python / FastAPI / React</span>
-        <span className="hero__scroll" aria-hidden="true">
-          Scroll to explore <span className="hero__scroll-line" />
+        <span className="status">
+          <i className="status__dot" aria-hidden="true" />
+          Open to opportunities
         </span>
+        <span>Python / FastAPI / React</span>
       </div>
     </section>
   );

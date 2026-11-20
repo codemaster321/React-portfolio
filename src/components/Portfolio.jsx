@@ -75,33 +75,18 @@ const PROJECTS = [
 
 export default function Portfolio({ projectRequest }) {
   const root = useRef(null);
-  const listRef = useRef(null);
-  const stackAnimations = useRef([]);
   const flipState = useRef(null);
   const animation = useRef(null);
   const anchor = useRef(null);
   const navigateToStudy = useRef(false);
   const handledRequest = useRef(null);
   const [openId, setOpenId] = useState(null);
-  const [stackEnabled, setStackEnabled] = useState(() => !prefersReducedMotion());
   const lenis = useLenis();
   useReveal(root, ".section__head");
 
   const refreshLayout = useCallback(() => {
     lenis?.resize();
     ScrollTrigger.refresh();
-  }, [lenis]);
-
-  const refreshAfterLayout = useCallback(() => {
-    // React applies the expanded class and case-study height after this
-    // layout effect. Refreshing immediately measures the old stack geometry,
-    // which leaves the following cards with stale sticky trigger positions.
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        lenis?.resize();
-        ScrollTrigger.refresh();
-      });
-    });
   }, [lenis]);
 
   const keepCardInPlace = useCallback((card, top) => {
@@ -112,73 +97,20 @@ export default function Portfolio({ projectRequest }) {
     else window.scrollTo({ top: destination, behavior: "instant" });
   }, [lenis]);
 
-  useLayoutEffect(() => {
-    const cards = Array.from(listRef.current.children);
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const build = () => {
-      stackAnimations.current.forEach((tween) => {
-        tween.scrollTrigger?.kill();
-        tween.revert();
-      });
-      stackAnimations.current = [];
-      setStackEnabled(!reducedMotion.matches);
-      if (reducedMotion.matches) return;
-      stackAnimations.current = cards.slice(0, -1).map((card, index) => {
-        const incoming = cards[index + 1];
-        const tween = gsap.to(card.querySelector(".work__card"), {
-          scale: 0.94, opacity: 0.72, y: -8, ease: "none",
-          scrollTrigger: {
-            trigger: incoming,
-            start: () => `top ${Math.max(window.innerHeight * 0.78, 100 + (index + 1) * 12)}px`,
-            end: () => `top ${Math.min(96, window.innerHeight * 0.12) + (index + 1) * 12}px`,
-            scrub: true, invalidateOnRefresh: true, refreshPriority: 10 - index,
-          },
-        });
-        return tween;
-      });
-    };
-    build();
-    reducedMotion.addEventListener("change", build);
-    ScrollTrigger.refresh();
-    return () => {
-      reducedMotion.removeEventListener("change", build);
-      stackAnimations.current.forEach((tween) => {
-        tween.scrollTrigger?.kill();
-        tween.revert();
-      });
-      stackAnimations.current = [];
-      animation.current?.kill();
-    };
-  }, []);
-
-  const setStackPaused = useCallback((paused) => {
-    stackAnimations.current.forEach((tween) => {
-      if (paused) tween.scrollTrigger?.disable(false);
-      else tween.scrollTrigger?.enable(false);
-    });
-  }, []);
+  useLayoutEffect(() => () => animation.current?.kill(), []);
 
   const toggleProject = useCallback((id, navigate = false) => {
     // Finish any interrupted transition before measuring the next state.
     animation.current?.progress(1);
     animation.current?.kill();
-    const row = document.getElementById(`project-${id}`);
-    const card = row.querySelector(".work__card");
-    const top = Math.max(96, card.getBoundingClientRect().top);
-    setStackPaused(true);
-    // Remove sticky positioning BEFORE capturing Flip's starting state.
-    // Otherwise a stacked card animates down to its normal document position
-    // and only then jumps back up when the case-study heading gets focused.
-    root.current.classList.add("work--expanded");
-    lenis?.resize();
-    keepCardInPlace(card, top);
-    anchor.current = card;
+    const card = root.current.querySelector("#project-" + id + " .work__card");
+    anchor.current = { card, top: Math.max(96, card.getBoundingClientRect().top) };
     navigateToStudy.current = navigate;
     flipState.current = prefersReducedMotion() ? null : Flip.getState([
       card, card.querySelector(".work__title"), card.querySelector(".work__thumb"),
     ]);
     setOpenId((current) => current === id ? null : id);
-  }, [keepCardInPlace, lenis, setStackPaused]);
+  }, []);
 
   useLayoutEffect(() => {
     if (!projectRequest || handledRequest.current === projectRequest) return;
@@ -193,17 +125,13 @@ export default function Portfolio({ projectRequest }) {
   }, [projectRequest, openId, toggleProject, keepCardInPlace]);
 
   useLayoutEffect(() => {
-    const card = anchor.current;
-    if (!card) return;
+    if (!anchor.current) return;
+    const { card, top } = anchor.current;
+    anchor.current = null;
+    refreshLayout();
+    keepCardInPlace(card, top);
     const finish = () => {
-      if (!openId) {
-        const top = card.getBoundingClientRect().top;
-        setStackPaused(false);
-        lenis?.resize();
-        keepCardInPlace(card, top);
-      }
       refreshLayout();
-      refreshAfterLayout();
       // Focus belongs to the active transition, not individual cards: a card
       // closing later in DOM order must not steal focus from the newly open one.
       const focusTarget = openId
@@ -232,26 +160,23 @@ export default function Portfolio({ projectRequest }) {
         onComplete: finish,
       });
     } else finish();
-    refreshLayout();
-  }, [openId, setStackPaused, keepCardInPlace, lenis, refreshLayout, refreshAfterLayout]);
+  }, [openId, keepCardInPlace, refreshLayout]);
 
   return (
-    <section className={`section work work--cards${stackEnabled ? " work--stacked" : ""}${openId ? " work--expanded" : ""}`} id="work" ref={root}>
+    <section className="section work" id="work" ref={root}>
       <header className="section__head" data-reveal>
-        <span className="section__index mono">(01)</span>
         <h2 className="section__title">
-          <HoverText text="Selected work" /><sup className="mono">{String(PROJECTS.length).padStart(2, "0")}</sup>
+          <HoverText text="Selected work" />
         </h2>
         <p className="section__aside">
           Products I&apos;ve designed, built and shipped end to end.
         </p>
       </header>
 
-      <ol className="work__list" ref={listRef}>
-        {PROJECTS.map((project, i) => (
+      <ol className="work__list">
+        {PROJECTS.map((project) => (
           <Project
             key={project.id}
-            index={i}
             {...project}
             isOpen={openId === project.id}
             onToggle={() => toggleProject(project.id)}

@@ -1,6 +1,6 @@
 import HoverText from "./HoverText";
 import { useRef, useState } from "react";
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import Modal from "./Modal";
 
 // Read at call time rather than module scope: module-level constants freeze the
@@ -21,14 +21,13 @@ const EMAIL = "shivendrashukla06@gmail.com";
 const EMPTY_FORM = { name: "", email: "", message: "" };
 
 const DIRECT_LINKS = [
-  { label: EMAIL, href: `mailto:${EMAIL}`, Icon: FaEnvelope },
   {
-    label: "github.com/codemaster321",
+    label: "GitHub",
     href: "https://github.com/codemaster321",
     Icon: FaGithub,
   },
   {
-    label: "linkedin.com/in/shivendra-shukla",
+    label: "LinkedIn",
     href: "https://www.linkedin.com/in/shivendra-shukla-a12306147/",
     Icon: FaLinkedin,
   },
@@ -93,21 +92,14 @@ const Contact = function Contact() {
         />
       )}
 
-      <header className="section__head">
-        <span className="section__index mono">(04)</span>
-        <span className="section__title section__title--small">Contact</span>
-      </header>
-
-      <h2 className="contact__title">
-        <HoverText text="Let's build something" />{" "}
-        <em><HoverText text="worth shipping." /></em>
-      </h2>
-
       <div className="contact__grid">
         <div className="contact__intro">
+          <p className="contact__label mono">Contact</p>
+          <h2 className="contact__title">
+            <HoverText text="Let's talk." />
+          </h2>
           <p className="contact__lead">
-            Got a project, a role, or an idea worth arguing about? Send it over.
-            I read everything and reply to most messages within a day or two.
+            Tell me about a project or a role you have in mind. I usually reply within a day or two.
           </p>
 
           <a className="contact__email" href={`mailto:${EMAIL}`}>
@@ -116,7 +108,7 @@ const Contact = function Contact() {
           </a>
 
           <ul className="contact__links">
-            {DIRECT_LINKS.slice(1).map(({ label, href, Icon }) => (
+            {DIRECT_LINKS.map(({ label, href, Icon }) => (
               <li key={href}>
                 <a href={href} target="_blank" rel="noreferrer">
                   <Icon aria-hidden="true" />

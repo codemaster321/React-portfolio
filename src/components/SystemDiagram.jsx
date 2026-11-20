@@ -6,6 +6,9 @@ import "./SystemDiagram.css";
 
 gsap.registerPlugin(DrawSVGPlugin);
 
+// The rail follows the centers of the 44px steps, spaced 12px apart.
+const STEP_CENTERS = [22, 78, 134, 190];
+
 const STAGES = [
   { name: "Request", tag: "Understand the task", Icon: FiArrowDownLeft,
     detail: "Start with a clear question, the user's intent, and the constraints the system needs to respect." },
@@ -49,9 +52,9 @@ export default function SystemDiagram({ ready }) {
       const flow = gsap.timeline({ repeat: -1, repeatDelay: 1.8, delay: 1.1 });
       playback.current = flow;
       flow.set(".system-flow__energy", { scaleX: 0 })
-        .set(signals, { attr: { cy: 28 }, opacity: 1 });
+        .set(signals, { attr: { cy: STEP_CENTERS[0] }, opacity: 1 });
       nodes.forEach((node, i) => {
-        if (i) flow.to(signals, { attr: { cy: 28 + i * 78 }, duration: 0.45, ease: "power2.inOut" });
+        if (i) flow.to(signals, { attr: { cy: STEP_CENTERS[i] }, duration: 0.45, ease: "power2.inOut" });
         flow.call(() => setRunningStage(i))
           .fromTo(node.querySelector(".system-flow__icon"), { scale: 1, y: 0 },
             { scale: 1.16, y: -2, duration: 0.3, repeat: 1, yoyo: true, ease: "power2.inOut" })
@@ -82,8 +85,6 @@ export default function SystemDiagram({ ready }) {
         const x = gsap.utils.clamp(0, 1, (event.clientX - rect.left) / rect.width);
         const y = gsap.utils.clamp(0, 1, (event.clientY - rect.top) / rect.height);
         tiltX((0.5 - y) * 4); tiltY((x - 0.5) * 4);
-        el.style.setProperty("--spot-x", `${x * 100}%`);
-        el.style.setProperty("--spot-y", `${y * 100}%`);
       };
       const reset = () => { tiltX(0); tiltY(0); };
       el.addEventListener("pointermove", move);
@@ -91,7 +92,6 @@ export default function SystemDiagram({ ready }) {
       return () => {
         el.removeEventListener("pointermove", move);
         el.removeEventListener("pointerleave", reset);
-        el.style.removeProperty("--spot-x"); el.style.removeProperty("--spot-y");
       };
     }, root);
     return () => media.revert();
@@ -101,8 +101,7 @@ export default function SystemDiagram({ ready }) {
     <aside className="system-flow" ref={root} aria-label="An agent workflow, explained">
       <div className="system-flow__header">
         <div>
-          <span className="system-flow__eyebrow mono">Anatomy of an agent</span>
-          <h2>From request<br />to response.</h2>
+          <h2>How an agent works</h2>
         </div>
         <div className="system-flow__controls">
           <button className="system-flow__replay" type="button" aria-label={paused ? "Resume workflow animation" : "Pause workflow animation"}
@@ -121,13 +120,13 @@ export default function SystemDiagram({ ready }) {
         onPointerLeave={() => { setPreview(null); blockPlayback("hover", false); }}
         onFocus={() => blockPlayback("focus", true)}
         onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) blockPlayback("focus", false); }}>
-        <svg className="system-flow__rail" viewBox="0 0 28 290" aria-hidden="true">
-          {[28, 106, 184].map((y) => (
-            <path key={y} className="system-flow__wire" d={`M14 ${y} V${y + 78}`} />
+        <svg className="system-flow__rail" viewBox="0 0 28 212" aria-hidden="true">
+          {STEP_CENTERS.slice(1).map((y, index) => (
+            <path key={y} className="system-flow__wire" d={`M14 ${STEP_CENTERS[index]} V${y}`} />
           ))}
-          {[28, 106, 184, 262].map((y) => <circle key={y} cx="14" cy={y} r="3" className="system-flow__point" />)}
-          <circle cx="14" cy="28" r="10" className="system-flow__halo" />
-          <circle cx="14" cy="28" r="4" className="system-flow__pulse" />
+          {STEP_CENTERS.map((y) => <circle key={y} cx="14" cy={y} r="3" className="system-flow__point" />)}
+          <circle cx="14" cy={STEP_CENTERS[0]} r="9" className="system-flow__halo" />
+          <circle cx="14" cy={STEP_CENTERS[0]} r="4" className="system-flow__pulse" />
         </svg>
         <ol className="system-flow__nodes">
           {STAGES.map(({ name, tag, Icon }, i) => (

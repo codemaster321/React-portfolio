@@ -201,7 +201,8 @@ export default function NavBar() {
     <>
       <header className="nav nav--tracked" inert={isOpen ? "" : undefined} aria-hidden={isOpen || undefined}>
         <button type="button" className="nav__brand" onClick={() => go("#top")}>
-          <span data-intro-brand>Shivendra Shukla</span><span className="nav__brand-mark">©</span>
+          <span className="nav__brand-mark mono" aria-hidden="true">SS</span>
+          <span data-intro-brand>Shivendra Shukla</span>
         </button>
         <nav className="nav__links" aria-label="Main navigation" ref={navRef} onMouseLeave={() => setHoverIndex(null)}>
           {NAV_ITEMS.map(({ label, target }, index) => (
@@ -217,7 +218,6 @@ export default function NavBar() {
               onBlur={() => setFocusIndex(null)}
             >
               <span className="nav__link-label">{label}</span>
-              <sup className="mono">0{index + 1}</sup>
             </button>
           ))}
           <span ref={indicatorRef} className="nav__indicator" aria-hidden="true" />

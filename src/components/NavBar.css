@@ -1,10 +1,35 @@
 ﻿/* Keep the orientation cue present while visitors scroll. */
 .nav.nav--tracked {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 1.25rem;
+  padding-block: 0.85rem;
   mix-blend-mode: normal;
   color: var(--fg);
-  background: rgba(11, 11, 10, 0.92);
+  background: rgba(11, 11, 10, 0.94);
   border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(12px);
+}
+
+.nav--tracked .nav__brand {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 0.7rem;
+  text-align: left;
+}
+
+.nav--tracked .nav__brand-mark {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border-radius: 0.3rem;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 500;
 }
 
 .nav--tracked .nav__links {
@@ -12,8 +37,13 @@
 }
 
 .nav--tracked .nav__link {
-  min-height: 30px;
+  min-height: 36px;
   align-items: center;
+  color: var(--muted);
+}
+
+.nav--tracked .nav__link:hover {
+  color: var(--fg);
 }
 
 .nav--tracked .nav__link-label,
@@ -46,7 +76,17 @@
   color: var(--accent);
 }
 
-.nav--tracked .nav__toggle { display: inline-flex; align-items: center; gap: .65rem; padding: .6rem 0 .6rem 1rem; border-left: 1px solid var(--line); }
+.nav--tracked .nav__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-self: end;
+  gap: 0.65rem;
+  min-height: 40px;
+  padding: 0.45rem 0.75rem 0.45rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+.nav--tracked .nav__toggle:hover { border-color: var(--accent); }
 .nav--tracked .nav__toggle::after { content: "+"; font-size: 1.2rem; color: var(--accent); }
 .menu.menu--editorial {
   z-index: 8100; height: 100dvh; padding: 1.5rem var(--gutter); gap: 2rem;
@@ -75,6 +115,9 @@
 .menu__bottom { padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .65rem; flex-wrap: wrap; }
 .menu--editorial .menu__mail { font-size: .75rem; overflow-wrap: anywhere; }
 @keyframes menu-preview-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 900px) {
+  .nav.nav--tracked { grid-template-columns: minmax(0, 1fr) auto; }
+}
 @media (max-width: 760px) {
   .menu__layout { grid-template-columns: minmax(0, 1fr); }
   .menu__aside { display: none; }

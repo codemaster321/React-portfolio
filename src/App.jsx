@@ -1,6 +1,5 @@
 import MainComponent from "./components/MainComponent";
 import SmoothScrolling from "./components/SmoothScrolling";
-import Marquee from "./components/Marquee";
 import Portfolio from "./components/Portfolio";
 import About from "./components/About";
 import Timeline from "./components/Timeline";
@@ -22,7 +21,6 @@ function App() {
         <NavBar />
         <main id="main">
           <MainComponent />
-          <Marquee />
           <Portfolio projectRequest={projectRequest} />
           <About onOpenProject={(id) => setProjectRequest({ id })} />
           <Timeline />

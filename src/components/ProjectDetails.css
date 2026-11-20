@@ -1,72 +1,183 @@
-/* Expand the existing project cards into readable, inline case studies. */
-.work--cards .work__card {
-  position: relative;
-  border: 1px solid var(--line-strong);
-  border-radius: 1.25rem;
-  overflow: hidden;
-  background: var(--bg-raised);
-  transform-origin: center top;
-  box-shadow: 0 -1rem 3rem rgba(0, 0, 0, 0.2);
+.section.work {
+  --work-gap: clamp(1.5rem, 3vw, 3.25rem);
+  padding-block: clamp(3.5rem, 7vw, 7rem);
+  background: var(--fg);
+  color: var(--paper-ink);
 }
-.work--cards .work__list { overflow-anchor: none; }
 
-.work--cards .work__card .work__link {
+.work .section__head {
+  border-color: var(--paper-line);
+  padding-bottom: clamp(1.2rem, 2.5vw, 2rem);
+}
+
+.work .section__aside {
+  color: var(--paper-muted);
+}
+
+.work .section__title {
+  --ht-hot: var(--paper-muted);
+}
+
+.work__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2.75rem, 5vw, 5rem) var(--work-gap);
+  overflow-anchor: none;
+}
+
+.work__row {
+  min-width: 0;
+  display: flex;
+}
+
+.work__row--open {
+  grid-column: 1 / -1;
+}
+
+.work__card {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.work__link {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-content: start;
   text-align: left;
+  border-bottom: 1px solid var(--paper-line);
+  transition: border-color 0.2s;
+}
+
+.work__link:is(:hover, :focus-visible) {
+  border-color: var(--paper-ink);
+}
+
+.work__link:focus-visible {
+  outline-color: var(--paper-ink);
+}
+
+.work__thumb {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  min-width: 0;
+  overflow: hidden;
+  padding: clamp(0.75rem, 2.8vw, 2.5rem);
+  background: var(--project-mat, #dcdad1);
+  border-radius: 0.5rem;
+}
+
+#project-modelhub { --project-mat: #d9d5e7; }
+#project-sleeplog { --project-mat: #d4e0dc; }
+#project-procurement { --project-mat: #d5dfeb; }
+#project-charvaka { --project-mat: #e6dbca; }
+
+.work__thumb img {
+  width: 100%;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1.75rem #0b0b0a26;
+  transition: scale 0.5s var(--ease-out);
+}
+
+.work__link:hover .work__thumb img {
+  scale: 1.035;
+}
+
+.work__main {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 0.55rem;
+  padding-block: 1.25rem 1rem;
+}
+
+.work__category,
+.work__stack,
+.work__summary {
+  color: var(--paper-muted);
+}
+
+.work__category {
+  letter-spacing: 0.07em;
+}
+
+.work__stack {
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  text-transform: none;
+}
+
+.work__title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 4.4rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  --ht-hot: var(--paper-muted);
+}
+
+.work__summary {
+  max-width: 56ch;
+}
+
+.work__action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.work__arrow {
+  display: grid;
+  place-items: center;
+  width: 2.45rem;
+  height: 2.45rem;
+  flex: 0 0 auto;
+  border: 1px solid var(--paper-line);
+  border-radius: 50%;
+  font-size: 1.17rem;
+  line-height: 1;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.work__link:is(:hover, :focus-visible) .work__arrow,
+.work__row--open .work__arrow {
+  background: var(--accent);
+  border-color: var(--paper-ink);
+}
+
+.work__row--open .work__link {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.75fr);
+  grid-template-rows: 1fr auto;
+  gap: 0.35rem 2rem;
+  height: auto;
+  padding-bottom: 1rem;
   border: 0;
-  border-radius: 0;
-  box-shadow: none;
-  background: transparent;
 }
 
-.work--cards .work__card .work__link:focus-visible {
-  outline-offset: -4px;
+.work__row--open .work__main { padding-top: 0; }
+.work__row--open .work__thumb {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  align-self: start;
+  padding: clamp(0.75rem, 2vw, 1.65rem);
+}
+.work__row--open .work__action { grid-column: 1; grid-row: 2; }
+
+@media (max-width: 720px) {
+  .work__list { grid-template-columns: minmax(0, 1fr); }
+  .work__row--open .work__link { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; }
+  .work__row--open .work__thumb { grid-column: 1; grid-row: auto; margin-bottom: 0.75rem; }
+  .work__row--open .work__action { grid-row: auto; }
 }
 
-.work__case-label {
-  display: inline-flex;
-  width: fit-content;
-  margin-top: 1rem;
-  padding-bottom: 0.3rem;
-  color: var(--accent);
-  border-bottom: 1px solid currentColor;
-}
-
-.work--cards .work__row--open .work__card {
-  border-color: var(--accent);
-}
-
-/* The same title and image move into a compact case-study header. Flip
-   measures these children separately so the text never stretches with the card. */
-.work--cards .work__row--open .work__link {
-  min-height: 0;
-  grid-template-columns: minmax(0, 1fr) minmax(10rem, .4fr);
-  grid-template-rows: auto auto;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  gap: 1rem 2rem;
-}
-.work--cards .work__row--open .work__num,
-.work--cards .work__row--open .work__summary { display: none; }
-.work--cards .work__row--open .work__main { grid-row: 1; }
-.work--cards .work__row--open .work__meta { grid-row: 2; }
-.work--cards .work__row--open .work__title { font-size: clamp(1.8rem, 3vw, 3rem); }
-.work--cards .work__row--open .work__thumb {
-  grid-row: 1 / 3; grid-column: 2; align-self: stretch;
-  margin: 0; max-height: 12rem; border-radius: .5rem;
-}
-.work--cards .work__row--open .work__case-label { margin-top: .4rem; }
 .project-demo-loading { min-height: 23rem; padding: 2rem; color: var(--muted); }
-
-.work--cards.work--expanded .work__row {
-  position: relative;
-  top: auto;
-  z-index: auto;
-}
-
-.work--stacked:not(.work--expanded) .work__row:has(:focus-visible) .work__card {
-  opacity: 1 !important;
-  transform: none !important;
-}
 
 .project-details[hidden] {
   display: none;
@@ -74,7 +185,10 @@
 
 .project-details {
   padding: clamp(1.5rem, 4vw, 3rem);
-  border-top: 1px solid var(--line-strong);
+  border-radius: 0.5rem;
+  background: var(--bg-raised);
+  color: var(--fg);
+  color-scheme: dark;
 }
 
 .project-details__head {
@@ -149,8 +263,6 @@
 }
 
 @media (max-width: 900px) {
-  .work--cards .work__row--open .work__link { grid-template-columns: minmax(0, 1fr); }
-  .work--cards .work__row--open .work__thumb { grid-column: 1; grid-row: 3; max-height: 10rem; }
   .project-details__head,
   .project-details__foot {
     flex-direction: column;

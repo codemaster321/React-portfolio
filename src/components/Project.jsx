@@ -1,12 +1,10 @@
 import HoverText from "./HoverText";
 import { lazy, Suspense } from "react";
-import ProjectMotion from "./ProjectMotion";
 
 const ProcurementDemo = lazy(() => import("./ProcurementDemo"));
 
 export default function Project({
   id,
-  index,
   title,
   summary,
   category,
@@ -21,7 +19,6 @@ export default function Project({
     <li
       id={`project-${id}`}
       className={`work__row${isOpen ? " work__row--open" : ""}`}
-      style={{ "--card-index": index }}
       onKeyDown={(event) => {
         if (isOpen && event.key === "Escape") {
           event.preventDefault();
@@ -38,33 +35,27 @@ export default function Project({
           aria-label={`${isOpen ? "Close" : "Read"} ${title} case study`}
           onClick={onToggle}
         >
-          <span className="work__num mono">{String(index + 1).padStart(2, "0")}</span>
-
-          <span className="work__main">
-            <span className="work__title"><HoverText text={title} /></span>
-            <span className="work__summary">{summary}</span>
-          </span>
-
-          <span className="work__meta">
-            <ProjectMotion id={id} />
-            <span className="work__category mono">{category}</span>
-            <span className="work__stack mono">{stack.join(" · ")}</span>
-            <span className="work__case-label mono">{isOpen ? "Close case study" : "Explore the build"}</span>
-          </span>
-
-          <span className="work__arrow" aria-hidden="true">{isOpen ? "−" : "+"}</span>
-
           <span className="work__thumb">
             <img
               src={image.replace(".webp", "-640.webp")}
               srcSet={`${image.replace(".webp", "-640.webp")} 640w, ${image} 1280w`}
-              sizes="(max-width: 900px) 92vw, 48vw"
+              sizes="(max-width: 720px) 90vw, (max-width: 1500px) 45vw, 650px"
               width="1280"
               height="720"
               alt={`${title} landing page`}
               loading="lazy"
               decoding="async"
             />
+          </span>
+          <span className="work__main">
+            <span className="work__category mono">{category}</span>
+            <span className="work__title"><HoverText text={title} /></span>
+            <span className="work__summary">{summary}</span>
+            <span className="work__stack mono">{stack.join(" · ")}</span>
+          </span>
+          <span className="work__action">
+            <span className="work__case-label">{isOpen ? "Close case study" : "Read case study"}</span>
+            <span className="work__arrow" aria-hidden="true">{isOpen ? "−" : "↗"}</span>
           </span>
         </button>
 
