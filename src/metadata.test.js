@@ -1,11 +1,12 @@
 import { readFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
+import process from "node:process";
 import { describe, expect, it } from "vitest";
 
 const readProjectFile = (path) => readFileSync(resolve(process.cwd(), path), "utf8");
 const config = JSON.parse(readProjectFile("vercel.json"));
-const fallback = config.rewrites.find(({ destination }) => destination === "/index.html");
-const matchesFallback = new RegExp(`^${fallback.source}$`);
+const missingFile = config.routes.find(({ status }) => status === 404);
+const matchesMissingFile = new RegExp(`^${missingFile.src}$`);
 
 describe("AI discovery metadata", () => {
   it("publishes real Markdown satisfying the llms.txt audit checks", () => {
@@ -23,9 +24,14 @@ describe("AI discovery metadata", () => {
       "/.well-known/ai-catalog.json", "/.well-known/ard.json",
       "/ai-catalog.json", "/ard.json",
       "/fonts/geist-latin.woff2", "/assets/app.js", "/projects/modelhub.webp",
-    ]) expect(path).not.toMatch(matchesFallback);
-    expect("/").toMatch(matchesFallback);
-    expect("/home").toMatch(matchesFallback);
+    ]) expect(path).toMatch(matchesMissingFile);
+    expect("/").not.toMatch(matchesMissingFile);
+    expect("/home").not.toMatch(matchesMissingFile);
+    const filesystemIndex = config.routes.findIndex(({ handle }) => handle === "filesystem");
+    const notFoundIndex = config.routes.indexOf(missingFile);
+    const fallbackIndex = config.routes.findIndex(({ dest }) => dest === "/index.html");
+    expect(filesystemIndex).toBeLessThan(notFoundIndex);
+    expect(notFoundIndex).toBeLessThan(fallbackIndex);
   });
 
   it("does not advertise nonexistent agent manifests", () => {
