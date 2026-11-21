@@ -1,0 +1,38 @@
+# Shivendra Shukla
+
+> Personal portfolio of a Python full-stack developer and senior software engineer building FastAPI backends, multi-agent systems, and React interfaces.
+
+This site presents Shivendra's selected projects, technical skills, professional experience, and contact information. The canonical website is https://shivendra.vercel.app/.
+
+## Portfolio
+
+- [Selected work](https://shivendra.vercel.app/#work): Project summaries and expandable case studies describing the problem, approach, and delivered features.
+- [About and skills](https://shivendra.vercel.app/#about): Python and backend development, AI and agents, frontend development, and deployment tooling.
+- [Experience](https://shivendra.vercel.app/#experience): Professional roles and education.
+- [Contact](https://shivendra.vercel.app/#contact): Contact form and professional profile links.
+
+## Projects
+
+- [ModelHub source code](https://github.com/codemaster321/ai_modelhub): A no-code multi-agent platform using FastAPI, CrewAI, and pgvector, with recruitment, Hindi-first government scheme discovery, and food-safety workflows.
+- [SleepLog source code](https://github.com/codemaster321/SleepTracker): A sleep and wellness platform with an AI sleep coach, journaling, streaks, trend charts, and subscription billing. Built with Next.js, Supabase, and LangChain.
+- [Procurement AI source code](https://github.com/codemaster321/AI-Vendor-Procurement-System): A Node.js, MongoDB, and GPT-4o workflow for turning requirements into RFPs, emailing vendors, parsing replies, and comparing proposals.
+- [Charvaka Recovery website](https://charvaka-recovery.vercel.app/): A server-rendered therapy-practice website built with React Router and Tailwind, presenting therapists, services, testimonials, FAQs, and enquiry flows.
+
+## Experience
+
+- Senior Software Engineer at Quess Corp, 2026 to present.
+- Freelance Full-Stack Developer, 2024 to 2026.
+- Associate IT Consultant at ITC Infotech, 2022 to 2024.
+- Computer Science at DIT University, Dehradun, 2018 to 2022.
+
+## Contact and source
+
+- [GitHub profile](https://github.com/codemaster321): Public source repositories.
+- [Portfolio source code](https://github.com/codemaster321/React-portfolio): The website's implementation.
+- [Email Shivendra](mailto:shivendrashukla06@gmail.com): Professional enquiries.
+
+## Usage notes
+
+The animated agent diagram and Procurement AI preview are illustrative demonstrations. They do not provide a public AI inference API, agent endpoint, or MCP server. The procurement preview uses sample vendor data and sends no emails or AI requests. Follow each project's source link for its implementation; do not infer production metrics from the demonstrations.
+
+This file summarizes public portfolio content. It does not grant additional rights to project code or other content; consult each repository's own license. Crawler access is described separately in [robots.txt](https://shivendra.vercel.app/robots.txt).

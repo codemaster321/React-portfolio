@@ -114,6 +114,12 @@ Content lives in plain arrays at the top of the component that renders it:
 
 ## Deployment
 
+`public/llms.txt` provides a Markdown summary for AI readers. Vercel's SPA
+fallback excludes metadata, `.well-known/`, and static asset paths, so a
+missing file returns a real 404 rather than the app's HTML. This portfolio
+does not publish an agent catalog because it offers no public agent or MCP
+endpoint; Lighthouse treats an unadvertised, absent manifest as not applicable.
+
 Static build, output in `dist/`. The app uses `createBrowserRouter`, so the
 host **must** rewrite unmatched paths to `index.html` or deep links 404.
 Configs for the common hosts are committed:
